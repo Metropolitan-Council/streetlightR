@@ -1,0 +1,81 @@
+---
+title: "Using the StreetLight API for a Zone Activity Analysis"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{api_zaa}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = FALSE
+)
+```
+
+```{r setup}
+library(streetlightR)
+library(sf)
+library(dplyr)
+
+your_email <- "ellen.esch@metc.state.mn.us"
+```
+
+## create and upload an example polygon
+
+```{r}
+example_polygon <- sf::st_sfc(
+  sf::st_point(cbind(-93.09, 44.95)),
+  crs = 4326
+) %>%
+  sf::st_buffer(500)
+
+# name <- paste0("example_polygon_", Sys.time())
+name <- "example_polygon_2022-10-31 10:36:15"
+
+upload_zone_set(
+  login_email = your_email,
+  geom_type = "polygon",
+  zones = example_polygon,
+  zone_set_name = name)
+
+
+```
+
+## Create a streetlight analysis
+
+```{r}
+create_streetlight_analysis(
+  login_email = your_email,
+  analysis_type = "Zone_Activity_Analysis",
+  analysis_name = "blah2", #name,
+  travel_mode_type = "All_Vehicles",
+  output_type = "Volume",
+  origin_zone_set = name,
+  date_ranges = list(
+    start_date = "05/01/2021",
+    end_date = "08/31/2021"
+  ),
+  tags = list("streetlightR"),
+  traveler_attributes = FALSE,
+  trip_attributes = FALSE
+)
+```
+
+## Check status and download results
+
+```{r}
+check_analysis_status(
+  analysis_name = name, 
+)
+
+results <- get_analysis_data(
+  analysis_name = name,
+  metric = "za_all"
+)
+
+results
+```
+

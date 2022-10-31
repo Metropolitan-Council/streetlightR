@@ -1,0 +1,42 @@
+Type: Package
+Package: streetlightR
+Title: Interact with StreetLight Data's API in R
+Version: 1.0.3
+Date: 2022-10-28
+Authors@R: c(
+    person("Metropolitan Council", role = "cph"),
+    person("Liz", "Roten", , "liz.roten@metc.state.mn.us", role = c("cre", "aut"),
+           comment = c(ORCID = "0000-0002-5346-3549")),
+    person("Raven", "McKnight", , "raven.mcknight@metc.state.mn.us", role = "aut"),
+    person("Ellen", "Esch", , "ellen.esch@metc.state.mn.us", role = "aut",
+           comment = c(ORCID = "0000-0002-4253-0910"))
+  )
+Description: R wrapper for StreetLight Insights API.  IMPORTANT: This
+    package is not affiliated with nor maintained by StreetLight Data
+    <https://www.streetlightdata.com/>.  The package is meant solely as a
+    tool for working with StreetLight's API.
+License: MIT + file LICENSE
+BugReports: https://github.com/Metropolitan-Council/streetlightR/issues
+Depends: 
+    R (>= 3.5.0)
+Imports: 
+    cli (>= 3.3.0),
+    dplyr (>= 1.0.3),
+    geojsonio (>= 0.9.4),
+    httr2 (>= 0.2.1),
+    janitor (>= 2.1.0),
+    magrittr (>= 2.0.1),
+    purrr (>= 0.3.4),
+    readr (>= 2.0.1),
+    sf (>= 0.9.7),
+    tibble (>= 3.1.8)
+Suggests: 
+    knitr (>= 1.31),
+    rmarkdown (>= 2.17),
+    testthat (>= 2.1.0)
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
+RoxygenNote: 7.2.1
+Website: https://github.com/Metropolitan-Council/streetlightR/

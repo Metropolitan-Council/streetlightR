@@ -1,0 +1,43 @@
+---
+title: "Introduction to StreetLight Data"
+output: 
+  rmarkdown::html_document:
+   toc: true
+   toc_float: true
+   css: style.css
+   self_contained: true
+bibliography: references.bib 
+nocite: '@*' 
+vignette: >
+  %\VignetteIndexEntry{StreetLight Data Introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(scipen = 999)
+```
+
+
+## StreetLight Data
+
+## Data Sources  
+
+### Location-Based Services  
+
+### Navigation/GPS  
+
+--------------
+## Analysis types  
+
+### Origin-Destination Analysis  
+
+#### Examples  
+
+### Zone Activity Analysis  
+
+## References  
