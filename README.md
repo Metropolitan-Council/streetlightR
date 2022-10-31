@@ -1,11 +1,11 @@
 
+# streetlightR
+
 <!-- badges: start -->
 
 [![R build
 status](https://github.com/Metropolitan-Council/streetlightR/workflows/R-CMD-check/badge.svg)](https://github.com/Metropolitan-Council/streetlightR/actions)
 <!-- badges: end -->
-
-# streetlightR
 
 R wrapper for StreetLight Insights API.
 
