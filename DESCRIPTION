@@ -1,8 +1,8 @@
 Type: Package
 Package: streetlightR
 Title: Interact with StreetLight Data's API in R
-Version: 1.0.3
-Date: 2022-10-28
+Version: 1.0.4
+Date: 2022-10-31
 Authors@R: c(
     person("Metropolitan Council", role = "cph"),
     person("Liz", "Roten", , "liz.roten@metc.state.mn.us", role = c("cre", "aut"),
