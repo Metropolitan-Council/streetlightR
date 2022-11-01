@@ -1,0 +1,11 @@
+pandoc: 2.19.2
+pkgdown: 2.0.6
+pkgdown_sha: ~
+articles:
+  api_zaa: api_zaa.html
+  streetlightR: streetlightR.html
+last_built: 2022-11-01T15:58Z
+urls:
+  reference: https://metropolitan-council.github.io/streetlightR/reference
+  article: https://metropolitan-council.github.io/streetlightR/articles
+
