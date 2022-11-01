@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 <!-- badges: end -->  
 
 
-R wrapper for StreetLight Insights API. 
+R wrapper for StreetLight InSight® API. 
 
 IMPORTANT: This package is not affiliated with nor maintained by [StreetLight Data](https://www.streetlightdata.com/). This package is tool for StreetLight API users authored by StreetLight API users. 
 
