@@ -1,6 +1,6 @@
 url: https://metropolitan-council.github.io/streetlightR/
 destination: docs
 template:
-    bootstrap: 5
-    bootswatch: flatly
+  bootstrap: 5
+  bootswatch: flatly
 
