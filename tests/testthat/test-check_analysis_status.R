@@ -1,5 +1,3 @@
-testthat::skip_on_ci()
-
 testthat::test_that("Analysis status correct", {
   status <- check_analysis_status(
     analysis_name_ = "testing4",
