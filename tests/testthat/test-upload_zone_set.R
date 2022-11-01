@@ -7,14 +7,7 @@ testthat::test_that("Correct warning returned", {
     sf::st_buffer(20)
 
   upload_zone_set(
-    login_email = httr2::secret_decrypt(
-      "Q8yxP3atCs0CbbM_C3VBArmMQpNlcAPAlbRfNR_nBxVT0mcOyi7dLKxB",
-      key = "STREETLIGHTR_KEY"
-    ),
-    key = httr2::secret_decrypt(
-      "Zj4CCBvezhp3MoouyMxfmO7Htc6AVlwkBIB1va7ISjXOXS8PfexLOGCZiE5_wQFu",
-      key = "STREETLIGHTR_KEY"
-    ),
+    login_email = test_login,
     geom_type = "polygon",
     zones = example_polygon,
     zone_set_name = "testing"

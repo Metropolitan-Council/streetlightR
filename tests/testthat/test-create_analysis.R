@@ -1,14 +1,7 @@
 
 testthat::test_that("Expected warning returned", {
   testthat::expect_warning(create_streetlight_analysis(
-    login_email = httr2::secret_decrypt(
-      "Q8yxP3atCs0CbbM_C3VBArmMQpNlcAPAlbRfNR_nBxVT0mcOyi7dLKxB",
-      key = "STREETLIGHTR_KEY"
-    ),
-    key = httr2::secret_decrypt(
-      "Zj4CCBvezhp3MoouyMxfmO7Htc6AVlwkBIB1va7ISjXOXS8PfexLOGCZiE5_wQFu",
-      key = "STREETLIGHTR_KEY"
-    ),
+    login_email = test_login,
     analysis_type = "Zone_Activity_Analysis",
     analysis_name = "v220311-VMT 2019 month 1 Volume Trip Trav Attr",
     travel_mode_type = "All_Vehicles",
