@@ -40,4 +40,5 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
 RoxygenNote: 7.2.1
 Website: https://github.com/Metropolitan-Council/streetlightR/
-URL: https://congenial-waffle-78e26bc8.pages.github.io/
+URL: https://congenial-waffle-78e26bc8.pages.github.io/,
+    https://metropolitan-council.github.io/streetlightR/

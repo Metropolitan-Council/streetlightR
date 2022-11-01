@@ -12,6 +12,7 @@ R wrapper for StreetLight Insights API. IMPORTANT: This package is not affiliate
 Useful links:
 \itemize{
   \item \url{https://congenial-waffle-78e26bc8.pages.github.io/}
+  \item \url{https://metropolitan-council.github.io/streetlightR/}
   \item Report bugs at \url{https://github.com/Metropolitan-Council/streetlightR/issues}
 }
 
