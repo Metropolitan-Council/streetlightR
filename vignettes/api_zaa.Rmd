@@ -39,9 +39,8 @@ upload_zone_set(
   login_email = your_email,
   geom_type = "polygon",
   zones = example_polygon,
-  zone_set_name = name)
-
-
+  zone_set_name = name
+)
 ```
 
 ## Create a streetlight analysis
@@ -50,7 +49,7 @@ upload_zone_set(
 create_streetlight_analysis(
   login_email = your_email,
   analysis_type = "Zone_Activity_Analysis",
-  analysis_name = "blah2", #name,
+  analysis_name = "blah2", # name,
   travel_mode_type = "All_Vehicles",
   output_type = "Volume",
   origin_zone_set = name,
@@ -68,7 +67,7 @@ create_streetlight_analysis(
 
 ```{r}
 check_analysis_status(
-  analysis_name = name, 
+  analysis_name = name,
 )
 
 results <- get_analysis_data(

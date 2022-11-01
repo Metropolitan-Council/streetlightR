@@ -24,7 +24,8 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
-
+      STREETLIGHTR_KEY: ${{ secrets.STREETLIGHTR_KEY }}
+      
     steps:
       - uses: actions/checkout@v3
 

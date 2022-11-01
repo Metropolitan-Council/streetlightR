@@ -210,10 +210,12 @@ create_streetlight_analysis <- function(login_email,
     httr2::req_perform()
 
   # return message based on response
-  if (!httr2::resp_status_desc(resp) %in% c("success",
-                                            "created",
-                                            "Success",
-                                            "Created")) {
+  if (!httr2::resp_status_desc(resp) %in% c(
+    "success",
+    "created",
+    "Success",
+    "Created"
+  )) {
     return(cli::cli_warn(c(
       "Create analysis failed with message:",
       httr2::resp_body_json(resp)

@@ -7,7 +7,7 @@
 status](https://github.com/Metropolitan-Council/streetlightR/workflows/R-CMD-check/badge.svg)](https://github.com/Metropolitan-Council/streetlightR/actions)
 <!-- badges: end -->
 
-R wrapper for StreetLight Insights API.
+R wrapper for StreetLight InSight® API.
 
 IMPORTANT: This package is not affiliated with nor maintained by
 [StreetLight Data](https://www.streetlightdata.com/). This package is

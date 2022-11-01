@@ -2,7 +2,9 @@
 
 This project uses a [feature-branch](https://deepsource.io/blog/git-branch-naming-conventions/) naming convention and workflow.
 
-`main` is the main branch (not `master`), base your work off of `main`.
+We highly suggest you take the time to set up commit [signing](https://docs.github.com/en/authentication/managing-commit-signature-verification/signing-commits) with GPG.  
+
+`main` is the main branch. Base your work off of `main`.
 Contribute to the project by making changes to your own feature branch and issuing pull-requests when you're ready to integrate into the `main` branch:
 
 * Pull the `main` branch; `git pull`, and if necessary `git checkout main` to switch to `main`

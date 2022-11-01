@@ -1,12 +1,6 @@
-testthat::skip_on_ci()
-
 testthat::test_that("Analysis status correct", {
   status <- check_analysis_status(
-    analysis_name_ = "testing4",
-    key = httr2::secret_decrypt("Zj4CCBvezhp3MoouyMxfmO7Htc6AVlwkBIB1va7ISjXOXS8PfexLOGCZiE5_wQFu",
-      key = "STREETLIGHTR_KEY"
-    )
-  ) %>%
+    analysis_name_ = "testing4") %>%
     testthat::expect_warning()
 
   avail <- status$status
