@@ -3,10 +3,11 @@ destination: docs
 template:
   bootstrap: 5
   bootswatch: yeti
-  bslib: 
-    primary: "#0054A4"
-    base_font: "arial"
-    heading_font: "helvetica"
-    bg: "#FFFFFF"
-    fg: "#000000"
-    blue: "#0054A4"
+  bslib:
+    primary: '#0054A4'
+    base_font: arial
+    heading_font: helvetica
+    bg: '#FFFFFF'
+    fg: '#000000'
+    blue: '#0054A4'
+
