@@ -1,4 +1,4 @@
-## Contributing to streetlightR
+# Contributing to streetlightR
 
 This project uses a [feature-branch](https://deepsource.io/blog/git-branch-naming-conventions/) naming convention and workflow.
 
