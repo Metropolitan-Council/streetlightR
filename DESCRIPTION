@@ -16,6 +16,7 @@ Description: R wrapper for StreetLight Insights API.  IMPORTANT: This
     <https://www.streetlightdata.com/>.  The package is meant solely as a
     tool for working with StreetLight's API.
 License: MIT + file LICENSE
+URL: https://metropolitan-council.github.io/streetlightR/
 BugReports: https://github.com/Metropolitan-Council/streetlightR/issues
 Depends: 
     R (>= 3.5.0)
@@ -40,5 +41,3 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
 RoxygenNote: 7.2.1
 Website: https://github.com/Metropolitan-Council/streetlightR/
-URL: https://congenial-waffle-78e26bc8.pages.github.io/,
-    https://metropolitan-council.github.io/streetlightR/
