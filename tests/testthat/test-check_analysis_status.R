@@ -1,6 +1,7 @@
 testthat::test_that("Analysis status correct", {
   status <- check_analysis_status(
-    analysis_name_ = "testing4") %>%
+    analysis_name_ = "testing4"
+  ) %>%
     testthat::expect_warning()
 
   avail <- status$status

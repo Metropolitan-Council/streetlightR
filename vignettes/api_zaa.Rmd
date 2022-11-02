@@ -1,5 +1,5 @@
 ---
-title: "Using the StreetLight API for a Zone Activity Analysis"
+title: "Using streetlightR for a Zone Activity Analysis"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{api_zaa}
@@ -20,10 +20,10 @@ library(streetlightR)
 library(sf)
 library(dplyr)
 
-your_email <- "ellen.esch@metc.state.mn.us"
+your_email <- "you@email.com"
 ```
 
-## create and upload an example polygon
+## Create and upload an example polygon
 
 ```{r}
 example_polygon <- sf::st_sfc(
@@ -32,8 +32,7 @@ example_polygon <- sf::st_sfc(
 ) %>%
   sf::st_buffer(500)
 
-# name <- paste0("example_polygon_", Sys.time())
-name <- "example_polygon_2022-10-31 10:36:15"
+name <- paste0("example_polygon_", Sys.time())
 
 upload_zone_set(
   login_email = your_email,
@@ -49,7 +48,7 @@ upload_zone_set(
 create_streetlight_analysis(
   login_email = your_email,
   analysis_type = "Zone_Activity_Analysis",
-  analysis_name = "blah2", # name,
+  analysis_name = "{your_name}",
   travel_mode_type = "All_Vehicles",
   output_type = "Volume",
   origin_zone_set = name,
@@ -77,4 +76,3 @@ results <- get_analysis_data(
 
 results
 ```
-

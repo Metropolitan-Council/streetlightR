@@ -10,10 +10,9 @@ knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 [![R build status](https://github.com/Metropolitan-Council/streetlightR/workflows/R-CMD-check/badge.svg)](https://github.com/Metropolitan-Council/streetlightR/actions)
 <!-- badges: end -->  
 
+streetlightR is an R wrapper for [StreetLight Data's](https://www.streetlightdata.com/) InSight® API that makes it easier for users to create analyses, upload zone sets, fetch results, and more.  
 
-R wrapper for StreetLight InSight® API. 
-
-IMPORTANT: This package is not affiliated with nor maintained by [StreetLight Data](https://www.streetlightdata.com/). This package is tool for StreetLight API users authored by StreetLight API users. 
+To get a sense for what you can do with this package, see our [presentation](https://github.com/Metropolitan-Council/streetlightR/blob/main/inst/2022.11-StL-API.pdf) to the StreetLight API users group in November 2022.  
 
 ## Installation  
 
@@ -23,12 +22,13 @@ remotes::install_github("Metropolitan-Council/streetlightR")
 
 ## StreetLight API  
 
-StreetLight offers a limited-feature API, which allows users to upload zone sets, create analyses, check project status, and download results. Contact StreetLight support to request an API key and quick start guide.
+StreetLight Data offers a limited-feature API for subscribers. Contact StreetLight [support](mailto:support@streetlightdata.com) to request an API key and documentation access.
 
 ### API key management  
 
-Contact StreetLight Data support to request an API key. Use `streetlight_api_key()` to save the key for future use. 
+Contact StreetLight Data support to request an API key. Then, use `streetlight_api_key()` to save the key for future use. 
 ```{r}
+library(streetlightR)
 streetlight_api_key(key = "9999999", install = TRUE)
 ```
 
@@ -36,9 +36,14 @@ streetlight_api_key(key = "9999999", install = TRUE)
 
 We welcome contributions!
 
-Please review the [CONTRIBUTING](.github/CONTRIBUTING.md) guide before making a contribution.
+Please review our [CONTRIBUTING](.github/CONTRIBUTING.md) guide before making a contribution.
 
-Thanks to our contributors: 
-[&#x0040;ehesch](https://github.com/ehesch), and [&#x0040;eroten](https://github.com/eroten).
+Thanks everyone who has contributed one way or another: 
+[&#x0040;ehesch](https://github.com/ehesch), [&#x0040;ravenmcknight](https://github.com/ravenmcknight), and [&#x0040;eroten](https://github.com/eroten).
+
+## Notes
+
+This package is not affiliated with nor maintained by [StreetLight Data](https://www.streetlightdata.com/). This package is tool for StreetLight API users authored by StreetLight API users. 
+
 
 <a href="https://metrocouncil.org" target="_blank"><img src="man/figures/main-logo.png" style="margin-left: 50%;margin-right: 50%;"><div></div></a>
