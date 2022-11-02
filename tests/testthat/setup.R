@@ -11,4 +11,3 @@ test_login <- httr2::secret_decrypt(
   "Q8yxP3atCs0CbbM_C3VBArmMQpNlcAPAlbRfNR_nBxVT0mcOyi7dLKxB",
   key = "STREETLIGHTR_KEY"
 )
-

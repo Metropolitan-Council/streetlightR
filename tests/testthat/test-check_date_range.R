@@ -25,7 +25,7 @@ testthat::test_that("Truck date range returns table", {
     tibble::is_tibble(
       check_date_range(
         travel_mode_type = "Truck"
-        )
+      )
     )
   )
 })
@@ -49,7 +49,7 @@ testthat::test_that("Bus date range returns table", {
     tibble::is_tibble(
       check_date_range(
         travel_mode_type = "Bus"
-        )
+      )
     )
   )
 })
@@ -60,7 +60,7 @@ testthat::test_that("Rail date range returns table", {
     tibble::is_tibble(
       check_date_range(
         travel_mode_type = "Rail"
-        )
+      )
     )
   )
 })

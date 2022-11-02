@@ -5,7 +5,6 @@ test_that("correct class return", {
       "Zj4CCBvezhp3MoouyMxfmO7Htc6AVlwkBIB1va7ISjXOXS8PfexLOGCZiE5_wQFu",
       key = "STREETLIGHTR_KEY"
     )
-    
   ) %>%
     testthat::expect_s3_class("httr2_request")
 })
