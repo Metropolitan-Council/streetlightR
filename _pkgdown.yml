@@ -1,4 +1,6 @@
 url: https://metropolitan-council.github.io/streetlightR/
+development:
+    mode: auto
 destination: docs
 template:
   bootstrap: 5
