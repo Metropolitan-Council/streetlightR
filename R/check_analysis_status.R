@@ -6,11 +6,11 @@
 #'
 #'
 #' @return If successful, a list with two itesms
-#'     - `analyses` 
+#'     - `analyses`
 #'     - `status`
-#'     
-#'     Otherwise, an httr2 response. 
-#'     
+#'
+#'     Otherwise, an httr2 response.
+#'
 #' @export
 #'
 #' @importFrom httr2 req_body_json req_perform req_headers req_error
@@ -21,13 +21,13 @@ check_analysis_status <- function(analysis_name = NULL,
                                   analysis_name_ = NULL) {
   # check for API key access
   key <- check_api_key_access(key)
-  
+
   # print warning if using analysis_name_
   if (!is.null(analysis_name_)) {
     cli::cli_warn(c("`analysis_name_` deprecated. Use 'analysis_name' instead."))
     analysis_name <- analysis_name_
   }
-  
+
   # fetch analysis status from endpoint
   out <- streetlight_insight(
     key = key,
@@ -40,10 +40,11 @@ check_analysis_status <- function(analysis_name = NULL,
     httr2::req_body_json(
       list(
         analyses = list(list(name = analysis_name))
-      )) %>%
-    httr2::req_perform() 
-    # httr2::resp_body_json(simplifyVector = TRUE,
-    #                       check_type = FALSE)
-  
+      )
+    ) %>%
+    httr2::req_perform()
+  # httr2::resp_body_json(simplifyVector = TRUE,
+  #                       check_type = FALSE)
+
   return(out)
 }
