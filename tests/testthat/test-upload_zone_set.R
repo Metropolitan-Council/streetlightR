@@ -1,4 +1,3 @@
-
 testthat::test_that("Correct warning returned", {
   example_polygon <- sf::st_sfc(
     sf::st_point(cbind(-93.09, 44.95)),

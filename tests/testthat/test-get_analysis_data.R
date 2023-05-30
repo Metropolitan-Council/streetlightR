@@ -1,4 +1,3 @@
-
 testthat::test_that("VMT download is returned", {
   get_analysis_data(
     analysis_name_ = "v221017-VMT 2022 month 4 Volume Trip Trav Attr",

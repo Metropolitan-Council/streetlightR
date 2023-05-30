@@ -18,7 +18,7 @@ If successful, a list with two itesms
 - \code{analyses}
 - \code{status}
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{Otherwise, an httr2 response. 
+\if{html}{\out{<div class="sourceCode">}}\preformatted{Otherwise, an httr2 response.
 }\if{html}{\out{</div>}}
 }
 \description{

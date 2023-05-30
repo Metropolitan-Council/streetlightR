@@ -2,7 +2,7 @@ testthat::test_that("Analysis status correct", {
   status <- check_analysis_status(
     analysis_name_ = "testing4"
   ) %>%
-    httr2::resp_body_json(simplifyVector = TRUE) %>% 
+    httr2::resp_body_json(simplifyVector = TRUE) %>%
     testthat::expect_warning()
 
   avail <- status$analyses$status
