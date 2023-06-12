@@ -23,7 +23,7 @@ Depends:
 Imports: 
     cli (>= 3.3.0),
     dplyr (>= 1.0.3),
-    geojsonio (>= 0.9.4),
+    httr2 (>= 0.2.3),
     httr2 (>= 0.2.1),
     janitor (>= 2.1.0),
     magrittr (>= 2.0.1),
