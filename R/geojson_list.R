@@ -548,5 +548,3 @@ guess_latlon <- function(x, lat = NULL, lon = NULL) {
 is.named <- function(x) {
   is.character(names(x[[1]]))
 }
-
-
