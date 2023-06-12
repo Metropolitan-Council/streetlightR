@@ -19,7 +19,7 @@ file for use in future sessions. Default is \code{FALSE}.}
 Install a StreetLight API key in your \code{.Renviron} for repeated use
 }
 \note{
-Adapted from \url{tidycensus::census_key}
+Adapted from \code{\link[tidycensus:census_api_key]{tidycensus::census_api_key()}}
 }
 \examples{
 \dontrun{

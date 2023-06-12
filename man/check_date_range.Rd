@@ -14,7 +14,7 @@ check_date_range(key = NULL, travel_mode_type = "All_Vehicles", country = "US")
 \item{country}{character, one of \code{"US"} or \code{"CA"}. Default is \code{"US"}.}
 }
 \value{
-\url{tibble::tibble} with columns \code{travel_mode_type}, \code{start_date},
+\code{\link[tibble:tibble]{tibble::tibble()}} with columns \code{travel_mode_type}, \code{start_date},
 and \code{end_date}.
 }
 \description{
