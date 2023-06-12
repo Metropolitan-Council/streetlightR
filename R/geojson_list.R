@@ -25,6 +25,10 @@
 #' @param geometry character, One of "point" (Default) or "polygon."
 #' @param type character, The type of collection. One of "FeatureCollection"
 #' (default) or "GeometryCollection".
+#' @param lat character, Latitude name. The default is `NULL`, and we
+#' attempt to guess.
+#' @param lon character, Longitude name. The default is `NULL`, and we
+#' attempt to guess.
 #' @param group character, A grouping variable to perform grouping for
 #' polygons - doesn't apply for points
 #' @param convert_wgs84 logical, Should the input be converted to the
