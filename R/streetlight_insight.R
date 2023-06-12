@@ -5,7 +5,7 @@
 #'        "analyses/download/name")`
 #' @inheritParams check_streetlight_api
 #'
-#' @return [httr2::request]() with path and key specifications
+#' @return [httr2::request()] with path and key specifications
 #' @export
 #'
 #' @keywords internal
