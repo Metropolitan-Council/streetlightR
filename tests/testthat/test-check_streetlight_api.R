@@ -1,4 +1,3 @@
-
 Sys.sleep(1)
 testthat::test_that("API key test retuns value", {
   testthat::expect_equal(

@@ -1,4 +1,3 @@
-
 testthat::test_that("Expected warning returned", {
   testthat::expect_warning(create_streetlight_analysis(
     login_email = test_login,

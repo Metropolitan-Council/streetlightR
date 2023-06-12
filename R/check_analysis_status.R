@@ -5,10 +5,15 @@
 #' @inheritParams check_streetlight_api
 #'
 #'
-#' @return a the parsed response with the analysis availability, metrics, name, and UUID
+#' @return If successful, a list with two itesms
+#'     - `analyses`
+#'     - `status`
+#'
+#'     Otherwise, an httr2 response.
+#'
 #' @export
 #'
-#' @importFrom httr2 req_body_json req_perform req_headers
+#' @importFrom httr2 req_body_json req_perform req_headers req_error
 #' @importFrom cli cli_warn
 #'
 check_analysis_status <- function(analysis_name = NULL,
@@ -31,11 +36,15 @@ check_analysis_status <- function(analysis_name = NULL,
     httr2::req_headers(
       "content-type" = "application/json"
     ) %>%
-    httr2::req_body_json(list(
-      analyses = list(list(name = analysis_name))
-    )) %>%
-    httr2::req_perform() %>%
-    httr2::resp_body_json(simplifyVector = TRUE)
+    httr2::req_error(is_error = function(resp) FALSE) %>%
+    httr2::req_body_json(
+      list(
+        analyses = list(list(name = analysis_name))
+      )
+    ) %>%
+    httr2::req_perform()
+  # httr2::resp_body_json(simplifyVector = TRUE,
+  #                       check_type = FALSE)
 
-  return(out$analyses)
+  return(out)
 }

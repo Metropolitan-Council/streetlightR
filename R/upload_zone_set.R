@@ -15,7 +15,6 @@
 #' @export
 #'
 #' @importFrom httr2 req_body_json resp_body_json resp_status_desc req_error req_perform req_headers
-#' @importFrom geojsonio geojson_list
 #' @importFrom sf st_crs st_transform st_as_sf st_cast
 #' @importFrom cli cli_warn
 #'
@@ -118,7 +117,7 @@ upload_zone_set <- function(login_email,
     }
 
     # convert to geojson
-    zones_json <- geojsonio::geojson_list(zones_sf)
+    zones_json <- geojson_list(zones_sf)
   } else if (class(zones)[[1]] == "list") {
     # if already json, return
     zones_json <- zones

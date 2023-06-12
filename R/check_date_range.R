@@ -7,7 +7,7 @@
 #' @inheritParams check_streetlight_api
 #' @inheritParams create_streetlight_analysis
 #'
-#' @return [tibble::tibble]() with columns `travel_mode_type`, `start_date`,
+#' @return [tibble::tibble()] with columns `travel_mode_type`, `start_date`,
 #'    and `end_date`.
 #' @export
 #'

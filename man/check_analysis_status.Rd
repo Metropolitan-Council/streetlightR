@@ -14,7 +14,12 @@ check_analysis_status(analysis_name = NULL, key = NULL, analysis_name_ = NULL)
 \item{analysis_name_}{Deprecated, use \code{analysis_name} parameter.}
 }
 \value{
-a the parsed response with the analysis availability, metrics, name, and UUID
+If successful, a list with two itesms
+- \code{analyses}
+- \code{status}
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{Otherwise, an httr2 response.
+}\if{html}{\out{</div>}}
 }
 \description{
 Check the status of a analysis in the StreetLight API.

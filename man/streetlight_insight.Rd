@@ -13,7 +13,7 @@ streetlight_insight(key, endpoint)
 \code{c("analyses/status",  "zone_sets", "debug/echo", "analyses/download/name")}}
 }
 \value{
-\url{httr2::request} with path and key specifications
+\code{\link[httr2:request]{httr2::request()}} with path and key specifications
 }
 \description{
 StreetLight Insights API wrapper

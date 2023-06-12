@@ -7,7 +7,7 @@
 #'     that you already have in your `.Renviron` file.
 #'
 #' @importFrom utils write.table read.table
-#' @note Adapted from [tidycensus::census_key]()
+#' @note Adapted from [tidycensus::census_api_key()]
 #' @export
 #'
 #' @examples

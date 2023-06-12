@@ -14,7 +14,7 @@
 #' @importFrom cli cli_alert_success cli_alert_danger
 #' @importFrom readr read_delim
 #' @importFrom purrr flatten
-#' @importFrom httr2 req_headers req_error req_perform resp_status_desc
+#' @importFrom httr2 req_headers req_error req_perform resp_status_desc resp_body_json
 #'
 get_analysis_data <- function(analysis_name = NULL,
                               key = NULL,
@@ -33,22 +33,25 @@ get_analysis_data <- function(analysis_name = NULL,
     analysis_name = analysis_name,
     key = key
   ) %>%
-    purrr::flatten()
+    httr2::resp_body_json(
+      check_type = FALSE,
+      simplifyVector = TRUE
+    )
 
   # check if metric matches any available metrics
   if (!is.null(metric) &
-    !metric %in% analysis_status$metrics) {
+    !metric %in% analysis_status$analyses$metrics[[1]]) {
     cli::cli_abort(
       c(
         "`metric` '{metric}' is unavailable",
         "`metric` must match one of the available metrics for this analysis",
-        paste(analysis_status$metrics, collapse = ", ")
+        paste(analysis_status$metrics[[1]], collapse = ", ")
       )
     )
   }
 
   # if data available, fetch from endpoint
-  if (analysis_status$status %in% c(
+  if (analysis_status$analyses$status %in% c(
     "Available",
     "Data_Available",
     "Data Available"
@@ -83,19 +86,19 @@ get_analysis_data <- function(analysis_name = NULL,
       janitor::clean_names()
 
     return(results_dt)
-  } else if (analysis_status$status %in% c("Cancelled")) {
+  } else if (analysis_status$analyses$status %in% c("Cancelled")) {
     # error if analysis was cancelled
     cli::cli_abort("Analysis {analysis_name} was cancelled.")
-  } else if (analysis_status$status %in% c(
+  } else if (analysis_status$analyses$status %in% c(
     "In_Coverage_Review",
     "In Coverage Review"
   )) {
     # error if in coverage review
     cli::cli_abort("Analysis {analysis_name} in coverage review")
-  } else if (analysis_status$status == "Processing") {
+  } else if (analysis_status$analyses$status == "Processing") {
     # error if still processing
     cli::cli_abort("Analysis {analysis_name} is processing")
-  } else if (analysis_status$status == "Deleted") {
+  } else if (analysis_status$analyses$status == "Deleted") {
     # error if deleted
     cli::cli_abort("Analysis {analysis_name} was deleted.")
   }
