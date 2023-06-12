@@ -21,16 +21,15 @@ BugReports: https://github.com/Metropolitan-Council/streetlightR/issues
 Depends: 
     R (>= 3.5.0)
 Imports: 
-    cli (>= 3.3.0),
-    dplyr (>= 1.0.3),
+    cli (>= 3.6.1),
+    dplyr (>= 1.1.2),
     httr2 (>= 0.2.3),
-    httr2 (>= 0.2.1),
-    janitor (>= 2.1.0),
-    magrittr (>= 2.0.1),
-    purrr (>= 0.3.4),
-    readr (>= 2.0.1),
-    sf (>= 0.9.7),
-    tibble (>= 3.1.8)
+    janitor (>= 2.2.0),
+    magrittr (>= 2.0.3),
+    purrr (>= 1.0.1),
+    readr (>= 2.1.4),
+    sf (>= 1.0-13),
+    tibble (>= 3.2.1)
 Suggests: 
     knitr (>= 1.31),
     rmarkdown (>= 2.17),
