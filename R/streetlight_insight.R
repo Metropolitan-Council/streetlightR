@@ -15,7 +15,7 @@
 streetlight_insight <- function(key, endpoint) {
   return(
     # create httr2::request with the StL API url
-    httr2::request("https://insight.streetlightdata.com:/api/v2/") %>%
+    httr2::request("https://insight.streetlightdata.com/api/v2/") %>%
       # append endpoints
       httr2::req_url_path_append(endpoint) %>%
       # add key as header
