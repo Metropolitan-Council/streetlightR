@@ -19,13 +19,19 @@ create_streetlight_analysis(
   calibration_zone_set = NA,
   geography_type = "",
   zone_intersection_type = "",
-  date_ranges = list(start_date = "01/01/2019", end_date = "12/31/2019"),
+  date_ranges = list(start_date = "01/01/2021", end_date = "12/31/2021"),
   day_types = "All Days|17,Average Weekday|15,Average Weekend Day|67",
   day_parts =
     "All Day|0023,Early AM|0005,Peak AM|0609,Mid-Day|1014,Peak PM|1518,Late PM|1923,Recreation Hours|0819",
   vehicle_weight = "",
   segment_types = list(),
   trip_attributes = FALSE,
+  trip_speed_bins = "0-10,10-20,20-30,30-40,40-50,50-60,60-70,70-80,80-90,90+",
+  trip_duration_bins =
+    "0-10,10-20,20-30,30-40,40-50,50-60,60-70,70-80,80-90,90-100,100-110,110-120,120-130,130-140,140-150,150+",
+  trip_length_bins =
+    "0-1,1-2,2-5,5-10,10-20,20-30,30-40,40-50,50-60,60-70,70-80,80-90,90-100,100+",
+  trip_circuity_bins = "1-2,2-3,3-4,4-5,5-6,6+",
   traveler_attributes = FALSE,
   enable_home_work_locations = FALSE,
   hwl_enable_visitor = FALSE,
@@ -38,7 +44,9 @@ create_streetlight_analysis(
   enable_visualization = FALSE,
   enable_15min = FALSE,
   enable_upsampling = TRUE,
-  is_massive_queue = FALSE
+  is_massive_queue = FALSE,
+  enable_completion_email = FALSE,
+  unit_of_measurement = "miles"
 )
 }
 \arguments{
@@ -47,34 +55,43 @@ create_streetlight_analysis(
 \item{key}{character, StreetLight API key. Default is \code{NULL}.}
 
 \item{analysis_type}{character, What type of analysis to run. Options are \code{OD_Analysis}, \code{OD_MF_Analysis},
-\code{Zone_Activity_Analysis},\code{OD_Preset_Geography}, \code{Segment_Analysis}, \code{AADT}, \code{Top_Routes_OD},
-\code{Top_Routes_ZA}, or \code{Traffic_Diagnostics}.}
+\code{Zone_Activity_Analysis},\code{OD_Preset_Geography}, \code{Segment_Analysis}, \code{AADT}, \code{Top_Routes_OD}, or
+\code{Top_Routes_ZA}.}
 
 \item{analysis_name}{character, The analysis name}
 
-\item{travel_mode_type}{character, \code{All_Vehicles},  \code{Truck}, \code{Bicycle}, or \code{Pedestrian}. Default is \verb{All Vehicles}}
+\item{travel_mode_type}{character, \code{All_Vehicles}, \code{All_Vehicles_LBS_Plus}, \code{All_Vehicles_CVD_Plus},
+\code{Truck}, \code{Bicycle}, or \code{Pedestrian}. Default is \verb{All Vehicles}.}
 
-\item{output_type}{character, One of \code{volume}, \code{trip_counts}, \code{aadt}, \code{index}, or \code{zone_counts}. Default is \code{index}. For Traffic Diagnostics, \code{index} is allowed.}
+\item{output_type}{character, One of \code{volume}, \code{trip_counts}, \code{aadt}, \code{index}, or \code{zone_counts}.
+Default is \code{index}.}
 
 \item{description}{character, Optional analysis description}
 
-\item{origin_zone_set}{character, The name of uploaded zone set to use as the origin in an origin-destination analysis or the main zone in a zone activity analysis}
+\item{origin_zone_set}{character, The name of uploaded zone set to use as the
+origin in an origin-destination analysis or the main zone in a zone activity analysis}
 
-\item{destination_zone_set}{character, The name of uploaded zone set to use as the destination in an origin-destination analysis.}
+\item{destination_zone_set}{character, The name of uploaded zone set to use as
+the destination in an origin-destination analysis.}
 
-\item{middle_zone_set}{character, The name of uploaded zone set to use as the middle filter in an origin-destination with middle filter analysis.}
+\item{middle_zone_set}{character, The name of uploaded zone set to use as
+the middle filter in an origin-destination with middle filter analysis.}
 
 \item{aadt_zone_set}{character, The name of uploaded zone set to use in an analysis with AADT output.}
 
-\item{calibration_zone_set}{character, name of uploaded zone set with calibration. Required when creating an Analysis with Zone Counts output}
+\item{calibration_zone_set}{character, name of uploaded zone set with calibration.
+Required when creating an Analysis with Zone Counts output}
 
-\item{geography_type}{character, Required in O-D to Pre-set Geography analyses. This property is a string of one of \code{zip}, \code{taz}, \code{da}, or \code{blkgrp}.}
+\item{geography_type}{character, Required in O-D to Pre-set Geography analyses.
+This property is a string of one of \code{zip}, \code{taz}, \code{da}, or \code{blkgrp}.}
 
 \item{zone_intersection_type}{character, one of \code{all_trips_for_zone} or \code{trips_by_pass_through_setting}.
-Applies only to Zone Activity Analysis with Home and Work Locations metrics enabled) r}
+Applies only to Zone Activity Analysis with Home and Work Locations metrics enabled.}
 
-\item{date_ranges}{list, a list of date ranges. Each date range is an object containing a pair of MM/DD/YYYY dates, with the \code{start_date} key containing the start of the date range,
-and the \code{end_date} key containing the end of the date range. Both \code{start_date} and \code{end_date} are inclusive. Default is all 2019 months.
+\item{date_ranges}{list, a list of date ranges. Each date range is an object
+containing a pair of MM/DD/YYYY dates, with the \code{start_date} key containing the start of the date range,
+and the \code{end_date} key containing the end of the date range. Both \code{start_date} and \code{end_date} are inclusive.
+Default is all 2021 months.
 When \code{travel_mode_type} is \code{Bicycle} or \code{Pedestrian}, each date range must consist of only full months.}
 
 \item{day_types}{character, a comma-separated list of day types in the analysis. Each day type has a name separated by the vertical bar
@@ -87,22 +104,35 @@ by the vertical bar from the start hour and end hour from 00 (midnight) to 23 (1
 For example, \verb{All Day|0023} ranges from midnight (00:00) to 11:59 PM. Analyses must define All Day as 0023 (midnight to midnight).
 Default includes All Day, Recreation Hours (8am-8pm), Park Hours I, II, and III.}
 
-\item{vehicle_weight}{character, one of \code{Medium}, \code{Heavy}, \verb{Medium,Heavy} or \code{null}.
-Whether metric results for the analysis are broken down
-by vehicle weight class (medium duty, heavy duty) for commercial vehicles.
-If its value is null, commercial vehicle results are not broken down by vehicle weight class.
-Required when creating a Top Routes between Origins and Destinations Analysis or Top Routes for Zones Analysis.}
+\item{vehicle_weight}{character, deprecated.}
 
 \item{segment_types}{list, must contain at least one of \code{Motorway}, \code{Trunk}, \code{Primary}, \code{Secondary}, \code{Tertiary}, \code{Residential}.}
 
-\item{trip_attributes}{logical, This property controls whether the analysis results will include the add-on trip attribute Metrics:
-trip time distribution, trip length distribution, trip speed distribution, and trip circuity distribution.
-If you specify this, you can also customize the following properties: - \code{trip_duration_bins} -  \code{trip_length_bins} -
-\code{trips_speed_bins} - \code{trip_circuity_bins}. Default is FALSE.}
+\item{trip_attributes}{logical, This property controls whether the analysis results will include
+the add-on trip attribute Metrics: trip time distribution, trip length distribution,
+trip speed distribution, and trip circuity distribution.
+If you specify this, you can also customize the following properties: \code{trips_speed_bins},
+\code{trip_duration_bins}, \code{trip_length_bins},
+\code{trip_circuity_bins}. Default is \code{FALSE}.}
+
+\item{trip_speed_bins}{character, the default ranges with a a comma-separated list of speed ranges.
+Default is \code{"0-10,10-20,20-30,30-40,40-50,50-60,60-70,70-80,80-90,90+"}}
+
+\item{trip_duration_bins}{character, the default ranges with a comma-separated
+list of trip duration, or travel time, in minutes. Default is
+\code{"0-10,10-20,20-30,30-40,40-50,50-60,60-70,70-80,80-90,90-100,100-110,110-120,120-130,130-140,140-150,150+"}}
+
+\item{trip_length_bins}{character, the default ranges with a a comma-separated list
+of trip length ranges in the specified \code{unit_of_measurement}.
+Default value is \code{"0-1,1-2,2-5,5-10,10-20,20-30,30-40,40-50,50-60,60-70,70-80,80-90,90-100,100+"}}
+
+\item{trip_circuity_bins}{character,  the default ranges with a a comma-separated list of trip circuity ranges.
+Trip circuity is the average ratio of trip length to the direct distance between the start and endpoints of the trip.
+Default value is \code{"1-2,2-3,3-4,4-5,5-6,6+"}}
 
 \item{traveler_attributes}{logical, whether the analysis results will include the add-on traveler attribute metrics.
 Traveler attribute metrics include traveler demographics and simple trip purpose.
-(visitor income, education, race, and family status) are included in the Metric results. Default is FALSE.}
+(visitor income, education, race, and family status) are included in the Metric results. Default is \code{FALSE}.}
 
 \item{enable_home_work_locations}{logical, whether the Analysis results will include Home and Work Locations metrics.
 If this is \code{TRUE}, then one of the \code{hwl_...} parameters must be \code{TRUE}. Default is \code{FALSE}.}
@@ -116,13 +146,17 @@ It applies only to Zone Activity Analysis with Home and Work Locations metrics e
 \item{hwl_enable_worker}{logical, whether the Analysis results will include trips that work in the zone.
 It applies only to Zone Activity Analysis with Home and Work Locations metrics enabled.}
 
-\item{aadt_year}{character, one of \code{2017}, \code{2018}, or \code{2019}. Required integer creating an AADT Analysis.}
+\item{aadt_year}{character, a four digit year between \code{2000} and \code{2099}.
+Required integer when creating an AADT Analysis.}
 
-\item{aadt_calibration_year}{character, one of \code{2017}, \code{2018}, or \code{2019}. Required integer creating an AADT Analysis.}
+\item{aadt_calibration_year}{character, a four digit year between \code{2000} and \code{2099}.
+Required integer when creating an AADT Analysis.}
 
-\item{tags}{list, tag names created within an Organization to associate with the created Analysis. Default is \code{list("streetlightR")}}
+\item{tags}{list, tag names created within an Organization to associate with the created Analysis.
+Default is \code{list("streetlightR")}}
 
-\item{is_ui_enabled}{This allows analysis results to be downloaded and visualized though the UI as well as the API. Should be used sparingly.}
+\item{is_ui_enabled}{This allows analysis results to be downloaded and visualized
+though the UI as well as the API. Should be used sparingly.}
 
 \item{enable_visualization}{logical, whether to enable visualization on the StreetLight platform}
 
@@ -132,6 +166,11 @@ It applies only to Zone Activity Analysis with Home and Work Locations metrics e
 This setting only applies to analysis with \code{enable_15min} enabled.}
 
 \item{is_massive_queue}{logical, whether the Analysis will process alongside other high volume Analyses in order to optimize calculation time.}
+
+\item{enable_completion_email}{logical, whether the analysis will send an email upon completion. Default is \code{FALSE}}
+
+\item{unit_of_measurment}{character, one of \code{"miles"} or \code{"km"}. Specifies whether distances
+in analysis results are in miles or kilometers. By default, the unit is set based on your organization's location.}
 }
 \value{
 if successful, a list with the analysis name, status, and universal unique ID (uuid).
