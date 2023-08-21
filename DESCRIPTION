@@ -25,11 +25,11 @@ Imports:
     dplyr (>= 1.1.2),
     httr2 (>= 0.2.3),
     janitor (>= 2.2.0),
-    jsonlite (>= 1.8.5),
+    jsonlite (>= 1.8.7),
     magrittr (>= 2.0.3),
-    purrr (>= 1.0.1),
+    purrr (>= 1.0.2),
     readr (>= 2.1.4),
-    sf (>= 1.0-13),
+    sf (>= 1.0-14),
     tibble (>= 3.2.1)
 Suggests: 
     knitr (>= 1.31),
