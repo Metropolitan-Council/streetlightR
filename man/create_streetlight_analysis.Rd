@@ -173,7 +173,7 @@ This setting only applies to analysis with \code{enable_15min} enabled.}
 in analysis results are in miles or kilometers. By default, the unit is set based on your organization's location.}
 }
 \value{
-if successful, a list with the analysis name, status, and universal unique ID (uuid).
+If successful, a list with the analysis name, status, and universal unique ID (uuid).
 }
 \description{
 Create a StreetLight analysis, which analyzes traffic or activity with respect to the analysis Zones.
