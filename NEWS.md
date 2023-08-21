@@ -1,3 +1,1 @@
-# streetlightR 1.1.0
-
-* Added a `NEWS.md` file to track changes to the package.
+We use GitHub Releases for tracking changes and updates. Please look for the most recent update [here](https://github.com/Metropolitan-Council/streetlightR/releases/).

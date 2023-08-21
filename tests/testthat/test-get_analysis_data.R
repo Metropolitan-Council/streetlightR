@@ -7,7 +7,7 @@ testthat::test_that("VMT download is returned", {
     testthat::expect_error()
 })
 
-Sys.sleep(0.5)
+Sys.sleep(0.05)
 
 testthat::test_that("Rate limit hit", {
   get_analysis_data(

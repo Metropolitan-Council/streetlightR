@@ -2,17 +2,24 @@
 #'
 #' @param login_email character, Your StreetLight login email
 #' @param analysis_type character, What type of analysis to run. Options are `OD_Analysis`, `OD_MF_Analysis`,
-#'  `Zone_Activity_Analysis`,`OD_Preset_Geography`, `Segment_Analysis`, `AADT`, `Top_Routes_OD`,
-#'  `Top_Routes_ZA`, or `Traffic_Diagnostics`.
+#'  `Zone_Activity_Analysis`,`OD_Preset_Geography`, `Segment_Analysis`, `AADT`, `Top_Routes_OD`, or
+#'  `Top_Routes_ZA`.
 #' @param analysis_name character, The analysis name
-#' @param travel_mode_type character, `All_Vehicles`,  `Truck`, `Bicycle`, or `Pedestrian`. Default is `All Vehicles`
+#' @param travel_mode_type character, `All_Vehicles`, `All_Vehicles_LBS_Plus`, `All_Vehicles_CVD_Plus`,
+#'   `Truck`, `Bicycle`, or `Pedestrian`. Default is `All Vehicles`.
 #' @param description character, Optional analysis description
-#' @param origin_zone_set character, The name of uploaded zone set to use as the origin in an origin-destination analysis or the main zone in a zone activity analysis
-#' @param destination_zone_set character, The name of uploaded zone set to use as the destination in an origin-destination analysis.
-#' @param middle_zone_set character, The name of uploaded zone set to use as the middle filter in an origin-destination with middle filter analysis.
-#' @param geography_type character, Required in O-D to Pre-set Geography analyses. This property is a string of one of `zip`, `taz`, `da`, or `blkgrp`.
-#' @param date_ranges list, a list of date ranges. Each date range is an object containing a pair of MM/DD/YYYY dates, with the `start_date` key containing the start of the date range,
-#'   and the `end_date` key containing the end of the date range. Both `start_date` and `end_date` are inclusive. Default is all 2019 months.
+#' @param origin_zone_set character, The name of uploaded zone set to use as the
+#'   origin in an origin-destination analysis or the main zone in a zone activity analysis
+#' @param destination_zone_set character, The name of uploaded zone set to use as
+#'   the destination in an origin-destination analysis.
+#' @param middle_zone_set character, The name of uploaded zone set to use as
+#'   the middle filter in an origin-destination with middle filter analysis.
+#' @param geography_type character, Required in O-D to Pre-set Geography analyses.
+#'   This property is a string of one of `zip`, `taz`, `da`, or `blkgrp`.
+#' @param date_ranges list, a list of date ranges. Each date range is an object
+#'   containing a pair of MM/DD/YYYY dates, with the `start_date` key containing the start of the date range,
+#'   and the `end_date` key containing the end of the date range. Both `start_date` and `end_date` are inclusive.
+#'   Default is all 2021 months.
 #'   When `travel_mode_type` is `Bicycle` or `Pedestrian`, each date range must consist of only full months.
 #' @param day_types character, a comma-separated list of day types in the analysis. Each day type has a name separated by the vertical bar
 #'   from the start day of week to the end day of week (1 for Monday through 7 for Sunday).
@@ -24,45 +31,65 @@
 #'  Default includes All Day, Recreation Hours (8am-8pm), Park Hours I, II, and III.
 #' @param traveler_attributes logical, This property controls whether the analysis results will
 #'  include the add-on traveler attribute Metrics. Traveler attribute Metrics include traveler demographics and simple trip purpose.
-#'  Default is FALSE.
-#' @param trip_attributes logical, This property controls whether the analysis results will include the add-on trip attribute Metrics:
-#'  trip time distribution, trip length distribution, trip speed distribution, and trip circuity distribution.
-#'  If you specify this, you can also customize the following properties: - `trip_duration_bins` -  `trip_length_bins` -
-#'   `trips_speed_bins` - `trip_circuity_bins`. Default is FALSE.
+#'  Default is `FALSE`.
+#' @param unit_of_measurment character, one of `"miles"` or `"km"`. Specifies whether distances
+#'   in analysis results are in miles or kilometers. By default, the unit is set based on your organization's location.
+#' @param trip_attributes logical, This property controls whether the analysis results will include
+#'  the add-on trip attribute Metrics: trip time distribution, trip length distribution,
+#'  trip speed distribution, and trip circuity distribution.
+#'  If you specify this, you can also customize the following properties: `trips_speed_bins`,
+#'  `trip_duration_bins`, `trip_length_bins`,
+#'  `trip_circuity_bins`. Default is `FALSE`.
+#' @param trip_speed_bins character, the default ranges with a a comma-separated list of speed ranges.
+#'   Default is `"0-10,10-20,20-30,30-40,40-50,50-60,60-70,70-80,80-90,90+"`
+#' @param trip_duration_bins character, the default ranges with a comma-separated
+#'   list of trip duration, or travel time, in minutes. Default is
+#'   `"0-10,10-20,20-30,30-40,40-50,50-60,60-70,70-80,80-90,90-100,100-110,110-120,120-130,130-140,140-150,150+"`
+#' @param trip_length_bins character, the default ranges with a a comma-separated list
+#'   of trip length ranges in the specified `unit_of_measurement`.
+#'   Default value is `"0-1,1-2,2-5,5-10,10-20,20-30,30-40,40-50,50-60,60-70,70-80,80-90,90-100,100+"`
+#' @param trip_circuity_bins character,  the default ranges with a a comma-separated list of trip circuity ranges.
+#'   Trip circuity is the average ratio of trip length to the direct distance between the start and endpoints of the trip.
+#'   Default value is `"1-2,2-3,3-4,4-5,5-6,6+"`
+#' @param unit_of_measurement character, unit of measure for trip attributes. 
+#'   One of `"miles"` or `"km"`. Default is `"miles"`
 #' @param traveler_attributes logical, whether the analysis results will include the add-on traveler attribute metrics.
 #'   Traveler attribute metrics include traveler demographics and simple trip purpose.
-#'  (visitor income, education, race, and family status) are included in the Metric results. Default is FALSE.
-#' @param is_ui_enabled This allows analysis results to be downloaded and visualized though the UI as well as the API. Should be used sparingly.
-#' @param output_type character, One of `volume`, `trip_counts`, `aadt`, `index`, or `zone_counts`. Default is `index`. For Traffic Diagnostics, `index` is allowed.
+#'  (visitor income, education, race, and family status) are included in the Metric results. Default is `FALSE`.
+#' @param is_ui_enabled This allows analysis results to be downloaded and visualized
+#'  though the UI as well as the API. Should be used sparingly.
+#' @param output_type character, One of `volume`, `trip_counts`, `aadt`, `index`, or `zone_counts`.
+#'  Default is `index`.
 #' @param aadt_zone_set character, The name of uploaded zone set to use in an analysis with AADT output.
-#' @param calibration_zone_set character, name of uploaded zone set with calibration. Required when creating an Analysis with Zone Counts output
+#' @param calibration_zone_set character, name of uploaded zone set with calibration.
+#'  Required when creating an Analysis with Zone Counts output
 #' @param hwl_enable_visitor logical, whether the Analysis results will include visiting trips that neither reside or work in the zone.
 #'   It applies only to Zone Activity Analysis with Home and Work Locations metrics enabled.
 #' @param hwl_enable_resident logical, whether the Analysis results will include trips that reside in the zone.
 #'   It applies only to Zone Activity Analysis with Home and Work Locations metrics enabled.
 #' @param hwl_enable_worker logical, whether the Analysis results will include trips that work in the zone.
 #'   It applies only to Zone Activity Analysis with Home and Work Locations metrics enabled.
-#' @param aadt_calibration_year character, one of `2017`, `2018`, or `2019`. Required integer creating an AADT Analysis.
+#' @param aadt_calibration_year character, a four digit year between `2000` and `2099`.
+#'   Required integer when creating an AADT Analysis.
 #' @param enable_visualization logical, whether to enable visualization on the StreetLight platform
-#' @param aadt_year character, one of `2017`, `2018`, or `2019`. Required integer creating an AADT Analysis.
-#' @param tags list, tag names created within an Organization to associate with the created Analysis. Default is `list("streetlightR")`
+#' @param aadt_year character, a four digit year between `2000` and `2099`.
+#'   Required integer when creating an AADT Analysis.
+#' @param tags list, tag names created within an Organization to associate with the created Analysis.
+#'   Default is `list("streetlightR")`
 #' @param enable_15min logical, whether the Analysis will analyze in 15-minute day parts.
 #' @param enable_upsampling logical, whether the Analysis will process with upsampling if it meets the necessary thresholds.
 #'   This setting only applies to analysis with `enable_15min` enabled.
 #' @param enable_home_work_locations logical, whether the Analysis results will include Home and Work Locations metrics.
 #'   If this is `TRUE`, then one of the `hwl_...` parameters must be `TRUE`. Default is `FALSE`.
 #' @param zone_intersection_type character, one of `all_trips_for_zone` or `trips_by_pass_through_setting`.
-#'   Applies only to Zone Activity Analysis with Home and Work Locations metrics enabled) r
+#'   Applies only to Zone Activity Analysis with Home and Work Locations metrics enabled.
 #' @param is_massive_queue logical, whether the Analysis will process alongside other high volume Analyses in order to optimize calculation time.
 #' @param segment_types list, must contain at least one of `Motorway`, `Trunk`, `Primary`, `Secondary`, `Tertiary`, `Residential`.
-#' @param vehicle_weight character, one of `Medium`, `Heavy`, `Medium,Heavy` or `null`.
-#'   Whether metric results for the analysis are broken down
-#'   by vehicle weight class (medium duty, heavy duty) for commercial vehicles.
-#'   If its value is null, commercial vehicle results are not broken down by vehicle weight class.
-#'   Required when creating a Top Routes between Origins and Destinations Analysis or Top Routes for Zones Analysis.
+#' @param vehicle_weight character, deprecated.
+#' @param enable_completion_email logical, whether the analysis will send an email upon completion. Default is `FALSE`
 #' @inheritParams check_streetlight_api
 #'
-#' @return if successful, a list with the analysis name, status, and universal unique ID (uuid).
+#' @return If successful, a list with the analysis name, status, and universal unique ID (uuid).
 #' @export
 #'
 #' @importFrom httr2 req_headers req_perform resp_status_desc req_error
@@ -82,14 +109,18 @@ create_streetlight_analysis <- function(login_email,
                                         geography_type = "",
                                         zone_intersection_type = "",
                                         date_ranges = list(
-                                          start_date = "01/01/2019",
-                                          end_date = "12/31/2019"
+                                          start_date = "01/01/2021",
+                                          end_date = "12/31/2021"
                                         ),
                                         day_types = "All Days|17,Average Weekday|15,Average Weekend Day|67",
                                         day_parts = "All Day|0023,Early AM|0005,Peak AM|0609,Mid-Day|1014,Peak PM|1518,Late PM|1923,Recreation Hours|0819",
                                         vehicle_weight = "",
                                         segment_types = list(),
                                         trip_attributes = FALSE,
+                                        trip_speed_bins = "0-10,10-20,20-30,30-40,40-50,50-60,60-70,70-80,80-90,90+",
+                                        trip_duration_bins = "0-10,10-20,20-30,30-40,40-50,50-60,60-70,70-80,80-90,90-100,100-110,110-120,120-130,130-140,140-150,150+",
+                                        trip_length_bins = "0-1,1-2,2-5,5-10,10-20,20-30,30-40,40-50,50-60,60-70,70-80,80-90,90-100,100+",
+                                        trip_circuity_bins = "1-2,2-3,3-4,4-5,5-6,6+",
                                         traveler_attributes = FALSE,
                                         enable_home_work_locations = FALSE,
                                         hwl_enable_visitor = FALSE,
@@ -102,7 +133,9 @@ create_streetlight_analysis <- function(login_email,
                                         enable_visualization = FALSE,
                                         enable_15min = FALSE,
                                         enable_upsampling = TRUE,
-                                        is_massive_queue = FALSE) {
+                                        is_massive_queue = FALSE,
+                                        enable_completion_email = FALSE,
+                                        unit_of_measurement = "miles") {
   # check for API key access
   key <- check_api_key_access(key)
 
@@ -154,14 +187,18 @@ create_streetlight_analysis <- function(login_email,
       "oz_sets" = list(list(name = origin_zone_set)),
       "dz_sets" = list(list(name = destination_zone_set))
     )
-  } else if (analysis_type == "Traffic_Diagnostics") {
-    # if traffic diagnostics, including origin and destination
-    list(
-      "oz_sets" = list(list(name = origin_zone_set)),
-      "dz_sets" = list(list(name = destination_zone_set))
-    )
   }
 
+  trip_attr_list <- if (trip_attributes == TRUE) {
+    list(
+      "trip_length_bins" = trip_length_bins,
+      "trip_speed_bins" = trip_speed_bins,
+      "trip_duration_bins" = trip_duration_bins,
+      "trip_circuity_bins" = trip_circuity_bins
+    )
+  } else {
+    ""
+  }
 
   # create analysis list from use inputs
   analysis_list <-
@@ -177,6 +214,7 @@ create_streetlight_analysis <- function(login_email,
         "day_types" = day_types,
         "day_parts" = day_parts,
         "trip_attributes" = trip_attributes,
+        trip_attr_list,
         "traveler_attributes" = traveler_attributes,
         "is_ui_enabled" = is_ui_enabled,
         "enable_home_work_locations" = enable_home_work_locations,
@@ -186,14 +224,27 @@ create_streetlight_analysis <- function(login_email,
         "enable_visualization" = enable_visualization,
         "aadt_calibration_year" = aadt_calibration_year,
         "tags" = tags,
-        # "vehicle_weight" = vehicle_weight,
         "segment_types" = segment_types,
         "enable_15min" = enable_15min,
         "is_massive_queue" = is_massive_queue,
-        "zone_intersection_type" = zone_intersection_type
+        "zone_intersection_type" = zone_intersection_type,
+        "enable_completion_email" = enable_completion_email,
+        "unit_of_measurement" = unit_of_measurement
       ),
+      # trip_attr_list,
       zone_list
     )
+
+  if (travel_mode_type == "All_Vehicles_CVD_Plus" |
+    !analysis_type %in% c(
+      "Zone Activity_Analysis",
+      "OD_Analysis",
+      "OD_MF_Analysis",
+      "OD_Preset_Geography"
+    )) {
+    cli::cli_warn("Traveler Attributes are unavailable for given configuration")
+    analysis_list$traveler_attributes <- NULL
+  }
 
   # send analysis list to endpoint
   resp <- streetlight_insight(
