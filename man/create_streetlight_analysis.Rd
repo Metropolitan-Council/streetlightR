@@ -169,6 +169,9 @@ This setting only applies to analysis with \code{enable_15min} enabled.}
 
 \item{enable_completion_email}{logical, whether the analysis will send an email upon completion. Default is \code{FALSE}}
 
+\item{unit_of_measurement}{character, unit of measure for trip attributes.
+One of \code{"miles"} or \code{"km"}. Default is \code{"miles"}}
+
 \item{unit_of_measurment}{character, one of \code{"miles"} or \code{"km"}. Specifies whether distances
 in analysis results are in miles or kilometers. By default, the unit is set based on your organization's location.}
 }

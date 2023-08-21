@@ -51,7 +51,8 @@
 #' @param trip_circuity_bins character,  the default ranges with a a comma-separated list of trip circuity ranges.
 #'   Trip circuity is the average ratio of trip length to the direct distance between the start and endpoints of the trip.
 #'   Default value is `"1-2,2-3,3-4,4-5,5-6,6+"`
-#'
+#' @param unit_of_measurement character, unit of measure for trip attributes. 
+#'   One of `"miles"` or `"km"`. Default is `"miles"`
 #' @param traveler_attributes logical, whether the analysis results will include the add-on traveler attribute metrics.
 #'   Traveler attribute metrics include traveler demographics and simple trip purpose.
 #'  (visitor income, education, race, and family status) are included in the Metric results. Default is `FALSE`.
@@ -228,7 +229,7 @@ create_streetlight_analysis <- function(login_email,
         "is_massive_queue" = is_massive_queue,
         "zone_intersection_type" = zone_intersection_type,
         "enable_completion_email" = enable_completion_email,
-        "unit_of_measuremnet" = unit_of_measurement
+        "unit_of_measurement" = unit_of_measurement
       ),
       # trip_attr_list,
       zone_list
