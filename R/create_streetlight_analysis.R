@@ -227,7 +227,7 @@ create_streetlight_analysis <- function(login_email,
         "enable_15min" = enable_15min,
         "is_massive_queue" = is_massive_queue,
         "zone_intersection_type" = zone_intersection_type,
-        "enable_compltion_email" = enable_completion_email,
+        "enable_completion_email" = enable_completion_email,
         "unit_of_measuremnet" = unit_of_measurement
       ),
       # trip_attr_list,
