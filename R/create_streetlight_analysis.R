@@ -88,7 +88,7 @@
 #' @param enable_completion_email logical, whether the analysis will send an email upon completion. Default is `FALSE`
 #' @inheritParams check_streetlight_api
 #'
-#' @return if successful, a list with the analysis name, status, and universal unique ID (uuid).
+#' @return If successful, a list with the analysis name, status, and universal unique ID (uuid).
 #' @export
 #'
 #' @importFrom httr2 req_headers req_perform resp_status_desc req_error
@@ -233,6 +233,15 @@ create_streetlight_analysis <- function(login_email,
       # trip_attr_list,
       zone_list
     )
+  
+  if(travel_mode_type == "All_Vehicles_CVD_Plus" | 
+     !analysis_type %in% c("Zone Activity_Analysis",
+                           "OD_Analysis",
+                           "OD_MF_Analysis",
+                           "OD_Preset_Geography")){
+    cli::cli_warn("Traveler Attributes are unavailable for given configuration")
+    analysis_list$traveler_attributes <- NULL
+  }
 
   # send analysis list to endpoint
   resp <- streetlight_insight(
