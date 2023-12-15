@@ -3,12 +3,12 @@ testthat::test_that("Expected warning returned", {
     create_streetlight_analysis(
       login_email = test_login,
       analysis_type = "Zone_Activity_Analysis",
-      analysis_name = "v220311-VMT 2019 month 1 Volume Trip Trav Attr",
+      analysis_name = "v220311-VMT 2019 month 3 Volume Trip Trav Attr",
       travel_mode_type = "All_Vehicles",
       output_type = "volume",
-      origin_zone_set = "MPO_Counties",
+      origin_zone_set = "7-County Metro + 6 MPO Municipalities",
       trip_attributes = TRUE,
-      traveler_attributes = TRUE,
+      traveler_attributes = FALSE,
       date_ranges = list(
         start_date = "01/01/2019",
         end_date = "01/31/2019"
