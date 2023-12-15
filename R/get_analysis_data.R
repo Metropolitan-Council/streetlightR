@@ -28,7 +28,7 @@ get_analysis_data <- function(analysis_name = NULL,
     eval(as.list(match.call())),
     validate_parameters
   )
-  
+
   # check for deprecated args
   if (!is.null(analysis_name_)) {
     cli::cli_warn(c("`analysis_name_` deprecated. Use 'analysis_name' instead."))

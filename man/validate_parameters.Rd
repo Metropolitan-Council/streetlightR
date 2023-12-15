@@ -19,7 +19,7 @@ Validate parameters
 }
 \examples{
 
- validate_parameters("analysis_type", "Zone_Activity_Analysis")
- 
+validate_parameters("analysis_type", "Zone_Activity_Analysis")
+
 }
 \keyword{internal}

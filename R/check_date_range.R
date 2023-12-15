@@ -21,7 +21,7 @@
 #' @importFrom tibble as_tibble
 #' @importFrom dplyr mutate select
 #' @importFrom purrr map2
-#' 
+#'
 check_date_range <- function(key = NULL,
                              travel_mode_type = "All_Vehicles",
                              country = "US") {
@@ -33,7 +33,7 @@ check_date_range <- function(key = NULL,
     eval(as.list(match.call())),
     validate_parameters
   )
-  
+
   # fetch date ranges from endpoint
   resp <- streetlight_insight(
     key = key,

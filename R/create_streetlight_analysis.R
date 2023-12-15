@@ -51,13 +51,13 @@
 #' @param trip_circuity_bins character,  the default ranges with a a comma-separated list of trip circuity ranges.
 #'   Trip circuity is the average ratio of trip length to the direct distance between the start and endpoints of the trip.
 #'   Default value is `"1-2,2-3,3-4,4-5,5-6,6+"`
-#' @param enable_speed_percentile logical, whether to divide metrics into speed percentile bins. 
+#' @param enable_speed_percentile logical, whether to divide metrics into speed percentile bins.
 #'   Default is `FALSE`.
 #' @param speed_percentile_bins character, If `enable_speed_percentile` is TRUE,
-#'    you can specify a comma-separated list of integers defining speed 
-#'    percentiles (must be multiples of 5). Percentile values must be between 0 
+#'    you can specify a comma-separated list of integers defining speed
+#'    percentiles (must be multiples of 5). Percentile values must be between 0
 #'    and 100. Default percentile values are "5,15,85,95".
-#' @param unit_of_measurement character, unit of measure for trip attributes. 
+#' @param unit_of_measurement character, unit of measure for trip attributes.
 #'   One of `"miles"` or `"km"`. Default is `"miles"`
 #' @param traveler_attributes logical, whether the analysis results will include the add-on traveler attribute metrics.
 #'   Traveler attribute metrics include traveler demographics and simple trip purpose.
@@ -148,13 +148,13 @@ create_streetlight_analysis <- function(login_email,
   # check for API key access
   key <- check_api_key_access(key)
   # validate parameters
-    
+
   purrr::map2(
     names(as.list(match.call())),
     eval(as.list(match.call())),
     validate_parameters
   )
-  
+
   # create zone list based on analysis type
   zone_list <- if (analysis_type == "Zone_Activity_Analysis") {
     # if ZAA, only include origin_zone_set
@@ -204,23 +204,26 @@ create_streetlight_analysis <- function(login_email,
       "dz_sets" = list(list(name = destination_zone_set))
     )
   }
-  
+
   trip_attr_list <- if (trip_attributes == TRUE) {
-    
     purrr::map2(
-      c( "trip_speed_bins",
-         "trip_duration_bins",
-         "trip_length_bins",
-         "trip_circuity_bins",
-         "speed_percentile_bins"),
-      c(trip_speed_bins,
+      c(
+        "trip_speed_bins",
+        "trip_duration_bins",
+        "trip_length_bins",
+        "trip_circuity_bins",
+        "speed_percentile_bins"
+      ),
+      c(
+        trip_speed_bins,
         trip_duration_bins,
         trip_length_bins,
         trip_circuity_bins,
-        speed_percentile_bins),
+        speed_percentile_bins
+      ),
       validate_parameters
     )
-    
+
     list(
       "trip_length_bins" = trip_length_bins,
       "trip_speed_bins" = trip_speed_bins,
@@ -232,7 +235,7 @@ create_streetlight_analysis <- function(login_email,
   } else {
     ""
   }
-  
+
   # create analysis list from use inputs
   analysis_list <-
     append(
@@ -267,18 +270,18 @@ create_streetlight_analysis <- function(login_email,
       # trip_attr_list,
       zone_list
     )
-  
+
   if (travel_mode_type == "All_Vehicles_CVD_Plus" |
-      !analysis_type %in% c(
-        "Zone Activity_Analysis",
-        "OD_Analysis",
-        "OD_MF_Analysis",
-        "OD_Preset_Geography"
-      )) {
+    !analysis_type %in% c(
+      "Zone Activity_Analysis",
+      "OD_Analysis",
+      "OD_MF_Analysis",
+      "OD_Preset_Geography"
+    )) {
     cli::cli_warn("Traveler Attributes are unavailable for given configuration")
     analysis_list$traveler_attributes <- NULL
   }
-  
+
   # send analysis list to endpoint
   resp <- streetlight_insight(
     key = key,
@@ -288,11 +291,11 @@ create_streetlight_analysis <- function(login_email,
       "content-type" = "application/json"
     ) %>%
     httr2::req_body_json(analysis_list,
-                         auto_unbox = TRUE
+      auto_unbox = TRUE
     ) %>%
     httr2::req_error(is_error = function(resp) FALSE) %>%
     httr2::req_perform()
-  
+
   # return message based on response
   if (!httr2::resp_status_desc(resp) %in% c(
     "success",
@@ -305,7 +308,7 @@ create_streetlight_analysis <- function(login_email,
       httr2::resp_body_json(resp)
     )))
   }
-  
+
   # return response json body
   return(httr2::resp_body_json(resp))
 }
