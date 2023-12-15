@@ -23,7 +23,7 @@ Depends:
 Imports: 
     cli (>= 3.6.1),
     dplyr (>= 1.1.2),
-    httr2 (>= 0.2.3),
+    httr2 (>= 1.0.0),
     janitor (>= 2.2.0),
     jsonlite (>= 1.8.7),
     magrittr (>= 2.0.3),
