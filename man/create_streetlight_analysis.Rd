@@ -32,6 +32,8 @@ create_streetlight_analysis(
   trip_length_bins =
     "0-1,1-2,2-5,5-10,10-20,20-30,30-40,40-50,50-60,60-70,70-80,80-90,90-100,100+",
   trip_circuity_bins = "1-2,2-3,3-4,4-5,5-6,6+",
+  enable_speed_percentile = FALSE,
+  speed_percentile_bins = NA,
   traveler_attributes = FALSE,
   enable_home_work_locations = FALSE,
   hwl_enable_visitor = FALSE,
@@ -60,11 +62,11 @@ create_streetlight_analysis(
 
 \item{analysis_name}{character, The analysis name}
 
-\item{travel_mode_type}{character, \code{All_Vehicles}, \code{All_Vehicles_LBS_Plus}, \code{All_Vehicles_CVD_Plus},
-\code{Truck}, \code{Bicycle}, or \code{Pedestrian}. Default is \verb{All Vehicles}.}
+\item{travel_mode_type}{character, 'All_Vehicles', 'All_Vehicles_LBS_Plus', 'All_Vehicles_CVD_Plus', 'All_Vehicles_By_Weight', 'Bus', 'Rail', 'Bicycle', 'Truck', 'Pedestrian'.
+Default is 'All Vehicles'.}
 
-\item{output_type}{character, One of \code{volume}, \code{trip_counts}, \code{aadt}, \code{index}, or \code{zone_counts}.
-Default is \code{index}.}
+\item{output_type}{character, One of 'index', 'volume', 'trip_counts', 'aadt', 'zone_counts'
+Default is 'index'.}
 
 \item{description}{character, Optional analysis description}
 
@@ -83,7 +85,7 @@ the middle filter in an origin-destination with middle filter analysis.}
 Required when creating an Analysis with Zone Counts output}
 
 \item{geography_type}{character, Required in O-D to Pre-set Geography analyses.
-This property is a string of one of \code{zip}, \code{taz}, \code{da}, or \code{blkgrp}.}
+This property is a string of one of 'zip', 'taz', 'blkgrp', 'da'.}
 
 \item{zone_intersection_type}{character, one of \code{all_trips_for_zone} or \code{trips_by_pass_through_setting}.
 Applies only to Zone Activity Analysis with Home and Work Locations metrics enabled.}
@@ -106,7 +108,7 @@ Default includes All Day, Recreation Hours (8am-8pm), Park Hours I, II, and III.
 
 \item{vehicle_weight}{character, deprecated.}
 
-\item{segment_types}{list, must contain at least one of \code{Motorway}, \code{Trunk}, \code{Primary}, \code{Secondary}, \code{Tertiary}, \code{Residential}.}
+\item{segment_types}{list, must contain at least one of 'Motorway', 'Trunk', 'Primary', 'Secondary', 'Tertiary', 'Residential'}
 
 \item{trip_attributes}{logical, This property controls whether the analysis results will include
 the add-on trip attribute Metrics: trip time distribution, trip length distribution,
@@ -129,6 +131,14 @@ Default value is \code{"0-1,1-2,2-5,5-10,10-20,20-30,30-40,40-50,50-60,60-70,70-
 \item{trip_circuity_bins}{character,  the default ranges with a a comma-separated list of trip circuity ranges.
 Trip circuity is the average ratio of trip length to the direct distance between the start and endpoints of the trip.
 Default value is \code{"1-2,2-3,3-4,4-5,5-6,6+"}}
+
+\item{enable_speed_percentile}{logical, whether to divide metrics into speed percentile bins.
+Default is \code{FALSE}.}
+
+\item{speed_percentile_bins}{character, If \code{enable_speed_percentile} is TRUE,
+you can specify a comma-separated list of integers defining speed
+percentiles (must be multiples of 5). Percentile values must be between 0
+and 100. Default percentile values are "5,15,85,95".}
 
 \item{traveler_attributes}{logical, whether the analysis results will include the add-on traveler attribute metrics.
 Traveler attribute metrics include traveler demographics and simple trip purpose.

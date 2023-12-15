@@ -9,8 +9,8 @@ check_date_range(key = NULL, travel_mode_type = "All_Vehicles", country = "US")
 \arguments{
 \item{key}{character, StreetLight API key. Default is \code{NULL}.}
 
-\item{travel_mode_type}{character, \code{All_Vehicles}, \code{All_Vehicles_LBS_Plus}, \code{All_Vehicles_CVD_Plus},
-\code{Truck}, \code{Bicycle}, or \code{Pedestrian}. Default is \verb{All Vehicles}.}
+\item{travel_mode_type}{character, 'All_Vehicles', 'All_Vehicles_LBS_Plus', 'All_Vehicles_CVD_Plus', 'All_Vehicles_By_Weight', 'Bus', 'Rail', 'Bicycle', 'Truck', 'Pedestrian'.
+Default is 'All Vehicles'.}
 
 \item{country}{character, one of \code{"US"} or \code{"CA"}. Default is \code{"US"}.}
 }

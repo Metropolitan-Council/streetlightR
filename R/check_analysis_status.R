@@ -21,7 +21,13 @@ check_analysis_status <- function(analysis_name = NULL,
                                   analysis_name_ = NULL) {
   # check for API key access
   key <- check_api_key_access(key)
-
+  # validate parameters
+  purrr::map2(
+    names(as.list(match.call())),
+    eval(as.list(match.call())),
+    validate_parameters
+  )
+  
   # print warning if using analysis_name_
   if (!is.null(analysis_name_)) {
     cli::cli_warn(c("`analysis_name_` deprecated. Use 'analysis_name' instead."))

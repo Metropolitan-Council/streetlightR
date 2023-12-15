@@ -20,8 +20,15 @@ get_analysis_data <- function(analysis_name = NULL,
                               key = NULL,
                               metric,
                               analysis_name_ = NULL) {
+  # check for API key access
   key <- check_api_key_access(key)
-
+  # validate parameters
+  purrr::map2(
+    names(as.list(match.call())),
+    eval(as.list(match.call())),
+    validate_parameters
+  )
+  
   # check for deprecated args
   if (!is.null(analysis_name_)) {
     cli::cli_warn(c("`analysis_name_` deprecated. Use 'analysis_name' instead."))

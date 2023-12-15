@@ -5,8 +5,8 @@
 #'  `Zone_Activity_Analysis`,`OD_Preset_Geography`, `Segment_Analysis`, `AADT`, `Top_Routes_OD`, or
 #'  `Top_Routes_ZA`.
 #' @param analysis_name character, The analysis name
-#' @param travel_mode_type character, `All_Vehicles`, `All_Vehicles_LBS_Plus`, `All_Vehicles_CVD_Plus`,
-#'   `Truck`, `Bicycle`, or `Pedestrian`. Default is `All Vehicles`.
+#' @param travel_mode_type character, `r paste0("'", streetlightR::valid_parameters$travel_mode_type, "'")`.
+#'   Default is 'All Vehicles'.
 #' @param description character, Optional analysis description
 #' @param origin_zone_set character, The name of uploaded zone set to use as the
 #'   origin in an origin-destination analysis or the main zone in a zone activity analysis
@@ -15,7 +15,7 @@
 #' @param middle_zone_set character, The name of uploaded zone set to use as
 #'   the middle filter in an origin-destination with middle filter analysis.
 #' @param geography_type character, Required in O-D to Pre-set Geography analyses.
-#'   This property is a string of one of `zip`, `taz`, `da`, or `blkgrp`.
+#'   This property is a string of one of `r paste0("'", streetlightR::valid_parameters$geography_type, "'")`.
 #' @param date_ranges list, a list of date ranges. Each date range is an object
 #'   containing a pair of MM/DD/YYYY dates, with the `start_date` key containing the start of the date range,
 #'   and the `end_date` key containing the end of the date range. Both `start_date` and `end_date` are inclusive.
@@ -51,6 +51,12 @@
 #' @param trip_circuity_bins character,  the default ranges with a a comma-separated list of trip circuity ranges.
 #'   Trip circuity is the average ratio of trip length to the direct distance between the start and endpoints of the trip.
 #'   Default value is `"1-2,2-3,3-4,4-5,5-6,6+"`
+#' @param enable_speed_percentile logical, whether to divide metrics into speed percentile bins. 
+#'   Default is `FALSE`.
+#' @param speed_percentile_bins character, If `enable_speed_percentile` is TRUE,
+#'    you can specify a comma-separated list of integers defining speed 
+#'    percentiles (must be multiples of 5). Percentile values must be between 0 
+#'    and 100. Default percentile values are "5,15,85,95".
 #' @param unit_of_measurement character, unit of measure for trip attributes. 
 #'   One of `"miles"` or `"km"`. Default is `"miles"`
 #' @param traveler_attributes logical, whether the analysis results will include the add-on traveler attribute metrics.
@@ -58,8 +64,8 @@
 #'  (visitor income, education, race, and family status) are included in the Metric results. Default is `FALSE`.
 #' @param is_ui_enabled This allows analysis results to be downloaded and visualized
 #'  though the UI as well as the API. Should be used sparingly.
-#' @param output_type character, One of `volume`, `trip_counts`, `aadt`, `index`, or `zone_counts`.
-#'  Default is `index`.
+#' @param output_type character, One of `r paste0("'", streetlightR::valid_parameters$output_type, "'")`
+#'  Default is 'index'.
 #' @param aadt_zone_set character, The name of uploaded zone set to use in an analysis with AADT output.
 #' @param calibration_zone_set character, name of uploaded zone set with calibration.
 #'  Required when creating an Analysis with Zone Counts output
@@ -84,7 +90,7 @@
 #' @param zone_intersection_type character, one of `all_trips_for_zone` or `trips_by_pass_through_setting`.
 #'   Applies only to Zone Activity Analysis with Home and Work Locations metrics enabled.
 #' @param is_massive_queue logical, whether the Analysis will process alongside other high volume Analyses in order to optimize calculation time.
-#' @param segment_types list, must contain at least one of `Motorway`, `Trunk`, `Primary`, `Secondary`, `Tertiary`, `Residential`.
+#' @param segment_types list, must contain at least one of `r paste0("'", streetlightR::valid_parameters$segment_types, "'")`
 #' @param vehicle_weight character, deprecated.
 #' @param enable_completion_email logical, whether the analysis will send an email upon completion. Default is `FALSE`
 #' @inheritParams check_streetlight_api
@@ -121,6 +127,8 @@ create_streetlight_analysis <- function(login_email,
                                         trip_duration_bins = "0-10,10-20,20-30,30-40,40-50,50-60,60-70,70-80,80-90,90-100,100-110,110-120,120-130,130-140,140-150,150+",
                                         trip_length_bins = "0-1,1-2,2-5,5-10,10-20,20-30,30-40,40-50,50-60,60-70,70-80,80-90,90-100,100+",
                                         trip_circuity_bins = "1-2,2-3,3-4,4-5,5-6,6+",
+                                        enable_speed_percentile = FALSE,
+                                        speed_percentile_bins = NA,
                                         traveler_attributes = FALSE,
                                         enable_home_work_locations = FALSE,
                                         hwl_enable_visitor = FALSE,
@@ -138,7 +146,14 @@ create_streetlight_analysis <- function(login_email,
                                         unit_of_measurement = "miles") {
   # check for API key access
   key <- check_api_key_access(key)
-
+  # validate parameters
+    
+  purrr::map2(
+    names(as.list(match.call())),
+    eval(as.list(match.call())),
+    validate_parameters
+  )
+  
   # create zone list based on analysis type
   zone_list <- if (analysis_type == "Zone_Activity_Analysis") {
     # if ZAA, only include origin_zone_set
@@ -188,18 +203,35 @@ create_streetlight_analysis <- function(login_email,
       "dz_sets" = list(list(name = destination_zone_set))
     )
   }
-
+  
   trip_attr_list <- if (trip_attributes == TRUE) {
+    
+    purrr::map2(
+      c( "trip_speed_bins",
+         "trip_duration_bins",
+         "trip_length_bins",
+         "trip_circuity_bins",
+         "speed_percentile_bins"),
+      c(trip_speed_bins,
+        trip_duration_bins,
+        trip_length_bins,
+        trip_circuity_bins,
+        speed_percentile_bins),
+      validate_parameters
+    )
+    
     list(
       "trip_length_bins" = trip_length_bins,
       "trip_speed_bins" = trip_speed_bins,
       "trip_duration_bins" = trip_duration_bins,
-      "trip_circuity_bins" = trip_circuity_bins
+      "trip_circuity_bins" = trip_circuity_bins,
+      "enable_speed_percentile" = enable_speed_percentile,
+      "speed_percentile_bins" = speed_percentile_bins
     )
   } else {
     ""
   }
-
+  
   # create analysis list from use inputs
   analysis_list <-
     append(
@@ -234,18 +266,18 @@ create_streetlight_analysis <- function(login_email,
       # trip_attr_list,
       zone_list
     )
-
+  
   if (travel_mode_type == "All_Vehicles_CVD_Plus" |
-    !analysis_type %in% c(
-      "Zone Activity_Analysis",
-      "OD_Analysis",
-      "OD_MF_Analysis",
-      "OD_Preset_Geography"
-    )) {
+      !analysis_type %in% c(
+        "Zone Activity_Analysis",
+        "OD_Analysis",
+        "OD_MF_Analysis",
+        "OD_Preset_Geography"
+      )) {
     cli::cli_warn("Traveler Attributes are unavailable for given configuration")
     analysis_list$traveler_attributes <- NULL
   }
-
+  
   # send analysis list to endpoint
   resp <- streetlight_insight(
     key = key,
@@ -255,11 +287,11 @@ create_streetlight_analysis <- function(login_email,
       "content-type" = "application/json"
     ) %>%
     httr2::req_body_json(analysis_list,
-      auto_unbox = TRUE
+                         auto_unbox = TRUE
     ) %>%
     httr2::req_error(is_error = function(resp) FALSE) %>%
     httr2::req_perform()
-
+  
   # return message based on response
   if (!httr2::resp_status_desc(resp) %in% c(
     "success",
@@ -272,7 +304,7 @@ create_streetlight_analysis <- function(login_email,
       httr2::resp_body_json(resp)
     )))
   }
-
+  
   # return response json body
   return(httr2::resp_body_json(resp))
 }

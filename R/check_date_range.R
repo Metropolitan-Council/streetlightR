@@ -26,7 +26,13 @@ check_date_range <- function(key = NULL,
                              country = "US") {
   # check for API access
   key <- check_api_key_access(key)
-
+  # validate parameters
+  purrr::map2(
+    names(as.list(match.call())),
+    eval(as.list(match.call())),
+    validate_parameters
+  )
+  
   # fetch date ranges from endpoint
   resp <- streetlight_insight(
     key = key,
