@@ -10,7 +10,8 @@
 #' 
 #'  validate_parameters("analysis_type", "Zone_Activity_Analysis")
 #'  
-#'  
+#' @importFrom cli cli_abort
+#' @keywords internal 
 validate_parameters <- function(param,
                            value){
   
