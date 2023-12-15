@@ -13,7 +13,7 @@
 #' @importFrom janitor clean_names
 #' @importFrom cli cli_alert_success cli_alert_danger
 #' @importFrom readr read_delim
-#' @importFrom purrr flatten
+#' @importFrom purrr flatten map2
 #' @importFrom httr2 req_headers req_error req_perform resp_status_desc resp_body_json
 #'
 get_analysis_data <- function(analysis_name = NULL,

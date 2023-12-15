@@ -20,7 +20,8 @@
 #' @importFrom httr2 req_url_query req_perform resp_body_json
 #' @importFrom tibble as_tibble
 #' @importFrom dplyr mutate select
-#'
+#' @importFrom purrr map2
+#' 
 check_date_range <- function(key = NULL,
                              travel_mode_type = "All_Vehicles",
                              country = "US") {

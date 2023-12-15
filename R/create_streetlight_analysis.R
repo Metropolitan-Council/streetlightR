@@ -99,6 +99,7 @@
 #' @export
 #'
 #' @importFrom httr2 req_headers req_perform resp_status_desc req_error
+#' @importFrom purrr map2
 #'
 create_streetlight_analysis <- function(login_email,
                                         key = NULL,

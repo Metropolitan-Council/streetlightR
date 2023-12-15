@@ -11,7 +11,6 @@
 #' @keywords internal
 #'
 #' @importFrom httr2 request req_url_path_append req_headers
-#'
 streetlight_insight <- function(key, endpoint) {
   return(
     # create httr2::request with the StL API url

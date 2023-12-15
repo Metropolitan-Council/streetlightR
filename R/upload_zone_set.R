@@ -17,7 +17,8 @@
 #' @importFrom httr2 req_body_json resp_body_json resp_status_desc req_error req_perform req_headers
 #' @importFrom sf st_crs st_transform st_as_sf st_cast
 #' @importFrom cli cli_warn
-#'
+#' @importFrom purrr map2
+#' 
 #' @examples
 #' \dontrun{
 #' library(sf)
