@@ -7,6 +7,20 @@ testthat::test_that("VMT download is returned", {
     testthat::expect_error()
 })
 
+Sys.sleep(2)
+
+testthat::test_that("Correct VMT download is returned", {
+  an_dat <- get_analysis_data(
+    analysis_name = "v231218-VMT 2019 month 3 Volume Trip Trav Attr",
+    metric = "za_all"
+  ) 
+  
+  testthat::expect_equal(nrow(an_dat), 4776)
+  testthat::expect_equal(ncol(an_dat), 15)
+  
+})
+
+
 Sys.sleep(0.05)
 
 testthat::test_that("Rate limit hit", {
