@@ -98,8 +98,7 @@ upload_zone_set <- function(login_email,
     # check that there aren't too many zones
     # check_zone_size(zones = zones_sf)
     if (nrow(zones_sf) >= 7000) {
-      stop(("There are too many zones in this zone set."))
-      return()
+      cli::cli_abort("There are too many zones in this zone set.")
     }
 
     # if the coordinate reference system is not WGS84, transform
