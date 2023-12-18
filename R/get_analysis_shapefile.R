@@ -49,6 +49,11 @@ get_analysis_shapefile <- function(analysis_name = NULL,
       simplifyVector = TRUE
     )
   
+  
+  if(is.null(analysis_status$analyses$shapefiles[[1]][1]) | analysis_status$analyses$shapefiles[[1]][1] == "NULL"){
+    cli::cli_abort("No shapefiles are available for this analysis")
+  }
+  
   # check if shapefile matches any available shapefiles
   if (!is.null(shapefile) &
       !shapefile %in% analysis_status$analyses$shapefiles[[1]]) {
