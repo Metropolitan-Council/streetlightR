@@ -3,6 +3,7 @@
 #' @param metric character, which metric to fetch. Metric availability is
 #'     dependent on the analysis type and configuration.
 #'     See [create_streetlight_analysis()] for more details.
+#'
 #' @inheritParams check_streetlight_api
 #' @inheritParams check_analysis_status
 #'
@@ -22,6 +23,7 @@ get_analysis_data <- function(analysis_name = NULL,
                               analysis_name_ = NULL) {
   # check for API key access
   key <- check_api_key_access(key)
+
   # validate parameters
   purrr::map2(
     names(as.list(match.call())),

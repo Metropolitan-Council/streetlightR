@@ -1,8 +1,8 @@
 #' @title Validate parameters
-#' 
+#'
 #' @description
 #' Use [valid_parameters] dataset to verify parameter values.
-#' 
+#'
 #' @param param character, parameter as character
 #' @param value any, parameter value
 #'
@@ -164,7 +164,7 @@ validate_parameters <- function(param,
       ))
     }
   }
-  
+
   ## country -----
   if (param == "country") {
     if (!value %in% valid_parameters$country) {
@@ -177,8 +177,8 @@ validate_parameters <- function(param,
       ))
     }
   }
-  
-  
+
+
   ## key -----
   if (param == "key") {
     if (!(!is.character(value) | !is.null(value))) {
@@ -187,12 +187,10 @@ validate_parameters <- function(param,
   }
 
 
-  # endpoint -----  
+  # endpoint -----
   if (param == "endpoint") {
     if (!(!is.character(value) | !is.call(value))) {
       cli::cli_abort("Parameter {param} must be a character or NULL")
     }
   }
-  
-  
 }

@@ -1,7 +1,7 @@
 #' @title Create a StreetLight analysis, which analyzes traffic or activity with respect to the analysis Zones.
 #'
 #' @param login_email character, Your StreetLight login email
-#' @param analysis_type character, What type of analysis to run. 
+#' @param analysis_type character, What type of analysis to run.
 #'   Options are `r paste0("'", sort(streetlightR::valid_parameters$analysis_type), "'")`.
 #' @param analysis_name character, The analysis name
 #' @param travel_mode_type character, `r paste0("'", sort(streetlightR::valid_parameters$travel_mode_type), "'")`.
@@ -148,13 +148,13 @@ create_streetlight_analysis <- function(
   # check for API key access
   key <- check_api_key_access(key)
   # validate parameters
-  
+
   purrr::map2(
     names(as.list(match.call())),
     eval(as.list(match.call())),
     validate_parameters
   )
-  
+
   # create zone list based on analysis type
   zone_list <- if (analysis_type == "Zone_Activity_Analysis") {
     # if ZAA, only include origin_zone_set
@@ -204,7 +204,7 @@ create_streetlight_analysis <- function(
       "dz_sets" = list(list(name = destination_zone_set))
     )
   }
-  
+
   trip_attr_list <- if (trip_attributes == TRUE) {
     purrr::map2(
       c(
@@ -223,7 +223,7 @@ create_streetlight_analysis <- function(
       ),
       validate_parameters
     )
-    
+
     list(
       "trip_length_bins" = trip_length_bins,
       "trip_speed_bins" = trip_speed_bins,
@@ -235,7 +235,7 @@ create_streetlight_analysis <- function(
   } else {
     ""
   }
-  
+
   # create analysis list from use inputs
   analysis_list <-
     append(
@@ -270,18 +270,18 @@ create_streetlight_analysis <- function(
       # trip_attr_list,
       zone_list
     )
-  
+
   if ((travel_mode_type == "All_Vehicles_CVD_Plus" |
-      !analysis_type %in% c(
-        "Zone_Activity_Analysis",
-        "OD_Analysis",
-        "OD_MF_Analysis",
-        "OD_Preset_Geography"
-      )) & traveler_attributes == TRUE) {
+    !analysis_type %in% c(
+      "Zone_Activity_Analysis",
+      "OD_Analysis",
+      "OD_MF_Analysis",
+      "OD_Preset_Geography"
+    )) & traveler_attributes == TRUE) {
     cli::cli_warn("Traveler Attributes are unavailable for given configuration")
     analysis_list$traveler_attributes <- NULL
   }
-  
+
   # send analysis list to endpoint
   resp <- streetlight_insight(
     key = key,
@@ -291,11 +291,11 @@ create_streetlight_analysis <- function(
       "content-type" = "application/json"
     ) %>%
     httr2::req_body_json(analysis_list,
-                         auto_unbox = TRUE
+      auto_unbox = TRUE
     ) %>%
     httr2::req_error(is_error = function(resp) FALSE) %>%
     httr2::req_perform()
-  
+
   # return message based on response
   if (!httr2::resp_status_desc(resp) %in% c(
     "success",
@@ -308,7 +308,7 @@ create_streetlight_analysis <- function(
       httr2::resp_body_json(resp)
     )))
   }
-  
+
   # return response json body
   return(httr2::resp_body_json(resp))
 }

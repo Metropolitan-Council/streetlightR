@@ -2,13 +2,13 @@
 
 valid_parameters <- list(
   analysis_type = c(
-    "AADT", 
-    "OD_Analysis", 
+    "AADT",
+    "OD_Analysis",
     "OD_MF_Analysis",
-    "OD_Preset_Geography", 
-    "Segment_Analysis", 
-    "Top_Routes_OD", 
-    "Top_Routes_ZA", 
+    "OD_Preset_Geography",
+    "Segment_Analysis",
+    "Top_Routes_OD",
+    "Top_Routes_ZA",
     "Zone_Activity_Analysis"
   ),
   travel_mode_type = c(
@@ -52,14 +52,14 @@ valid_parameters <- list(
     "trips_by_pass_through_setting"
   ),
   endpoint = c(
-    "analyses", 
-    "analyses/download/name", 
+    "analyses",
+    "analyses/download/name",
     "analyses/status",
-    "analyses/tags", 
-    "debug/echo", 
+    "analyses/tags",
+    "debug/echo",
     "tags",
     "tags/remove_analyses_tag",
-    "tags/tag_analyses", 
+    "tags/tag_analyses",
     "zone_sets",
     "zone_sets/search"
   ),

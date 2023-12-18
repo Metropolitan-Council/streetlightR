@@ -15,7 +15,7 @@ validate_parameters(param, value)
 Throws error if value is invalid
 }
 \description{
-Validate parameters
+Use \link{valid_parameters} dataset to verify parameter values.
 }
 \examples{
 
