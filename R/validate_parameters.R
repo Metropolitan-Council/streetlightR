@@ -20,7 +20,6 @@ validate_parameters <- function(param,
   # check string values -----
   if (param %in% c(
     "insight_login_email",
-    "analysis_name",
     "description",
     "destination_zone_set",
     "origin_zone_set",
@@ -43,8 +42,8 @@ validate_parameters <- function(param,
   )) {
     if (!is.character(value)) {
       cli::cli_abort(paste0(
-        "Parameter '",
-        param, "' must be a string."
+        "Parameter {param} must be a string."
+        
       ))
     }
   }
@@ -56,8 +55,8 @@ validate_parameters <- function(param,
   )) {
     if (!is.numeric(value)) {
       cli::cli_abort(paste0(
-        "Parameter '",
-        param, "' must be a numeric."
+        "Parameter {param} must be numeric."
+        
       ))
     }
   }
@@ -187,10 +186,18 @@ validate_parameters <- function(param,
   }
 
 
-  # endpoint -----
+  ## endpoint -----
   if (param == "endpoint") {
     if (!(!is.character(value) | !is.call(value))) {
       cli::cli_abort("Parameter {param} must be a character or NULL")
     }
   }
+  
+  ## analysis_name
+  if (param == "analysis_name") {
+    if (!(!is.character(value) | !is.call(value) | is.call(value))) {
+      cli::cli_abort("Parameter {param} must be a character or NULL")
+    }
+  }
+  
 }
