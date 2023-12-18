@@ -15,5 +15,17 @@ testthat::test_that("Shapefile is returned", {
 })
 
 
+testthat::test_that("Shapefile is returned", {
+  
+  Sys.sleep(1)
+  get_analysis_shapefile(
+    analysis_name = "v231218-VMT 2019 month 3 Volume Trip Trav Attr",
+    shapefile = "zone_activity"
+  ) %>% 
+    expect_error()
+  
+})
+
+
 
 
