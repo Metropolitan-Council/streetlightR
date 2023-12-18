@@ -50,6 +50,22 @@ valid_parameters <- list(
   zone_intersection_type = list(
     "all_trips_for_zone",
     "trips_by_pass_through_setting"
+  ),
+  endpoint = list(
+    "analyses", 
+    "analyses/download/name", 
+    "analyses/status",
+    "analyses/tags", 
+    "debug/echo", 
+    "tags",
+    "tags/remove_analyses_tag",
+    "tags/tag_analyses", 
+    "zone_sets",
+    "zone_sets/search"
+  ),
+  country = list(
+    "US",
+    "CA"
   )
 )
 

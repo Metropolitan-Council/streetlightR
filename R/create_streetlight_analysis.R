@@ -1,9 +1,8 @@
 #' @title Create a StreetLight analysis, which analyzes traffic or activity with respect to the analysis Zones.
 #'
 #' @param login_email character, Your StreetLight login email
-#' @param analysis_type character, What type of analysis to run. Options are `OD_Analysis`, `OD_MF_Analysis`,
-#'  `Zone_Activity_Analysis`,`OD_Preset_Geography`, `Segment_Analysis`, `AADT`, `Top_Routes_OD`, or
-#'  `Top_Routes_ZA`.
+#' @param analysis_type character, What type of analysis to run. 
+#'   Options are `r paste0("'", streetlightR::valid_parameters$analysis_type, "'")`.
 #' @param analysis_name character, The analysis name
 #' @param travel_mode_type character, `r paste0("'", streetlightR::valid_parameters$travel_mode_type, "'")`.
 #'   Default is 'All Vehicles'.
@@ -25,10 +24,10 @@
 #'   from the start day of week to the end day of week (1 for Monday through 7 for Sunday).
 #'   Analysis must define All Days as `17` (Monday through Sunday), and they must define values for
 #'   Average Weekday and Average Weekend Day. Default includes All Days, Average Weekday, and Average Weekend Day.
-#' @param day_parts character,A comma-separated list of day parts in the analysis. Each day part has a name separated
+#' @param day_parts character, a comma-separated list of day parts in the analysis. Each day part has a name separated
 #'  by the vertical bar from the start hour and end hour from 00 (midnight) to 23 (11 PM).
-#'  For example, `All Day|0023` ranges from midnight (00:00) to 11:59 PM. Analyses must define All Day as 0023 (midnight to midnight).
-#'  Default includes All Day, Recreation Hours (8am-8pm), Park Hours I, II, and III.
+#'  For example, `"All Day|0023"` ranges from midnight (00:00) to 11:59 PM. Analyses must define All Day as 0023 (midnight to midnight).
+#'  Default is `"All Day|0023,Early AM|0005,Peak AM|0609,Mid-Day|1014,Peak PM|1518,Late PM|1923,Recreation Hours|0819"`.
 #' @param traveler_attributes logical, This property controls whether the analysis results will
 #'  include the add-on traveler attribute Metrics. Traveler attribute Metrics include traveler demographics and simple trip purpose.
 #'  Default is `FALSE`.
