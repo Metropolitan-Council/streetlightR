@@ -56,7 +56,7 @@ get_analysis_shapefile <- function(analysis_name = NULL,
       c(
         "`shapefile` '{shapefile}' is unavailable",
         "`shapefile` must match one of the available shapefiles for this analysis",
-        paste(analysis_status$shapefiles[[1]], collapse = ", ")
+        paste(analysis_status$analyses$shapefiles[[1]], collapse = ", ")
       )
     )
   }

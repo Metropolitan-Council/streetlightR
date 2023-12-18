@@ -54,7 +54,7 @@ get_analysis_data <- function(analysis_name = NULL,
       c(
         "`metric` '{metric}' is unavailable",
         "`metric` must match one of the available metrics for this analysis",
-        paste(analysis_status$metrics[[1]], collapse = ", ")
+        paste(analysis_status$analyses$metrics[[1]], collapse = ", ")
       )
     )
   }
