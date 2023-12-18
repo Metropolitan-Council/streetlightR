@@ -9,7 +9,7 @@
 #'
 #' @return a [sf::sf] object with columns `id`, `name`, `direction`,
 #'   `is_pass`, `is_bidi`, `geometry`, `file_name`, and `shapefile`.
-#'   
+#'
 #' @export
 #'
 #' @importFrom utils  URLencode
@@ -25,20 +25,20 @@ get_analysis_shapefile <- function(analysis_name = NULL,
                                    analysis_name_ = NULL) {
   # check for API key access
   key <- check_api_key_access(key)
-  
+
   # validate parameters
   purrr::map2(
     names(as.list(match.call())),
     eval(as.list(match.call())),
     validate_parameters
   )
-  
+
   # check for deprecated args
   if (!is.null(analysis_name_)) {
     cli::cli_warn(c("`analysis_name_` deprecated. Use 'analysis_name' instead."))
     analysis_name <- analysis_name_
   }
-  
+
   # check analysis status
   analysis_status <- check_analysis_status(
     analysis_name = analysis_name,
@@ -48,15 +48,15 @@ get_analysis_shapefile <- function(analysis_name = NULL,
       check_type = FALSE,
       simplifyVector = TRUE
     )
-  
-  
-  if(is.null(analysis_status$analyses$shapefiles[[1]][1]) | analysis_status$analyses$shapefiles[[1]][1] == "NULL"){
+
+
+  if (is.null(analysis_status$analyses$shapefiles[[1]][1]) | analysis_status$analyses$shapefiles[[1]][1] == "NULL") {
     cli::cli_abort("No shapefiles are available for this analysis")
   }
-  
+
   # check if shapefile matches any available shapefiles
   if (!is.null(shapefile) &
-      !shapefile %in% analysis_status$analyses$shapefiles[[1]]) {
+    !shapefile %in% analysis_status$analyses$shapefiles[[1]]) {
     cli::cli_abort(
       c(
         "`shapefile` '{shapefile}' is unavailable",
@@ -65,10 +65,10 @@ get_analysis_shapefile <- function(analysis_name = NULL,
       )
     )
   }
-  
-  
+
+
   tmpdir <- tempdir()
-  
+
   # if data available, fetch from endpoint
   if (analysis_status$analyses$status %in% c(
     "Available",
@@ -89,27 +89,29 @@ get_analysis_shapefile <- function(analysis_name = NULL,
       ) %>%
       httr2::req_error(is_error = function(resp) FALSE) %>%
       httr2::req_perform(path = paste0(tmpdir, "/", shapefile, ".zip"))
-    
+
     # error if no analysis found
     if (httr2::resp_status(resp) == 404) {
       cli::cli_abort("No analysis downloads were found.")
     }
-    
+
     unzip(paste0(tmpdir, "/", shapefile, ".zip"),
-          exdir = paste0(tmpdir, "/", shapefile))
-    
+      exdir = paste0(tmpdir, "/", shapefile)
+    )
+
     these_files <- list.files(paste0(tmpdir, "/", shapefile))
-    
+
     shp_file_name <- stringr::str_sub(these_files[these_files %>% stringr::str_detect(".shp")], start = 1, end = -5)
-    
-    shp <- sf::read_sf(paste0(tmpdir, "/", shapefile, "/", shp_file_name, ".shp")) %>% 
-      dplyr::mutate(file_name = shp_file_name,
-                    shapefile = shapefile)
-    
+
+    shp <- sf::read_sf(paste0(tmpdir, "/", shapefile, "/", shp_file_name, ".shp")) %>%
+      dplyr::mutate(
+        file_name = shp_file_name,
+        shapefile = shapefile
+      )
+
     unlink(tmpdir)
-    
+
     return(shp)
-    
   } else if (analysis_status$analyses$status %in% c("Cancelled")) {
     # error if analysis was cancelled
     cli::cli_abort("Analysis {analysis_name} was cancelled.")

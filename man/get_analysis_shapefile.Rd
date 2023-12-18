@@ -23,7 +23,8 @@ See \code{\link[=create_streetlight_analysis]{create_streetlight_analysis()}} fo
 \item{analysis_name_}{Deprecated, use \code{analysis_name} parameter.}
 }
 \value{
-a tibble with the requested metric
+a \link[sf:sf]{sf::sf} object with columns \code{id}, \code{name}, \code{direction},
+\code{is_pass}, \code{is_bidi}, \code{geometry}, \code{file_name}, and \code{shapefile}.
 }
 \description{
 Get Shapefiles by analysis name
