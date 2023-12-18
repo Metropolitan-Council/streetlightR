@@ -2,9 +2,9 @@
 #'
 #' @param login_email character, Your StreetLight login email
 #' @param analysis_type character, What type of analysis to run. 
-#'   Options are `r paste0("'", streetlightR::valid_parameters$analysis_type, "'")`.
+#'   Options are `r paste0("'", sort(streetlightR::valid_parameters$analysis_type), "'")`.
 #' @param analysis_name character, The analysis name
-#' @param travel_mode_type character, `r paste0("'", streetlightR::valid_parameters$travel_mode_type, "'")`.
+#' @param travel_mode_type character, `r paste0("'", sort(streetlightR::valid_parameters$travel_mode_type), "'")`.
 #'   Default is 'All Vehicles'.
 #' @param description character, Optional analysis description
 #' @param origin_zone_set character, The name of uploaded zone set to use as the
@@ -14,7 +14,7 @@
 #' @param middle_zone_set character, The name of uploaded zone set to use as
 #'   the middle filter in an origin-destination with middle filter analysis.
 #' @param geography_type character, Required in O-D to Pre-set Geography analyses.
-#'   This property is a string of one of `r paste0("'", streetlightR::valid_parameters$geography_type, "'")`.
+#'   This property is a string of one of `r paste0("'", sort(streetlightR::valid_parameters$geography_type), "'")`.
 #' @param date_ranges list, a list of date ranges. Each date range is an object
 #'   containing a pair of MM/DD/YYYY dates, with the `start_date` key containing the start of the date range,
 #'   and the `end_date` key containing the end of the date range. Both `start_date` and `end_date` are inclusive.
@@ -63,7 +63,7 @@
 #'  (visitor income, education, race, and family status) are included in the Metric results. Default is `FALSE`.
 #' @param is_ui_enabled This allows analysis results to be downloaded and visualized
 #'  though the UI as well as the API. Should be used sparingly.
-#' @param output_type character, One of `r paste0("'", streetlightR::valid_parameters$output_type, "'")`
+#' @param output_type character, One of `r paste0("'", sort(streetlightR::valid_parameters$output_type), "'")`
 #'  Default is 'index'.
 #' @param aadt_zone_set character, The name of uploaded zone set to use in an analysis with AADT output.
 #' @param calibration_zone_set character, name of uploaded zone set with calibration.
@@ -89,7 +89,7 @@
 #' @param zone_intersection_type character, one of `all_trips_for_zone` or `trips_by_pass_through_setting`.
 #'   Applies only to Zone Activity Analysis with Home and Work Locations metrics enabled.
 #' @param is_massive_queue logical, whether the Analysis will process alongside other high volume Analyses in order to optimize calculation time.
-#' @param segment_types list, must contain at least one of `r paste0("'", streetlightR::valid_parameters$segment_types, "'")`
+#' @param segment_types list, must contain at least one of `r paste0("'", sort(streetlightR::valid_parameters$segment_types), "'")`
 #' @param vehicle_weight character, deprecated.
 #' @param enable_completion_email logical, whether the analysis will send an email upon completion. Default is `FALSE`
 #' @inheritParams check_streetlight_api
@@ -100,60 +100,61 @@
 #' @importFrom httr2 req_headers req_perform resp_status_desc req_error
 #' @importFrom purrr map2
 #'
-create_streetlight_analysis <- function(login_email,
-                                        key = NULL,
-                                        analysis_type,
-                                        analysis_name,
-                                        travel_mode_type = "All_Vehicles",
-                                        output_type = "index",
-                                        description = "",
-                                        origin_zone_set,
-                                        destination_zone_set = NA,
-                                        middle_zone_set = NA,
-                                        aadt_zone_set = NA,
-                                        calibration_zone_set = NA,
-                                        geography_type = "",
-                                        zone_intersection_type = "",
-                                        date_ranges = list(
-                                          start_date = "01/01/2021",
-                                          end_date = "12/31/2021"
-                                        ),
-                                        day_types = "All Days|17,Average Weekday|15,Average Weekend Day|67",
-                                        day_parts = "All Day|0023,Early AM|0005,Peak AM|0609,Mid-Day|1014,Peak PM|1518,Late PM|1923,Recreation Hours|0819",
-                                        vehicle_weight = "",
-                                        segment_types = list(),
-                                        trip_attributes = FALSE,
-                                        trip_speed_bins = "0-10,10-20,20-30,30-40,40-50,50-60,60-70,70-80,80-90,90+",
-                                        trip_duration_bins = "0-10,10-20,20-30,30-40,40-50,50-60,60-70,70-80,80-90,90-100,100-110,110-120,120-130,130-140,140-150,150+",
-                                        trip_length_bins = "0-1,1-2,2-5,5-10,10-20,20-30,30-40,40-50,50-60,60-70,70-80,80-90,90-100,100+",
-                                        trip_circuity_bins = "1-2,2-3,3-4,4-5,5-6,6+",
-                                        enable_speed_percentile = FALSE,
-                                        speed_percentile_bins = NA,
-                                        traveler_attributes = FALSE,
-                                        enable_home_work_locations = FALSE,
-                                        hwl_enable_visitor = FALSE,
-                                        hwl_enable_resident = FALSE,
-                                        hwl_enable_worker = FALSE,
-                                        aadt_year = "",
-                                        aadt_calibration_year = "",
-                                        tags = "streetlightR",
-                                        is_ui_enabled = FALSE,
-                                        enable_visualization = FALSE,
-                                        enable_15min = FALSE,
-                                        enable_upsampling = TRUE,
-                                        is_massive_queue = FALSE,
-                                        enable_completion_email = FALSE,
-                                        unit_of_measurement = "miles") {
+create_streetlight_analysis <- function(
+    login_email,
+    key = NULL,
+    analysis_type,
+    analysis_name,
+    travel_mode_type = "All_Vehicles",
+    output_type = "index",
+    description = "",
+    origin_zone_set,
+    destination_zone_set = NA,
+    middle_zone_set = NA,
+    aadt_zone_set = NA,
+    calibration_zone_set = NA,
+    geography_type = "",
+    zone_intersection_type = "",
+    date_ranges = list(
+      start_date = "01/01/2021",
+      end_date = "12/31/2021"
+    ),
+    day_types = "All Days|17,Average Weekday|15,Average Weekend Day|67",
+    day_parts = "All Day|0023,Early AM|0005,Peak AM|0609,Mid-Day|1014,Peak PM|1518,Late PM|1923,Recreation Hours|0819",
+    vehicle_weight = "",
+    segment_types = list(),
+    trip_attributes = FALSE,
+    trip_speed_bins = "0-10,10-20,20-30,30-40,40-50,50-60,60-70,70-80,80-90,90+",
+    trip_duration_bins = "0-10,10-20,20-30,30-40,40-50,50-60,60-70,70-80,80-90,90-100,100-110,110-120,120-130,130-140,140-150,150+",
+    trip_length_bins = "0-1,1-2,2-5,5-10,10-20,20-30,30-40,40-50,50-60,60-70,70-80,80-90,90-100,100+",
+    trip_circuity_bins = "1-2,2-3,3-4,4-5,5-6,6+",
+    enable_speed_percentile = FALSE,
+    speed_percentile_bins = NA,
+    traveler_attributes = FALSE,
+    enable_home_work_locations = FALSE,
+    hwl_enable_visitor = FALSE,
+    hwl_enable_resident = FALSE,
+    hwl_enable_worker = FALSE,
+    aadt_year = "",
+    aadt_calibration_year = "",
+    tags = "streetlightR",
+    is_ui_enabled = FALSE,
+    enable_visualization = FALSE,
+    enable_15min = FALSE,
+    enable_upsampling = TRUE,
+    is_massive_queue = FALSE,
+    enable_completion_email = FALSE,
+    unit_of_measurement = "miles") {
   # check for API key access
   key <- check_api_key_access(key)
   # validate parameters
-
+  
   purrr::map2(
     names(as.list(match.call())),
     eval(as.list(match.call())),
     validate_parameters
   )
-
+  
   # create zone list based on analysis type
   zone_list <- if (analysis_type == "Zone_Activity_Analysis") {
     # if ZAA, only include origin_zone_set
@@ -203,7 +204,7 @@ create_streetlight_analysis <- function(login_email,
       "dz_sets" = list(list(name = destination_zone_set))
     )
   }
-
+  
   trip_attr_list <- if (trip_attributes == TRUE) {
     purrr::map2(
       c(
@@ -222,7 +223,7 @@ create_streetlight_analysis <- function(login_email,
       ),
       validate_parameters
     )
-
+    
     list(
       "trip_length_bins" = trip_length_bins,
       "trip_speed_bins" = trip_speed_bins,
@@ -234,7 +235,7 @@ create_streetlight_analysis <- function(login_email,
   } else {
     ""
   }
-
+  
   # create analysis list from use inputs
   analysis_list <-
     append(
@@ -269,18 +270,18 @@ create_streetlight_analysis <- function(login_email,
       # trip_attr_list,
       zone_list
     )
-
+  
   if (travel_mode_type == "All_Vehicles_CVD_Plus" |
-    !analysis_type %in% c(
-      "Zone Activity_Analysis",
-      "OD_Analysis",
-      "OD_MF_Analysis",
-      "OD_Preset_Geography"
-    )) {
+      !analysis_type %in% c(
+        "Zone Activity_Analysis",
+        "OD_Analysis",
+        "OD_MF_Analysis",
+        "OD_Preset_Geography"
+      )) {
     cli::cli_warn("Traveler Attributes are unavailable for given configuration")
     analysis_list$traveler_attributes <- NULL
   }
-
+  
   # send analysis list to endpoint
   resp <- streetlight_insight(
     key = key,
@@ -290,11 +291,11 @@ create_streetlight_analysis <- function(login_email,
       "content-type" = "application/json"
     ) %>%
     httr2::req_body_json(analysis_list,
-      auto_unbox = TRUE
+                         auto_unbox = TRUE
     ) %>%
     httr2::req_error(is_error = function(resp) FALSE) %>%
     httr2::req_perform()
-
+  
   # return message based on response
   if (!httr2::resp_status_desc(resp) %in% c(
     "success",
@@ -307,7 +308,7 @@ create_streetlight_analysis <- function(login_email,
       httr2::resp_body_json(resp)
     )))
   }
-
+  
   # return response json body
   return(httr2::resp_body_json(resp))
 }

@@ -56,16 +56,15 @@ create_streetlight_analysis(
 
 \item{key}{character, StreetLight API key. Default is \code{NULL}.}
 
-\item{analysis_type}{character, What type of analysis to run. Options are \code{OD_Analysis}, \code{OD_MF_Analysis},
-\code{Zone_Activity_Analysis},\code{OD_Preset_Geography}, \code{Segment_Analysis}, \code{AADT}, \code{Top_Routes_OD}, or
-\code{Top_Routes_ZA}.}
+\item{analysis_type}{character, What type of analysis to run.
+Options are 'AADT', 'OD_Analysis', 'OD_MF_Analysis', 'OD_Preset_Geography', 'Segment_Analysis', 'Top_Routes_OD', 'Top_Routes_ZA', 'Zone_Activity_Analysis'.}
 
 \item{analysis_name}{character, The analysis name}
 
-\item{travel_mode_type}{character, 'All_Vehicles', 'All_Vehicles_LBS_Plus', 'All_Vehicles_CVD_Plus', 'All_Vehicles_By_Weight', 'Bus', 'Rail', 'Bicycle', 'Truck', 'Pedestrian'.
+\item{travel_mode_type}{character, 'All_Vehicles', 'All_Vehicles_By_Weight', 'All_Vehicles_CVD_Plus', 'All_Vehicles_LBS_Plus', 'Bicycle', 'Bus', 'Pedestrian', 'Rail', 'Truck'.
 Default is 'All Vehicles'.}
 
-\item{output_type}{character, One of 'index', 'volume', 'trip_counts', 'aadt', 'zone_counts'
+\item{output_type}{character, One of 'aadt', 'index', 'trip_counts', 'volume', 'zone_counts'
 Default is 'index'.}
 
 \item{description}{character, Optional analysis description}
@@ -85,7 +84,7 @@ the middle filter in an origin-destination with middle filter analysis.}
 Required when creating an Analysis with Zone Counts output}
 
 \item{geography_type}{character, Required in O-D to Pre-set Geography analyses.
-This property is a string of one of 'zip', 'taz', 'blkgrp', 'da'.}
+This property is a string of one of 'blkgrp', 'da', 'taz', 'zip'.}
 
 \item{zone_intersection_type}{character, one of \code{all_trips_for_zone} or \code{trips_by_pass_through_setting}.
 Applies only to Zone Activity Analysis with Home and Work Locations metrics enabled.}
@@ -101,14 +100,14 @@ from the start day of week to the end day of week (1 for Monday through 7 for Su
 Analysis must define All Days as \code{17} (Monday through Sunday), and they must define values for
 Average Weekday and Average Weekend Day. Default includes All Days, Average Weekday, and Average Weekend Day.}
 
-\item{day_parts}{character,A comma-separated list of day parts in the analysis. Each day part has a name separated
+\item{day_parts}{character, a comma-separated list of day parts in the analysis. Each day part has a name separated
 by the vertical bar from the start hour and end hour from 00 (midnight) to 23 (11 PM).
-For example, \verb{All Day|0023} ranges from midnight (00:00) to 11:59 PM. Analyses must define All Day as 0023 (midnight to midnight).
-Default includes All Day, Recreation Hours (8am-8pm), Park Hours I, II, and III.}
+For example, \code{"All Day|0023"} ranges from midnight (00:00) to 11:59 PM. Analyses must define All Day as 0023 (midnight to midnight).
+Default is \code{"All Day|0023,Early AM|0005,Peak AM|0609,Mid-Day|1014,Peak PM|1518,Late PM|1923,Recreation Hours|0819"}.}
 
 \item{vehicle_weight}{character, deprecated.}
 
-\item{segment_types}{list, must contain at least one of 'Motorway', 'Trunk', 'Primary', 'Secondary', 'Tertiary', 'Residential'}
+\item{segment_types}{list, must contain at least one of 'Motorway', 'Primary', 'Residential', 'Secondary', 'Tertiary', 'Trunk'}
 
 \item{trip_attributes}{logical, This property controls whether the analysis results will include
 the add-on trip attribute Metrics: trip time distribution, trip length distribution,

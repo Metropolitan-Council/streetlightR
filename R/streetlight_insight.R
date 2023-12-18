@@ -1,7 +1,7 @@
 #' @title StreetLight Insights API wrapper
 #'
 #' @param endpoint character, API endpoint. One of
-#'     `r paste0("'", streetlightR::valid_parameters$endpoint, "'")`.
+#'     `r paste0("'", sort(streetlightR::valid_parameters$endpoint), "'")`.
 #' @inheritParams check_streetlight_api
 #'
 #' @return [httr2::request()] with path and key specifications

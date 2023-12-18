@@ -1,17 +1,17 @@
 # valid input values for body params
 
 valid_parameters <- list(
-  analysis_type = list(
-    "Zone_Activity_Analysis",
-    "Segment_Analysis",
-    "OD_Analysis",
+  analysis_type = c(
+    "AADT", 
+    "OD_Analysis", 
     "OD_MF_Analysis",
-    "OD_Preset_Geography",
-    "AADT",
-    "Top_Routes_OD",
-    "Top_Routes_ZA"
+    "OD_Preset_Geography", 
+    "Segment_Analysis", 
+    "Top_Routes_OD", 
+    "Top_Routes_ZA", 
+    "Zone_Activity_Analysis"
   ),
-  travel_mode_type = list(
+  travel_mode_type = c(
     "All_Vehicles",
     "All_Vehicles_LBS_Plus",
     "All_Vehicles_CVD_Plus",
@@ -22,18 +22,18 @@ valid_parameters <- list(
     "Truck",
     "Pedestrian"
   ),
-  output_type = list(
+  output_type = c(
     "index",
     "volume",
     "trip_counts",
     "aadt",
     "zone_counts"
   ),
-  unit_of_measurement = list(
+  unit_of_measurement = c(
     "miles",
     "km"
   ),
-  segment_types = list(
+  segment_types = c(
     "Motorway",
     "Trunk",
     "Primary",
@@ -41,17 +41,17 @@ valid_parameters <- list(
     "Tertiary",
     "Residential"
   ),
-  geography_type = list(
+  geography_type = c(
     "zip",
     "taz",
     "blkgrp",
     "da"
   ),
-  zone_intersection_type = list(
+  zone_intersection_type = c(
     "all_trips_for_zone",
     "trips_by_pass_through_setting"
   ),
-  endpoint = list(
+  endpoint = c(
     "analyses", 
     "analyses/download/name", 
     "analyses/status",
@@ -63,7 +63,7 @@ valid_parameters <- list(
     "zone_sets",
     "zone_sets/search"
   ),
-  country = list(
+  country = c(
     "US",
     "CA"
   )
