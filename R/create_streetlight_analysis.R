@@ -271,13 +271,13 @@ create_streetlight_analysis <- function(
       zone_list
     )
   
-  if (travel_mode_type == "All_Vehicles_CVD_Plus" |
+  if ((travel_mode_type == "All_Vehicles_CVD_Plus" |
       !analysis_type %in% c(
-        "Zone Activity_Analysis",
+        "Zone_Activity_Analysis",
         "OD_Analysis",
         "OD_MF_Analysis",
         "OD_Preset_Geography"
-      )) {
+      )) & traveler_attributes == TRUE) {
     cli::cli_warn("Traveler Attributes are unavailable for given configuration")
     analysis_list$traveler_attributes <- NULL
   }
