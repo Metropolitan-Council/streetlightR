@@ -1,8 +1,7 @@
 #' @title StreetLight Insights API wrapper
 #'
 #' @param endpoint character, API endpoint. One of
-#'     `c("analyses/status",  "zone_sets", "debug/echo",
-#'        "analyses/download/name")`
+#'     `r paste0("'", streetlightR::valid_parameters$endpoint, "'")`.
 #' @inheritParams check_streetlight_api
 #'
 #' @return [httr2::request()] with path and key specifications
@@ -11,7 +10,15 @@
 #' @keywords internal
 #'
 #' @importFrom httr2 request req_url_path_append req_headers
+#' @importFrom purrr map2
 streetlight_insight <- function(key, endpoint) {
+  
+  purrr::map2(
+    names(as.list(match.call())),
+    eval(as.list(match.call())),
+    validate_parameters
+  )
+  
   return(
     # create httr2::request with the StL API url
     httr2::request("https://insight.streetlightdata.com/api/v2/") %>%
