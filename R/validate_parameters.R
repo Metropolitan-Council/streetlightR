@@ -79,8 +79,7 @@ validate_parameters <- function(param,
   )) {
     if (!is.logical(value)) {
       cli::cli_abort(paste0(
-        "Parameter '",
-        param, "' must be a TRUE or FALSE"
+        "Parameter {param} must be a TRUE or FALSE"
       ))
     }
   }
@@ -91,8 +90,7 @@ validate_parameters <- function(param,
   if (param == "analysis_type") {
     if (!value %in% valid_parameters$analysis_type) {
       cli::cli_abort(paste0(
-        "Parameter '",
-        param, "' must be one of: ",
+        "Parameter {param} must be one of: ",
         paste0(
           collapse = ", ",
           valid_parameters$analysis_type
@@ -106,8 +104,7 @@ validate_parameters <- function(param,
   if (param == "output_type") {
     if (!value %in% valid_parameters$output_type) {
       cli::cli_abort(paste0(
-        "Parameter '",
-        param, "' must be one of: ",
+        "Parameter {param} must be one of: ",
         paste0(
           collapse = ", ",
           valid_parameters$output_type
@@ -120,8 +117,7 @@ validate_parameters <- function(param,
   if (param == "travel_mode_type") {
     if (!value %in% valid_parameters$travel_mode_type) {
       cli::cli_abort(paste0(
-        "Parameter '",
-        param, "' must be one of: ",
+        "Parameter {param} must be one of: ",
         paste0(
           collapse = ", ",
           valid_parameters$travel_mode_type
@@ -134,8 +130,7 @@ validate_parameters <- function(param,
   if (param == "unit_of_measurement") {
     if (!value %in% valid_parameters$unit_of_measurement) {
       cli::cli_abort(paste0(
-        "Parameter '",
-        param, "' must be one of: ",
+        "Parameter {param} must be one of: ",
         paste0(
           collapse = ", ",
           valid_parameters$unit_of_measurement
@@ -148,8 +143,7 @@ validate_parameters <- function(param,
   if (param == "geography_type") {
     if (!value %in% valid_parameters$geography_type) {
       cli::cli_abort(paste0(
-        "Parameter '",
-        param, "' must be one of: ",
+        "Parameter {param} must be one of: ",
         paste0(
           collapse = ", ",
           valid_parameters$geography_type
@@ -162,8 +156,7 @@ validate_parameters <- function(param,
   if (param == "zone_intersection_type") {
     if (!value %in% valid_parameters$zone_intersection_type) {
       cli::cli_abort(paste0(
-        "Parameter '",
-        param, "' must be one of: ",
+        "Parameter {param} must be one of: ",
         paste0(
           collapse = ", ",
           valid_parameters$zone_intersection_type
@@ -176,8 +169,7 @@ validate_parameters <- function(param,
   if (param == "country") {
     if (!value %in% valid_parameters$country) {
       cli::cli_abort(paste0(
-        "Parameter '",
-        param, "' must be one of: ",
+        "Parameter {param} must be one of: ",
         paste0(
           collapse = ", ",
           valid_parameters$country
@@ -190,10 +182,7 @@ validate_parameters <- function(param,
   ## key -----
   if (param == "key") {
     if (!(!is.character(value) | !is.null(value))) {
-      cli::cli_abort(paste0(
-        "Parameter '",
-        param, "' must be a character or NULL"
-      ))
+      cli::cli_abort("Parameter {param} must be a character or NULL")
     }
   }
 
@@ -201,10 +190,7 @@ validate_parameters <- function(param,
   # endpoint -----  
   if (param == "endpoint") {
     if (!(!is.character(value) | !is.call(value))) {
-      cli::cli_abort(paste0(
-        "Parameter '",
-        param, "' must be a character"
-      ))
+      cli::cli_abort("Parameter {param} must be a character or NULL")
     }
   }
   
