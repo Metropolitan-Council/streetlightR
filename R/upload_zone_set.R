@@ -1,4 +1,9 @@
 #' @title Upload a polygon or line zone set
+#' 
+#' @description
+#' Upload a zone set. Read more about zone set definitions at the 
+#'  [StreetLight Developer Hub](https://developer.streetlightdata.com/docs/creating-zones).
+#' 
 #'
 #' @inheritParams check_streetlight_api
 #' @param login_email character, your StreetLight login email
@@ -7,8 +12,12 @@
 #'     where the features are either lines or polygons and columns include
 #'     "name" and "geometry".
 #' @param zone_set_name character, zone set name
+#' @param with_calibration logical, set to true if the zone set includes calibration zones.
+#'   Default is `FALSE`.
 #' @param zone_set_name_ Deprecated. Use `zone_set_name`
 #' @param zones_ Deprecated. Use `zones`
+#' 
+#' 
 #'
 #' @return If successful, a list with the zone name, status, and
 #'     universally unique ID (uuid).
@@ -63,6 +72,7 @@ upload_zone_set <- function(login_email,
                             geom_type = "polygon",
                             zones,
                             zone_set_name,
+                            with_calibration = FALSE,
                             zones_ = NULL,
                             zone_set_name_ = NULL) {
   # check for API key access
@@ -134,7 +144,8 @@ upload_zone_set <- function(login_email,
     insight_login_email = login_email,
     geom_type = geom_type,
     zone_set_name = zone_set_name,
-    zones = zones_json
+    zones = zones_json,
+    with_calibration = with_calibration
   )
 
   # upload zone set using endpoint

@@ -72,7 +72,8 @@ validate_parameters <- function(param,
     "enable_15min",
     "enable_upsampling",
     "enable_visualization",
-    "enable_completion_email"
+    "enable_completion_email",
+    "with_calibration"
   )) {
     if (!is.logical(value)) {
       cli::cli_abort(paste0(
