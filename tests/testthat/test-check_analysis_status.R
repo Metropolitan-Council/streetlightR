@@ -1,5 +1,4 @@
 testthat::test_that("Pt. Douglas Analysis status correct", {
-
   try_again(3, {
     Sys.sleep(3)
     status <- check_analysis_status(
@@ -24,7 +23,6 @@ testthat::test_that("Pt. Douglas Analysis status correct", {
 
 
 testthat::test_that("TCS Analysis status correct", {
-
   try_again(times = 4, {
     Sys.sleep(3)
     status <- check_analysis_status(
@@ -48,7 +46,6 @@ testthat::test_that("TCS Analysis status correct", {
 
 
 testthat::test_that("TCS Analysis status correct", {
-
   try_again(times = 4, {
     Sys.sleep(3)
     status <- check_analysis_status(
