@@ -8,8 +8,6 @@ list_available_tags(key = NULL)
 }
 \arguments{
 \item{key}{character, StreetLight API key. Default is \code{NULL}.}
-
-\item{tag_name}{character, the tag you want to create}
 }
 \value{
 \code{\link[tibble:tibble]{tibble::tibble()}} with columns \code{analysis_num}, \code{created_by}, \code{created_date},
