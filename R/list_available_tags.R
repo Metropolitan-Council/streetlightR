@@ -1,6 +1,5 @@
 #' @title List all available tags
 #'
-#' @param tag_name character, the tag you want to create
 #' @inheritParams check_streetlight_api
 #' @inheritParams create_streetlight_analysis
 #'
