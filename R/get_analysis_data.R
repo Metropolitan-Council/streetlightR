@@ -85,8 +85,14 @@ get_analysis_data <- function(analysis_name = NULL,
     # error if no analysis found
     if (httr2::resp_status(resp) == 404) {
       cli::cli_abort("No analysis downloads were found.")
+    } else if(httr2::resp_status(resp) != 200){
+      cli::cli_warn(c(
+        "Remove tag failed with message: ",
+        httr2::resp_body_json(resp)
+      ))
+      
     }
-
+    
     # read in response body as string, convert to tibble, and clean col names
     results_dt <- resp %>%
       httr2::resp_body_string(encoding = "UTF-8") %>%
