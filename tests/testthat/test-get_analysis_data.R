@@ -53,7 +53,7 @@ testthat::test_that("Correct VMT sample size is returned", {
   )
 })
 
-Sys.sleep(8)
+Sys.sleep(5)
 
 testthat::test_that("Correct za_all is returned", {
   an_dat <- get_analysis_data(
@@ -75,9 +75,11 @@ testthat::test_that("Correct za_all is returned", {
     )
   )
 
-  Sys.sleep(3)
+})
 
+Sys.sleep(5)
 
+testthat::test_that("Error on cats", {
   get_analysis_data(
     analysis_name = "Pt Douglas Regional Parking Lot Summer 22",
     metric = "cats"
