@@ -1,4 +1,4 @@
-Sys.sleep(2)
+Sys.sleep(4)
 
 testthat::test_that("Shapefile is returned", {
   this_shp <- get_analysis_shapefile(

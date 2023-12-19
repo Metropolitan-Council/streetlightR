@@ -53,7 +53,7 @@ testthat::test_that("Correct VMT sample size is returned", {
   )
 })
 
-Sys.sleep(2)
+Sys.sleep(3)
 
 testthat::test_that("Correct za_all is returned", {
   an_dat <- get_analysis_data(
@@ -75,7 +75,7 @@ testthat::test_that("Correct za_all is returned", {
     )
   )
 
-  Sys.sleep(5)
+  Sys.sleep(3)
 
 
   get_analysis_data(
