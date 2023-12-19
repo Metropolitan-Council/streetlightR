@@ -10,6 +10,7 @@ upload_zone_set(
   geom_type = "polygon",
   zones,
   zone_set_name,
+  with_calibration = FALSE,
   zones_ = NULL,
   zone_set_name_ = NULL
 )
@@ -27,6 +28,9 @@ where the features are either lines or polygons and columns include
 
 \item{zone_set_name}{character, zone set name}
 
+\item{with_calibration}{logical, set to true if the zone set includes calibration zones.
+Default is \code{FALSE}.}
+
 \item{zones_}{Deprecated. Use \code{zones}}
 
 \item{zone_set_name_}{Deprecated. Use \code{zone_set_name}}
@@ -36,7 +40,8 @@ If successful, a list with the zone name, status, and
 universally unique ID (uuid).
 }
 \description{
-Upload a polygon or line zone set
+Upload a zone set. Read more about zone set definitions at the
+\href{https://developer.streetlightdata.com/docs/creating-zones}{StreetLight Developer Hub}.
 }
 \examples{
 \dontrun{

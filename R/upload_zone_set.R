@@ -1,9 +1,9 @@
 #' @title Upload a polygon or line zone set
-#' 
+#'
 #' @description
-#' Upload a zone set. Read more about zone set definitions at the 
+#' Upload a zone set. Read more about zone set definitions at the
 #'  [StreetLight Developer Hub](https://developer.streetlightdata.com/docs/creating-zones).
-#' 
+#'
 #'
 #' @inheritParams check_streetlight_api
 #' @param login_email character, your StreetLight login email
@@ -16,8 +16,8 @@
 #'   Default is `FALSE`.
 #' @param zone_set_name_ Deprecated. Use `zone_set_name`
 #' @param zones_ Deprecated. Use `zones`
-#' 
-#' 
+#'
+#'
 #'
 #' @return If successful, a list with the zone name, status, and
 #'     universally unique ID (uuid).

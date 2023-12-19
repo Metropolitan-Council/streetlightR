@@ -47,22 +47,22 @@ testthat::test_that("Expected second warning returned", {
 Sys.sleep(1)
 
 testthat::test_that("Expected second warning returned", {
-    create_streetlight_analysis(
-      login_email = test_login,
-      analysis_type = "Zone_Activity_Analysis",
-      analysis_name = "Pt Douglas Regional Parking Lot Summer 22",
-      travel_mode_type = "All_Vehicles_CVD_Plus",
-      output_type = "volume",
-      origin_zone_set = "Pt. Douglas Parking Lot",
-      trip_attributes = FALSE,
-      traveler_attributes = TRUE,
-      date_ranges = list(
-        start_date = "04/01/2022",
-        end_date = "10/31/2022"
-      ),
-      day_types = "All Days|17,Average Weekday|15,Average Weekend Day|67",
-      day_parts = "All Day|0023, Morning|0709, Midday|1113, Evening|1618",
-      tags = list("streetlightR")
-    ) %>% 
+  create_streetlight_analysis(
+    login_email = test_login,
+    analysis_type = "Zone_Activity_Analysis",
+    analysis_name = "Pt Douglas Regional Parking Lot Summer 22",
+    travel_mode_type = "All_Vehicles_CVD_Plus",
+    output_type = "volume",
+    origin_zone_set = "Pt. Douglas Parking Lot",
+    trip_attributes = FALSE,
+    traveler_attributes = TRUE,
+    date_ranges = list(
+      start_date = "04/01/2022",
+      end_date = "10/31/2022"
+    ),
+    day_types = "All Days|17,Average Weekday|15,Average Weekend Day|67",
+    day_parts = "All Day|0023, Morning|0709, Midday|1113, Evening|1618",
+    tags = list("streetlightR")
+  ) %>%
     expect_warning()
 })
