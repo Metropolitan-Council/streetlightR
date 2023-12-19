@@ -9,7 +9,7 @@ named list of valid values for each parameter.
 Includes analysis_type, travel_mode_type, output_type, unit_of_measurement, segment_types, geography_type, zone_intersection_type, endpoint, country.
 }
 \source{
-\href{https://developer.streetlightdata.com/}{StreetLight API Developer Portal}
+\href{https://developer.streetlightdata.com/}{StreetLight Developer Portal}
 }
 \usage{
 valid_parameters
