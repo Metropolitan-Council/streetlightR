@@ -23,14 +23,14 @@ get_analysis_data <- function(analysis_name = NULL,
                               analysis_name_ = NULL) {
   # check for API key access
   key <- check_api_key_access(key)
-  
+
   # validate parameters
   purrr::map2(
     names(as.list(match.call())),
     eval(as.list(match.call())),
     validate_parameters
   )
-  
+
   # check for deprecated args
   if (!is.null(analysis_name_)) {
     cli::cli_warn(c("`analysis_name_` deprecated. Use 'analysis_name' instead."))
@@ -41,17 +41,17 @@ get_analysis_data <- function(analysis_name = NULL,
   analysis_status <- check_analysis_status(
     analysis_name = analysis_name,
     key = key
-  ) 
-  
-  analysis_status_body <- analysis_status %>% 
+  )
+
+  analysis_status_body <- analysis_status %>%
     httr2::resp_body_json(
       check_type = FALSE,
       simplifyVector = TRUE
     )
-  
+
   # check if metric matches any available metrics
   if (!is.null(metric) &
-      !metric %in% analysis_status_body$analyses$metrics[[1]]) {
+    !metric %in% analysis_status_body$analyses$metrics[[1]]) {
     cli::cli_abort(
       c(
         "`metric` '{metric}' is unavailable",
@@ -60,7 +60,7 @@ get_analysis_data <- function(analysis_name = NULL,
       )
     )
   }
-  
+
   # if data available, fetch from endpoint
   if (analysis_status_body$analyses$status %in% c(
     "Available",
@@ -81,18 +81,17 @@ get_analysis_data <- function(analysis_name = NULL,
       ) %>%
       httr2::req_error(is_error = function(resp) FALSE) %>%
       httr2::req_perform()
-    
+
     # error if no analysis found
     if (httr2::resp_status(resp) == 404) {
       cli::cli_abort("No analysis downloads were found.")
-    } else if(httr2::resp_status(resp) != 200){
+    } else if (httr2::resp_status(resp) != 200) {
       cli::cli_warn(c(
         "Remove tag failed with message: ",
         httr2::resp_body_json(resp)
       ))
-      
     }
-    
+
     # read in response body as string, convert to tibble, and clean col names
     results_dt <- resp %>%
       httr2::resp_body_string(encoding = "UTF-8") %>%
@@ -101,7 +100,7 @@ get_analysis_data <- function(analysis_name = NULL,
         show_col_types = FALSE
       ) %>%
       janitor::clean_names()
-    
+
     return(results_dt)
   } else if (analysis_status_body$analyses$status %in% c("Cancelled")) {
     # error if analysis was cancelled

@@ -25,42 +25,44 @@ check_analysis_review <- function(analysis_name = NULL,
     eval(as.list(match.call())),
     validate_parameters
   )
-  
+
   # if no uuid, lookup uuid
-  if(is.null(uuid)){
-    uuid <- lookup_analysis_id(analysis_name = analysis_name,
-                               uuid = uuid)
+  if (is.null(uuid)) {
+    uuid <- lookup_analysis_id(
+      analysis_name = analysis_name,
+      uuid = uuid
+    )
   }
-  
+
   # fetch analysis status from endpoint
   resp <- streetlight_insight(
     key = key,
-    endpoint = paste0("analyses/",
-                      uuid, 
-                      "/review_detail")
+    endpoint = paste0(
+      "analyses/",
+      uuid,
+      "/review_detail"
+    )
   ) %>%
     httr2::req_headers(
       "content-type" = "application/json"
     ) %>%
     httr2::req_error(is_error = function(resp) FALSE) %>%
     httr2::req_perform()
-  
-  
+
+
   # if error message returnd, return WARNING
-  if (httr2::resp_status(resp) != 200) { 
+  if (httr2::resp_status(resp) != 200) {
     return(
       cli::cli_warn(c(
         "Review check failed with message: ",
         httr2::resp_body_json(resp)
-    )))
+      ))
+    )
   } else {
     # otherwise, return succ
     return(cli::cli_alert(c(
       "Review check succceeded with message: ",
       httr2::resp_body_json(resp)
     )))
-    
   }
 }
-
-

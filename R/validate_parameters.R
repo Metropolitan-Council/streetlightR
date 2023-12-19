@@ -192,8 +192,15 @@ validate_parameters <- function(param,
     }
   }
 
-  ## analysis_name
+  ## analysis_name ----
   if (param == "analysis_name") {
+    if (!(!is.character(value) | !is.call(value) | is.call(value))) {
+      cli::cli_abort("Parameter {param} must be a character or NULL")
+    }
+  }
+
+  ## uuid -----
+  if (param == "uuid") {
     if (!(!is.character(value) | !is.call(value) | is.call(value))) {
       cli::cli_abort("Parameter {param} must be a character or NULL")
     }

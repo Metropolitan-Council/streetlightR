@@ -14,7 +14,7 @@ testthat::test_that("Correct VMT download is returned", {
     analysis_name = "v231218-VMT 2019 month 3 Volume Trip Trav Attr",
     metric = "za_all"
   )
-  
+
   testthat::expect_equal(nrow(an_dat), 4776)
   testthat::expect_equal(ncol(an_dat), 15)
   testthat::expect_equal(names(an_dat), c(
@@ -40,7 +40,7 @@ testthat::test_that("Correct VMT sample size is returned", {
     analysis_name = "v231218-VMT 2019 month 3 Volume Trip Trav Attr",
     metric = "sample_size"
   )
-  
+
   testthat::expect_equal(nrow(an_dat), 1)
   testthat::expect_equal(ncol(an_dat), 4)
   testthat::expect_equal(
@@ -56,15 +56,14 @@ testthat::test_that("Correct VMT sample size is returned", {
 Sys.sleep(5)
 
 testthat::test_that("Correct za_all is returned", {
-  
   try_again(times = 3, {
     Sys.sleep(2)
     an_dat <- get_analysis_data(
       analysis_name = "Pt Douglas Regional Parking Lot Summer 22",
       metric = "za_all"
-    )}
-  )
-  
+    )
+  })
+
   testthat::expect_equal(nrow(an_dat), 24)
   testthat::expect_equal(ncol(an_dat), 15)
   testthat::expect_equal(
@@ -77,7 +76,6 @@ testthat::test_that("Correct za_all is returned", {
       "avg_all_trip_length_mi"
     )
   )
-  
 })
 
 Sys.sleep(5)
