@@ -101,8 +101,9 @@ get_analysis_shapefile <- function(analysis_name = NULL,
 
     these_files <- list.files(paste0(tmpdir, "/", shapefile))
 
-    shp_file_name <- sub(these_files[grepl(".shp", these_files)], 
-                         pattern = ".shp", replacement = "")
+    shp_file_name <- sub(these_files[grepl(".shp", these_files)],
+      pattern = ".shp", replacement = ""
+    )
 
     shp <- sf::read_sf(paste0(tmpdir, "/", shapefile, "/", shp_file_name, ".shp")) %>%
       dplyr::mutate(
