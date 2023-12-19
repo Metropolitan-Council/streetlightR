@@ -1,7 +1,7 @@
 testthat::test_that("Pt. Douglas Analysis status correct", {
-  Sys.sleep(5)
 
   try_again(3, {
+    Sys.sleep(3)
     status <- check_analysis_status(
       analysis_name_ = "Pt Douglas Regional Trail Ped Summer 19-21"
     ) %>%
@@ -24,9 +24,9 @@ testthat::test_that("Pt. Douglas Analysis status correct", {
 
 
 testthat::test_that("TCS Analysis status correct", {
-  Sys.sleep(5)
 
   try_again(times = 4, {
+    Sys.sleep(3)
     status <- check_analysis_status(
       analysis_name_ = "TCS Corridors 8 and 9 Calibration"
     ) %>%
@@ -48,9 +48,9 @@ testthat::test_that("TCS Analysis status correct", {
 
 
 testthat::test_that("TCS Analysis status correct", {
-  Sys.sleep(5)
 
   try_again(times = 4, {
+    Sys.sleep(3)
     status <- check_analysis_status(
       analysis_name_ = "2020 494 Hwy 100 to Cedar Ave/Hwy 77 OD"
     ) %>%
