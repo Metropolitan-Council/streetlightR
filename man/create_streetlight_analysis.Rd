@@ -192,22 +192,23 @@ Create a StreetLight analysis, which analyzes traffic or activity with respect t
 
 library(streetlightR)
 
-    create_streetlight_analysis(
-    login_email = "you@email.com",
-    analysis_type = "Zone_Activity_Analysis",
-    analysis_name = "v231218-VMT 2019 month 3 Volume Trip Trav Attr",
-    travel_mode_type = "All_Vehicles",
-    output_type = "volume",
-    origin_zone_set = "7-County Metro + 6 MPO Municipalities",
-    trip_attributes = FALSE,
-    traveler_attributes = FALSE,
-    date_ranges = list(
-       start_date = "01/01/2019",
-       end_date = "01/31/2019"),
-     day_types = "All Days|17,Average Weekday|15,Average Weekend Day|67",
-     day_parts = "All Day|0023, Morning|0709, Midday|1113, Evening|1618",
-     tags = list("streetlightR"))
-
+create_streetlight_analysis(
+  login_email = "you@email.com",
+  analysis_type = "Zone_Activity_Analysis",
+  analysis_name = "v231218-VMT 2019 month 3 Volume Trip Trav Attr",
+  travel_mode_type = "All_Vehicles",
+  output_type = "volume",
+  origin_zone_set = "7-County Metro + 6 MPO Municipalities",
+  trip_attributes = FALSE,
+  traveler_attributes = FALSE,
+  date_ranges = list(
+    start_date = "01/01/2019",
+    end_date = "01/31/2019"
+  ),
+  day_types = "All Days|17,Average Weekday|15,Average Weekend Day|67",
+  day_parts = "All Day|0023, Morning|0709, Midday|1113, Evening|1618",
+  tags = list("streetlightR")
+)
 }
 
 }

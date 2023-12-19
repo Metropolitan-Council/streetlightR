@@ -1,6 +1,5 @@
-Sys.sleep(4)
-
 testthat::test_that("Shapefile is returned", {
+  Sys.sleep(5)
   this_shp <- get_analysis_shapefile(
     analysis_name = "v231218-VMT 2019 month 3 Volume Trip Trav Attr",
     shapefile = "zone_activity"
