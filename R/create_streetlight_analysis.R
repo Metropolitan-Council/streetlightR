@@ -31,7 +31,7 @@
 #' @param traveler_attributes logical, This property controls whether the analysis results will
 #'  include the add-on traveler attribute Metrics. Traveler attribute Metrics include traveler demographics and simple trip purpose.
 #'  Default is `FALSE`.
-#' @param unit_of_measurment character, one of `"miles"` or `"km"`. Specifies whether distances
+#' @param unit_of_measurement character, one of `"miles"` or `"km"`. Specifies whether distances
 #'   in analysis results are in miles or kilometers. By default, the unit is set based on your organization's location.
 #' @param trip_attributes logical, This property controls whether the analysis results will include
 #'  the add-on trip attribute Metrics: trip time distribution, trip length distribution,
