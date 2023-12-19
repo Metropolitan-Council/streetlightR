@@ -1,9 +1,8 @@
 testthat::test_that("Default travel mode date range returns table", {
-  testthat::expect_true(
-    tibble::is_tibble(
-      check_date_range()
-    )
-  )
+  d_range <- check_date_range()
+
+  testthat::expect_true(tibble::is_tibble(d_range))
+  testthat::expect_equal(nrow(d_range), 1)
 })
 
 Sys.sleep(1)

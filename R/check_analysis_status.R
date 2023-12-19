@@ -15,12 +15,19 @@
 #'
 #' @importFrom httr2 req_body_json req_perform req_headers req_error
 #' @importFrom cli cli_warn
+#' @importFrom purrr map2
 #'
 check_analysis_status <- function(analysis_name = NULL,
                                   key = NULL,
                                   analysis_name_ = NULL) {
   # check for API key access
   key <- check_api_key_access(key)
+  # validate parameters
+  purrr::map2(
+    names(as.list(match.call())),
+    eval(as.list(match.call())),
+    validate_parameters
+  )
 
   # print warning if using analysis_name_
   if (!is.null(analysis_name_)) {

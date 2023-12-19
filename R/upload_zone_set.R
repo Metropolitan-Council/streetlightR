@@ -1,5 +1,10 @@
 #' @title Upload a polygon or line zone set
 #'
+#' @description
+#' Upload a zone set. Read more about zone set definitions at the
+#'  [StreetLight Developer Hub](https://developer.streetlightdata.com/docs/creating-zones).
+#'
+#'
 #' @inheritParams check_streetlight_api
 #' @param login_email character, your StreetLight login email
 #' @param geom_type character, one of `"polygon"` or `"line"`
@@ -7,8 +12,12 @@
 #'     where the features are either lines or polygons and columns include
 #'     "name" and "geometry".
 #' @param zone_set_name character, zone set name
+#' @param with_calibration logical, set to true if the zone set includes calibration zones.
+#'   Default is `FALSE`.
 #' @param zone_set_name_ Deprecated. Use `zone_set_name`
 #' @param zones_ Deprecated. Use `zones`
+#'
+#'
 #'
 #' @return If successful, a list with the zone name, status, and
 #'     universally unique ID (uuid).
@@ -17,6 +26,7 @@
 #' @importFrom httr2 req_body_json resp_body_json resp_status_desc req_error req_perform req_headers
 #' @importFrom sf st_crs st_transform st_as_sf st_cast
 #' @importFrom cli cli_warn
+#' @importFrom purrr map2
 #'
 #' @examples
 #' \dontrun{
@@ -62,10 +72,17 @@ upload_zone_set <- function(login_email,
                             geom_type = "polygon",
                             zones,
                             zone_set_name,
+                            with_calibration = FALSE,
                             zones_ = NULL,
                             zone_set_name_ = NULL) {
-  # check for API key
+  # check for API key access
   key <- check_api_key_access(key)
+  # validate parameters
+  purrr::map2(
+    names(as.list(match.call())),
+    eval(as.list(match.call())),
+    validate_parameters
+  )
 
   # warning if using  zone_set_name_
   if (!is.null(zone_set_name_)) {
@@ -91,8 +108,7 @@ upload_zone_set <- function(login_email,
     # check that there aren't too many zones
     # check_zone_size(zones = zones_sf)
     if (nrow(zones_sf) >= 7000) {
-      stop(("There are too many zones in this zone set."))
-      return()
+      cli::cli_abort("There are too many zones in this zone set.")
     }
 
     # if the coordinate reference system is not WGS84, transform
@@ -128,7 +144,8 @@ upload_zone_set <- function(login_email,
     insight_login_email = login_email,
     geom_type = geom_type,
     zone_set_name = zone_set_name,
-    zones = zones_json
+    zones = zones_json,
+    with_calibration = with_calibration
   )
 
   # upload zone set using endpoint

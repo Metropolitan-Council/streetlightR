@@ -20,12 +20,19 @@
 #' @importFrom httr2 req_url_query req_perform resp_body_json
 #' @importFrom tibble as_tibble
 #' @importFrom dplyr mutate select
+#' @importFrom purrr map2
 #'
 check_date_range <- function(key = NULL,
                              travel_mode_type = "All_Vehicles",
                              country = "US") {
   # check for API access
   key <- check_api_key_access(key)
+  # validate parameters
+  purrr::map2(
+    names(as.list(match.call())),
+    eval(as.list(match.call())),
+    validate_parameters
+  )
 
   # fetch date ranges from endpoint
   resp <- streetlight_insight(

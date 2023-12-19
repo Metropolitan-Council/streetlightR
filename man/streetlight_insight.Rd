@@ -10,7 +10,7 @@ streetlight_insight(key, endpoint)
 \item{key}{character, StreetLight API key. Default is \code{NULL}.}
 
 \item{endpoint}{character, API endpoint. One of
-\code{c("analyses/status",  "zone_sets", "debug/echo", "analyses/download/name")}}
+'analyses', 'analyses/download/name', 'analyses/status', 'analyses/tags', 'debug/echo', 'tags', 'tags/remove_analyses_tag', 'tags/tag_analyses', 'zone_sets', 'zone_sets/search'.}
 }
 \value{
 \code{\link[httr2:request]{httr2::request()}} with path and key specifications

@@ -32,6 +32,8 @@ create_streetlight_analysis(
   trip_length_bins =
     "0-1,1-2,2-5,5-10,10-20,20-30,30-40,40-50,50-60,60-70,70-80,80-90,90-100,100+",
   trip_circuity_bins = "1-2,2-3,3-4,4-5,5-6,6+",
+  enable_speed_percentile = FALSE,
+  speed_percentile_bins = NA,
   traveler_attributes = FALSE,
   enable_home_work_locations = FALSE,
   hwl_enable_visitor = FALSE,
@@ -54,17 +56,16 @@ create_streetlight_analysis(
 
 \item{key}{character, StreetLight API key. Default is \code{NULL}.}
 
-\item{analysis_type}{character, What type of analysis to run. Options are \code{OD_Analysis}, \code{OD_MF_Analysis},
-\code{Zone_Activity_Analysis},\code{OD_Preset_Geography}, \code{Segment_Analysis}, \code{AADT}, \code{Top_Routes_OD}, or
-\code{Top_Routes_ZA}.}
+\item{analysis_type}{character, What type of analysis to run.
+Options are 'AADT', 'OD_Analysis', 'OD_MF_Analysis', 'OD_Preset_Geography', 'Segment_Analysis', 'Top_Routes_OD', 'Top_Routes_ZA', 'Zone_Activity_Analysis'.}
 
 \item{analysis_name}{character, The analysis name}
 
-\item{travel_mode_type}{character, \code{All_Vehicles}, \code{All_Vehicles_LBS_Plus}, \code{All_Vehicles_CVD_Plus},
-\code{Truck}, \code{Bicycle}, or \code{Pedestrian}. Default is \verb{All Vehicles}.}
+\item{travel_mode_type}{character, 'All_Vehicles', 'All_Vehicles_By_Weight', 'All_Vehicles_CVD_Plus', 'All_Vehicles_LBS_Plus', 'Bicycle', 'Bus', 'Pedestrian', 'Rail', 'Truck'.
+Default is 'All Vehicles'.}
 
-\item{output_type}{character, One of \code{volume}, \code{trip_counts}, \code{aadt}, \code{index}, or \code{zone_counts}.
-Default is \code{index}.}
+\item{output_type}{character, One of 'aadt', 'index', 'trip_counts', 'volume', 'zone_counts'
+Default is 'index'.}
 
 \item{description}{character, Optional analysis description}
 
@@ -83,7 +84,7 @@ the middle filter in an origin-destination with middle filter analysis.}
 Required when creating an Analysis with Zone Counts output}
 
 \item{geography_type}{character, Required in O-D to Pre-set Geography analyses.
-This property is a string of one of \code{zip}, \code{taz}, \code{da}, or \code{blkgrp}.}
+This property is a string of one of 'blkgrp', 'da', 'taz', 'zip'.}
 
 \item{zone_intersection_type}{character, one of \code{all_trips_for_zone} or \code{trips_by_pass_through_setting}.
 Applies only to Zone Activity Analysis with Home and Work Locations metrics enabled.}
@@ -99,14 +100,14 @@ from the start day of week to the end day of week (1 for Monday through 7 for Su
 Analysis must define All Days as \code{17} (Monday through Sunday), and they must define values for
 Average Weekday and Average Weekend Day. Default includes All Days, Average Weekday, and Average Weekend Day.}
 
-\item{day_parts}{character,A comma-separated list of day parts in the analysis. Each day part has a name separated
+\item{day_parts}{character, a comma-separated list of day parts in the analysis. Each day part has a name separated
 by the vertical bar from the start hour and end hour from 00 (midnight) to 23 (11 PM).
-For example, \verb{All Day|0023} ranges from midnight (00:00) to 11:59 PM. Analyses must define All Day as 0023 (midnight to midnight).
-Default includes All Day, Recreation Hours (8am-8pm), Park Hours I, II, and III.}
+For example, \code{"All Day|0023"} ranges from midnight (00:00) to 11:59 PM. Analyses must define All Day as 0023 (midnight to midnight).
+Default is \code{"All Day|0023,Early AM|0005,Peak AM|0609,Mid-Day|1014,Peak PM|1518,Late PM|1923,Recreation Hours|0819"}.}
 
 \item{vehicle_weight}{character, deprecated.}
 
-\item{segment_types}{list, must contain at least one of \code{Motorway}, \code{Trunk}, \code{Primary}, \code{Secondary}, \code{Tertiary}, \code{Residential}.}
+\item{segment_types}{list, must contain at least one of 'Motorway', 'Primary', 'Residential', 'Secondary', 'Tertiary', 'Trunk'}
 
 \item{trip_attributes}{logical, This property controls whether the analysis results will include
 the add-on trip attribute Metrics: trip time distribution, trip length distribution,
@@ -129,6 +130,14 @@ Default value is \code{"0-1,1-2,2-5,5-10,10-20,20-30,30-40,40-50,50-60,60-70,70-
 \item{trip_circuity_bins}{character,  the default ranges with a a comma-separated list of trip circuity ranges.
 Trip circuity is the average ratio of trip length to the direct distance between the start and endpoints of the trip.
 Default value is \code{"1-2,2-3,3-4,4-5,5-6,6+"}}
+
+\item{enable_speed_percentile}{logical, whether to divide metrics into speed percentile bins.
+Default is \code{FALSE}.}
+
+\item{speed_percentile_bins}{character, If \code{enable_speed_percentile} is TRUE,
+you can specify a comma-separated list of integers defining speed
+percentiles (must be multiples of 5). Percentile values must be between 0
+and 100. Default percentile values are "5,15,85,95".}
 
 \item{traveler_attributes}{logical, whether the analysis results will include the add-on traveler attribute metrics.
 Traveler attribute metrics include traveler demographics and simple trip purpose.
@@ -171,13 +180,35 @@ This setting only applies to analysis with \code{enable_15min} enabled.}
 
 \item{unit_of_measurement}{character, unit of measure for trip attributes.
 One of \code{"miles"} or \code{"km"}. Default is \code{"miles"}}
-
-\item{unit_of_measurment}{character, one of \code{"miles"} or \code{"km"}. Specifies whether distances
-in analysis results are in miles or kilometers. By default, the unit is set based on your organization's location.}
 }
 \value{
 If successful, a list with the analysis name, status, and universal unique ID (uuid).
 }
 \description{
 Create a StreetLight analysis, which analyzes traffic or activity with respect to the analysis Zones.
+}
+\examples{
+\dontrun{
+
+library(streetlightR)
+
+create_streetlight_analysis(
+  login_email = "you@email.com",
+  analysis_type = "Zone_Activity_Analysis",
+  analysis_name = "v231218-VMT 2019 month 3 Volume Trip Trav Attr",
+  travel_mode_type = "All_Vehicles",
+  output_type = "volume",
+  origin_zone_set = "7-County Metro + 6 MPO Municipalities",
+  trip_attributes = FALSE,
+  traveler_attributes = FALSE,
+  date_ranges = list(
+    start_date = "01/01/2019",
+    end_date = "01/31/2019"
+  ),
+  day_types = "All Days|17,Average Weekday|15,Average Weekend Day|67",
+  day_parts = "All Day|0023, Morning|0709, Midday|1113, Evening|1618",
+  tags = list("streetlightR")
+)
+}
+
 }

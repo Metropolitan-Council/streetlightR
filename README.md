@@ -26,7 +26,8 @@ remotes::install_github("Metropolitan-Council/streetlightR")
 
 StreetLight Data offers a limited-feature API for subscribers. Contact
 StreetLight [support](mailto:support@streetlightdata.com) to request an
-API key and documentation access.
+API key. Documentation is available at the [StreetLight Developer
+Hub](https://developer.streetlightdata.com/).
 
 ### API key management
 

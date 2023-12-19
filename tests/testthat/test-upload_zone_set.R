@@ -9,7 +9,20 @@ testthat::test_that("Correct warning returned", {
     login_email = test_login,
     geom_type = "polygon",
     zones = example_polygon,
-    zone_set_name = "testing"
+    zone_set_name = "testing-today",
+    with_calibration = TRUE
+  ) %>%
+    testthat::expect_warning()
+
+
+  Sys.sleep(3)
+
+  upload_zone_set(
+    login_email = test_login,
+    geom_type = "polygon",
+    zones = example_polygon,
+    zone_set_name = "testing-today",
+    with_calibration = FALSE
   ) %>%
     testthat::expect_warning()
 })

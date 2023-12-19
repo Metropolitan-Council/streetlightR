@@ -1,8 +1,8 @@
 Type: Package
 Package: streetlightR
 Title: Interact with StreetLight Data's API in R
-Version: 1.1.2
-Date: 2023-08-21
+Version: 1.2.0
+Date: 2023-12-21
 Authors@R: c(
     person("Metropolitan Council", role = "cph"),
     person("Liz", "Roten", , "liz.roten@metc.state.mn.us", role = c("cre", "aut"),
@@ -23,7 +23,7 @@ Depends:
 Imports: 
     cli (>= 3.6.1),
     dplyr (>= 1.1.2),
-    httr2 (>= 0.2.3),
+    httr2 (>= 1.0.0),
     janitor (>= 2.2.0),
     jsonlite (>= 1.8.7),
     magrittr (>= 2.0.3),
@@ -38,6 +38,7 @@ Suggests:
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
+LazyData: true
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
 RoxygenNote: 7.2.3
 Website: https://github.com/Metropolitan-Council/streetlightR/

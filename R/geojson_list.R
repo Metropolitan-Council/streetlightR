@@ -237,7 +237,7 @@ as.geo_list <- function(x, from) structure(x, class = "geo_list", from = from)
 
 lint_polygon_list <- function(x) {
   if (!identical(x[[1]], x[[length(x)]])) {
-    stop("First and last point in a polygon must be identical",
+    cli::cli_abort("First and last point in a polygon must be identical",
       call. = FALSE
     )
   }
@@ -362,7 +362,7 @@ num_to_geo_list <- function(x, geometry = "point", type = "FeatureCollection") {
   geom <- capwords(match.arg(geometry, c("point", "polygon")))
   res <- tryCatch(as.numeric(x), warning = function(e) e)
   if (inherits(res, "simpleWarning")) {
-    stop("Coordinates are not numeric", call. = FALSE)
+    cli::cli_abort("Coordinates are not numeric", call. = FALSE)
   } else {
     switch(type,
       FeatureCollection = {
@@ -538,7 +538,7 @@ guess_latlon <- function(x, lat = NULL, lon = NULL) {
       }
       return(list(lon = lngs, lat = lats))
     } else {
-      stop("Couldn't infer longitude/latitude columns, please specify with 'lat'/'lon' parameters", call. = FALSE)
+      cli::cli_abort("Couldn't infer longitude/latitude columns, please specify with 'lat'/'lon' parameters", call. = FALSE)
     }
   } else {
     return(list(lon = lon, lat = lat))
