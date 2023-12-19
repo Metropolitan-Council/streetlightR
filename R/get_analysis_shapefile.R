@@ -12,7 +12,7 @@
 #'
 #' @export
 #'
-#' @importFrom utils  URLencode
+#' @importFrom utils  URLencode unzip
 #' @importFrom cli cli_alert_success cli_alert_danger
 #' @importFrom sf read_sf
 #' @importFrom dplyr mutate
@@ -95,7 +95,7 @@ get_analysis_shapefile <- function(analysis_name = NULL,
       cli::cli_abort("No analysis downloads were found.")
     }
 
-    unzip(paste0(tmpdir, "/", shapefile, ".zip"),
+    utils::unzip(paste0(tmpdir, "/", shapefile, ".zip"),
       exdir = paste0(tmpdir, "/", shapefile)
     )
 
