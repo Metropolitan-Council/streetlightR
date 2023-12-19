@@ -13,10 +13,10 @@
 #' @export
 #'
 #' @importFrom utils  URLencode
-#' @importFrom janitor clean_names
 #' @importFrom cli cli_alert_success cli_alert_danger
 #' @importFrom sf read_sf
-#' @importFrom purrr flatten map2
+#' @importFrom dplyr mutate
+#' @importFrom purrr  map2
 #' @importFrom httr2 req_headers req_error req_perform resp_status_desc resp_body_json
 #'
 get_analysis_shapefile <- function(analysis_name = NULL,
@@ -101,7 +101,8 @@ get_analysis_shapefile <- function(analysis_name = NULL,
 
     these_files <- list.files(paste0(tmpdir, "/", shapefile))
 
-    shp_file_name <- stringr::str_sub(these_files[these_files %>% stringr::str_detect(".shp")], start = 1, end = -5)
+    shp_file_name <- sub(these_files[grepl(".shp", these_files)], 
+                         pattern = ".shp", replacement = "")
 
     shp <- sf::read_sf(paste0(tmpdir, "/", shapefile, "/", shp_file_name, ".shp")) %>%
       dplyr::mutate(
