@@ -1,10 +1,13 @@
 testthat::test_that("Shapefile is returned", {
-  Sys.sleep(5)
-  this_shp <- get_analysis_shapefile(
-    analysis_name = "v231218-VMT 2019 month 3 Volume Trip Trav Attr",
-    shapefile = "zone_activity"
-  ) %>% suppressWarnings()
-
+  try_again(times = 5, {
+    Sys.sleep(3)
+    this_shp <- get_analysis_shapefile(
+      analysis_name = "v231218-VMT 2019 month 3 Volume Trip Trav Attr",
+      shapefile = "zone_activity"
+    ) %>% suppressWarnings()
+    
+  })
+  
   testthat::expect_equal(nrow(this_shp), 199)
   testthat::expect_equal(
     names(this_shp),
