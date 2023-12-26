@@ -40,7 +40,7 @@ validate_parameters <- function(param,
     "metric",
     "country"
   )) {
-    if (!is.character(value)) {
+    if (!is.character(value) & !is.call(value)) {
       cli::cli_abort(paste0(
         "Parameter {param} must be a string."
       ))
@@ -52,7 +52,7 @@ validate_parameters <- function(param,
     "aadt_year",
     "aadt_calibration_year"
   )) {
-    if (!is.numeric(value)) {
+    if (!is.numeric(value) & !is.call(value)) {
       cli::cli_abort(paste0(
         "Parameter {param} must be numeric."
       ))
@@ -75,7 +75,7 @@ validate_parameters <- function(param,
     "enable_completion_email",
     "with_calibration"
   )) {
-    if (!is.logical(value)) {
+    if (!is.logical(value) & !is.call(value)) {
       cli::cli_abort(paste0(
         "Parameter {param} must be a TRUE or FALSE"
       ))
