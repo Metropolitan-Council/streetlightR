@@ -294,7 +294,9 @@ create_streetlight_analysis <- function(
       zone_list
     )
 
-  if ((travel_mode_type == "All_Vehicles_CVD_Plus" |
+  if (
+    (travel_mode_type %in% c("All_Vehicles_CVD_Plus",
+                             "Truck") |
     !analysis_type %in% c(
       "Zone_Activity_Analysis",
       "OD_Analysis",
