@@ -294,6 +294,11 @@ create_streetlight_analysis <- function(
       zone_list
     )
 
+  if(!is.na(calibration_zone_set)){
+    zone_list <- append(zone_list,
+                        list("cz_sets" = list(list(name = calibration_zone_set))))
+  }
+  
   if (
     (travel_mode_type %in% c("All_Vehicles_CVD_Plus",
                              "Truck") |
