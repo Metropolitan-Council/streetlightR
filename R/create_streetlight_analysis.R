@@ -334,6 +334,7 @@ create_streetlight_analysis <- function(
   }
   
   if (
+    travel_mode_type %in% c("Truck") | 
     (!analysis_type %in% c(
       "Zone_Activity_Analysis",
       "OD_Analysis",
@@ -371,7 +372,7 @@ create_streetlight_analysis <- function(
     return(cli::cli_warn(c(
       "Create analysis failed with message:",
       ifelse(httr2::resp_content_type(resp) == "application/json",
-             httr2::resp_body_json(resp),
+             httr2::resp_body_json(resp, simplifyVector = TRUE),
              httr2::resp_body_html(resp))
     )))
   }
