@@ -340,7 +340,7 @@ create_streetlight_analysis <- function(
       "OD_Analysis",
       "OD_MF_Analysis",
       "OD_Preset_Geography"
-    )) & traveler_attributes == TRUE) {
+    ))) {
     cli::cli_warn("Traveler Attributes are unavailable for given configuration")
     analysis_list$traveler_attributes <- NULL
   }
