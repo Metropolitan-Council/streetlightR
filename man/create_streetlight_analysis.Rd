@@ -9,8 +9,9 @@ create_streetlight_analysis(
   key = NULL,
   analysis_type,
   analysis_name,
-  travel_mode_type = "All_Vehicles",
+  travel_mode_type = "All_Vehicles_CVD_Plus",
   output_type = "index",
+  travel_mode_data = "",
   description = "",
   origin_zone_set,
   destination_zone_set = NA,
@@ -33,12 +34,13 @@ create_streetlight_analysis(
     "0-1,1-2,2-5,5-10,10-20,20-30,30-40,40-50,50-60,60-70,70-80,80-90,90-100,100+",
   trip_circuity_bins = "1-2,2-3,3-4,4-5,5-6,6+",
   enable_speed_percentile = FALSE,
-  speed_percentile_bins = NA,
+  speed_percentile_bins = "5,15,85,95",
   traveler_attributes = FALSE,
   enable_home_work_locations = FALSE,
   hwl_enable_visitor = FALSE,
   hwl_enable_resident = FALSE,
   hwl_enable_worker = FALSE,
+  metric_type = "segment",
   aadt_year = "",
   aadt_calibration_year = "",
   tags = "streetlightR",
@@ -48,6 +50,7 @@ create_streetlight_analysis(
   enable_upsampling = TRUE,
   is_massive_queue = FALSE,
   enable_completion_email = FALSE,
+  osm_ids = NA,
   unit_of_measurement = "miles"
 )
 }
@@ -57,15 +60,19 @@ create_streetlight_analysis(
 \item{key}{character, StreetLight API key. Default is \code{NULL}.}
 
 \item{analysis_type}{character, What type of analysis to run.
-Options are 'AADT', 'OD_Analysis', 'OD_MF_Analysis', 'OD_Preset_Geography', 'Segment_Analysis', 'Top_Routes_OD', 'Top_Routes_ZA', 'Zone_Activity_Analysis'.}
+Options are 'AADT', 'Network_OD', 'Network_Performance', 'OD_Analysis', 'OD_MF_Analysis', 'OD_Preset_Geography', 'Segment_Analysis', 'Top_Routes_OD', 'Top_Routes_ZA', 'Zone_Activity_Analysis'.}
 
 \item{analysis_name}{character, The analysis name}
 
-\item{travel_mode_type}{character, 'All_Vehicles', 'All_Vehicles_By_Weight', 'All_Vehicles_CVD_Plus', 'All_Vehicles_LBS_Plus', 'Bicycle', 'Bus', 'Pedestrian', 'Rail', 'Truck'.
+\item{travel_mode_type}{character, 'All_Vehicles_AGPS', 'All_Vehicles_By_Weight', 'All_Vehicles_CVD_Plus', 'All_Vehicles_LBS_Plus', 'Bicycle', 'Bus', 'Pedestrian', 'Rail', 'Truck'.
 Default is 'All Vehicles'.}
 
-\item{output_type}{character, One of 'aadt', 'index', 'trip_counts', 'volume', 'zone_counts'
+\item{output_type}{character, One of 'index', 'trip_counts', 'volume', 'zone_counts'.
 Default is 'index'.}
+
+\item{travel_mode_data}{character, Defines the truck weight classes that analysis metrics describe.
+Only available when \code{travel_mode_type} is "Truck".
+One of 'LIGHT_DUTY', 'MEDIUM_DUTY_HEAVY_DUTY'. Default is "".}
 
 \item{description}{character, Optional analysis description}
 
@@ -81,7 +88,7 @@ the middle filter in an origin-destination with middle filter analysis.}
 \item{aadt_zone_set}{character, The name of uploaded zone set to use in an analysis with AADT output.}
 
 \item{calibration_zone_set}{character, name of uploaded zone set with calibration.
-Required when creating an Analysis with Zone Counts output}
+Required when creating an analysis with Zone Counts output.}
 
 \item{geography_type}{character, Required in O-D to Pre-set Geography analyses.
 This property is a string of one of 'blkgrp', 'da', 'taz', 'zip'.}
@@ -105,9 +112,11 @@ by the vertical bar from the start hour and end hour from 00 (midnight) to 23 (1
 For example, \code{"All Day|0023"} ranges from midnight (00:00) to 11:59 PM. Analyses must define All Day as 0023 (midnight to midnight).
 Default is \code{"All Day|0023,Early AM|0005,Peak AM|0609,Mid-Day|1014,Peak PM|1518,Late PM|1923,Recreation Hours|0819"}.}
 
-\item{vehicle_weight}{character, deprecated.}
+\item{vehicle_weight}{character, deprecated. See \code{travel_mode_data} parameter.}
 
-\item{segment_types}{list, must contain at least one of 'Motorway', 'Primary', 'Residential', 'Secondary', 'Tertiary', 'Trunk'}
+\item{segment_types}{list, the categories of road segments to be analyzed.
+Only required for Top Routes between Origins and Destinations Analysis or Top Routes for Zones Analysis.
+must contain at least one of 'Motorway', 'Primary', 'Residential', 'Secondary', 'Tertiary', 'Trunk'}
 
 \item{trip_attributes}{logical, This property controls whether the analysis results will include
 the add-on trip attribute Metrics: trip time distribution, trip length distribution,
@@ -155,6 +164,12 @@ It applies only to Zone Activity Analysis with Home and Work Locations metrics e
 \item{hwl_enable_worker}{logical, whether the Analysis results will include trips that work in the zone.
 It applies only to Zone Activity Analysis with Home and Work Locations metrics enabled.}
 
+\item{metric_type}{character, If you are running a Network Performance analysis, select the type of metrics.
+Spot metrics describe vehicles at the midpoint of a road segment;
+segment metrics describe vehicles over the length of a road segment.
+Must be one of 'segment', 'spot'.
+Default is "segment".}
+
 \item{aadt_year}{character, a four digit year between \code{2000} and \code{2099}.
 Required integer when creating an AADT Analysis.}
 
@@ -178,6 +193,8 @@ This setting only applies to analysis with \code{enable_15min} enabled.}
 
 \item{enable_completion_email}{logical, whether the analysis will send an email upon completion. Default is \code{FALSE}}
 
+\item{osm_ids}{list, array of OSM IDs for network analyses.}
+
 \item{unit_of_measurement}{character, unit of measure for trip attributes.
 One of \code{"miles"} or \code{"km"}. Default is \code{"miles"}}
 }
@@ -185,7 +202,11 @@ One of \code{"miles"} or \code{"km"}. Default is \code{"miles"}}
 If successful, a list with the analysis name, status, and universal unique ID (uuid).
 }
 \description{
-Create a StreetLight analysis, which analyzes traffic or activity with respect to the analysis Zones.
+\code{create_streetlight_analysis()} interfaces with the 'analyses' endpoint of the StreetLight Insights API.
+
+Not all \code{analysis_type} and \code{travel_mode_type} combinations are supported. Check the
+API \href{https://developer.streetlightdata.com/docs/defining-analyses#supported-analysis-type-and-travel-mode-combinations}{documentation site} for
+the most up to date configuration.
 }
 \examples{
 \dontrun{
@@ -196,7 +217,7 @@ create_streetlight_analysis(
   login_email = "you@email.com",
   analysis_type = "Zone_Activity_Analysis",
   analysis_name = "v231218-VMT 2019 month 3 Volume Trip Trav Attr",
-  travel_mode_type = "All_Vehicles",
+  travel_mode_type = "All_Vehicles_CVD_Plus",
   output_type = "volume",
   origin_zone_set = "7-County Metro + 6 MPO Municipalities",
   trip_attributes = FALSE,
