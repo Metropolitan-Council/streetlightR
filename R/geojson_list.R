@@ -166,7 +166,11 @@ get_sf_column_name <- function(x) attr(x, "sf_column")
 
 ## Get the geometry type
 get_geometry_type <- function(x) UseMethod("get_geometry_type")
+
+#' @export
 get_geometry_type.sfc <- function(x) strsplit(class(x)[1], "_")[[1]][2]
+
+#' @export
 get_geometry_type.sfg <- function(x) class(x)[2]
 
 ## Make coordinates, dropping M dimension if it's there
@@ -181,10 +185,16 @@ make_coords <- function(input) {
 
   unclass(input)
 }
-
+#' @export
 drop_m <- function(input, m_loc) UseMethod("drop_m")
+
+#' @export
 drop_m.list <- function(input, m_loc) lapply(input, drop_m, m_loc = m_loc)
+
+#' @export
 drop_m.numeric <- function(input, m_loc) input[-m_loc]
+
+#' @export
 drop_m.matrix <- function(input, m_loc) input[, -m_loc, drop = FALSE]
 
 # regular R classes --------------------------
