@@ -23,7 +23,7 @@
 #' @importFrom purrr map2
 #'
 check_date_range <- function(key = NULL,
-                             travel_mode_type = "All_Vehicles",
+                             travel_mode_type = "All_Vehicles_CVD_Plus",
                              country = "US") {
   # check for API access
   key <- check_api_key_access(key)
