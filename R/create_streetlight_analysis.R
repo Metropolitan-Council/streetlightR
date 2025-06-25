@@ -6,6 +6,11 @@
 #' @param analysis_name character, The analysis name
 #' @param travel_mode_type character, `r paste0("'", sort(streetlightR::valid_parameters$travel_mode_type), "'")`.
 #'   Default is 'All Vehicles'.
+#' @param output_type character, One of `r paste0("'", sort(streetlightR::valid_parameters$output_type), "'")`.
+#'   Default is 'index'.
+#' @param travel_mode_data character, Defines the truck weight classes that analysis metrics describe.
+#'   Only available when `travel_mode_type` is "Truck".
+#'   One of `r paste0("'", sort(streetlightR::valid_parameters$travel_mode_data), "'")`. Default is "".
 #' @param description character, Optional analysis description
 #' @param origin_zone_set character, The name of uploaded zone set to use as the
 #'   origin in an origin-destination analysis or the main zone in a zone activity analysis
@@ -61,11 +66,9 @@
 #'  (visitor income, education, race, and family status) are included in the Metric results. Default is `FALSE`.
 #' @param is_ui_enabled This allows analysis results to be downloaded and visualized
 #'  though the UI as well as the API. Should be used sparingly.
-#' @param output_type character, One of `r paste0("'", sort(streetlightR::valid_parameters$output_type), "'")`
-#'  Default is 'index'.
 #' @param aadt_zone_set character, The name of uploaded zone set to use in an analysis with AADT output.
 #' @param calibration_zone_set character, name of uploaded zone set with calibration.
-#'  Required when creating an Analysis with Zone Counts output
+#'   Required when creating an analysis with Zone Counts output.
 #' @param hwl_enable_visitor logical, whether the Analysis results will include visiting trips that neither reside or work in the zone.
 #'   It applies only to Zone Activity Analysis with Home and Work Locations metrics enabled.
 #' @param hwl_enable_resident logical, whether the Analysis results will include trips that reside in the zone.
@@ -86,11 +89,27 @@
 #'   If this is `TRUE`, then one of the `hwl_...` parameters must be `TRUE`. Default is `FALSE`.
 #' @param zone_intersection_type character, one of `all_trips_for_zone` or `trips_by_pass_through_setting`.
 #'   Applies only to Zone Activity Analysis with Home and Work Locations metrics enabled.
+#' @param metric_type character, If you are running a Network Performance analysis, select the type of metrics.
+#'   Spot metrics describe vehicles at the midpoint of a road segment;
+#'   segment metrics describe vehicles over the length of a road segment.
+#'   Must be one of `r paste0("'", sort(streetlightR::valid_parameters$metric_type), "'")`.
+#'   Default is "segment".
 #' @param is_massive_queue logical, whether the Analysis will process alongside other high volume Analyses in order to optimize calculation time.
-#' @param segment_types list, must contain at least one of `r paste0("'", sort(streetlightR::valid_parameters$segment_types), "'")`
-#' @param vehicle_weight character, deprecated.
+#' @param segment_types list, the categories of road segments to be analyzed.
+#'   Only required for Top Routes between Origins and Destinations Analysis or Top Routes for Zones Analysis.
+#'   must contain at least one of `r paste0("'", sort(streetlightR::valid_parameters$segment_types), "'")`
+#' @param vehicle_weight character, deprecated. See `travel_mode_data` parameter.
 #' @param enable_completion_email logical, whether the analysis will send an email upon completion. Default is `FALSE`
+#' @param osm_ids list, array of OSM IDs for network analyses.
 #' @inheritParams check_streetlight_api
+#'
+#' @description
+#' `create_streetlight_analysis()` interfaces with the 'analyses' endpoint of the StreetLight Insights API.
+#'
+#' Not all `analysis_type` and `travel_mode_type` combinations are supported. Check the
+#' API [documentation site](https://developer.streetlightdata.com/docs/defining-analyses#supported-analysis-type-and-travel-mode-combinations) for
+#' the most up to date configuration.
+#'
 #'
 #'
 #' @examples
@@ -120,7 +139,7 @@
 #' @return If successful, a list with the analysis name, status, and universal unique ID (uuid).
 #' @export
 #'
-#' @importFrom httr2 req_headers req_perform resp_status_desc req_error
+#' @importFrom httr2 req_headers req_perform resp_status_desc req_error resp_content_type
 #' @importFrom purrr map2
 #'
 create_streetlight_analysis <- function(
@@ -130,6 +149,7 @@ create_streetlight_analysis <- function(
     analysis_name,
     travel_mode_type = "All_Vehicles_CVD_Plus",
     output_type = "index",
+    travel_mode_data = "",
     description = "",
     origin_zone_set,
     destination_zone_set = NA,
@@ -152,12 +172,13 @@ create_streetlight_analysis <- function(
     trip_length_bins = "0-1,1-2,2-5,5-10,10-20,20-30,30-40,40-50,50-60,60-70,70-80,80-90,90-100,100+",
     trip_circuity_bins = "1-2,2-3,3-4,4-5,5-6,6+",
     enable_speed_percentile = FALSE,
-    speed_percentile_bins = NA,
+    speed_percentile_bins = "5,15,85,95",
     traveler_attributes = FALSE,
     enable_home_work_locations = FALSE,
     hwl_enable_visitor = FALSE,
     hwl_enable_resident = FALSE,
     hwl_enable_worker = FALSE,
+    metric_type = "segment",
     aadt_year = "",
     aadt_calibration_year = "",
     tags = "streetlightR",
@@ -167,17 +188,18 @@ create_streetlight_analysis <- function(
     enable_upsampling = TRUE,
     is_massive_queue = FALSE,
     enable_completion_email = FALSE,
+    osm_ids = NA,
     unit_of_measurement = "miles") {
   # check for API key access
   key <- check_api_key_access(key)
+  
   # validate parameters
-
   purrr::map2(
     names(as.list(match.call())),
     eval(as.list(match.call())),
     validate_parameters
   )
-
+  
   # create zone list based on analysis type
   zone_list <- if (analysis_type == "Zone_Activity_Analysis") {
     # if ZAA, only include origin_zone_set
@@ -226,8 +248,19 @@ create_streetlight_analysis <- function(
       "oz_sets" = list(list(name = origin_zone_set)),
       "dz_sets" = list(list(name = destination_zone_set))
     )
+  } else if(analysis_type == "Network_Performance"){
+    list(
+      "metric_type" = metric_type,
+      "osm_ids" = list()
+    )
+  } else if(analysis_type == "Network_OD"){
+    list(
+      "osm_ids" = list(),
+      "oz_sets" = list(list(name = origin_zone_set)),
+      "dz_sets" = list(list(name = destination_zone_set))
+    )
   }
-
+  
   trip_attr_list <- if (trip_attributes == TRUE) {
     purrr::map2(
       c(
@@ -246,7 +279,6 @@ create_streetlight_analysis <- function(
       ),
       validate_parameters
     )
-
     list(
       "trip_length_bins" = trip_length_bins,
       "trip_speed_bins" = trip_speed_bins,
@@ -258,7 +290,7 @@ create_streetlight_analysis <- function(
   } else {
     ""
   }
-
+  
   # create analysis list from use inputs
   analysis_list <-
     append(
@@ -268,6 +300,7 @@ create_streetlight_analysis <- function(
         "analysis_type" = analysis_type,
         "travel_mode_type" = travel_mode_type,
         "output_type" = output_type,
+        "travel_mode_data" = travel_mode_data,
         "description" = description,
         "date_ranges" = list(date_ranges),
         "day_types" = day_types,
@@ -290,19 +323,18 @@ create_streetlight_analysis <- function(
         "enable_completion_email" = enable_completion_email,
         "unit_of_measurement" = unit_of_measurement
       ),
-      # trip_attr_list,
       zone_list
     )
-
-  if(!is.na(calibration_zone_set)){
-    zone_list <- append(zone_list,
-                        list("cz_sets" = list(list(name = calibration_zone_set))))
+  
+  if (!is.na(calibration_zone_set)) {
+    zone_list <- append(
+      zone_list,
+      list("cz_sets" = list(list(name = calibration_zone_set)))
+    )
   }
   
   if (
-    (travel_mode_type %in% c("All_Vehicles_CVD_Plus",
-                             "Truck") |
-    !analysis_type %in% c(
+    (!analysis_type %in% c(
       "Zone_Activity_Analysis",
       "OD_Analysis",
       "OD_MF_Analysis",
@@ -311,7 +343,7 @@ create_streetlight_analysis <- function(
     cli::cli_warn("Traveler Attributes are unavailable for given configuration")
     analysis_list$traveler_attributes <- NULL
   }
-
+  
   # send analysis list to endpoint
   resp <- streetlight_insight(
     key = key,
@@ -321,11 +353,14 @@ create_streetlight_analysis <- function(
       "content-type" = "application/json"
     ) %>%
     httr2::req_body_json(analysis_list,
-      auto_unbox = TRUE
+                         auto_unbox = TRUE
     ) %>%
     httr2::req_error(is_error = function(resp) FALSE) %>%
     httr2::req_perform()
-
+  
+  
+  
+  
   # return message based on response
   if (!httr2::resp_status_desc(resp) %in% c(
     "success",
@@ -335,10 +370,12 @@ create_streetlight_analysis <- function(
   )) {
     return(cli::cli_warn(c(
       "Create analysis failed with message:",
-      httr2::resp_body_json(resp)
+      ifelse(httr2::resp_content_type(resp) == "application/json",
+             httr2::resp_body_json(resp),
+             httr2::resp_body_html(resp))
     )))
   }
-
+  
   # return response json body
   return(httr2::resp_body_json(resp))
 }
