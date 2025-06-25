@@ -43,26 +43,22 @@ get_analysis_data <- function(analysis_name = NULL,
     key = key
   )
 
-  analysis_status_body <- analysis_status %>%
-    httr2::resp_body_json(
-      check_type = FALSE,
-      simplifyVector = TRUE
-    )
+  # analysis_status_body <- analysis_status
 
   # check if metric matches any available metrics
   if (!is.null(metric) &
-    !metric %in% analysis_status_body$analyses$metrics[[1]]) {
+    !metric %in% analysis_status$analyses$metrics[[1]]) {
     cli::cli_abort(
       c(
         "`metric` '{metric}' is unavailable",
         "`metric` must match one of the available metrics for this analysis",
-        paste(analysis_status_body$analyses$metrics[[1]], collapse = ", ")
+        paste(analysis_status$analyses$metrics[[1]], collapse = ", ")
       )
     )
   }
 
   # if data available, fetch from endpoint
-  if (analysis_status_body$analyses$status %in% c(
+  if (analysis_status$analyses$status %in% c(
     "Available",
     "Data_Available",
     "Data Available"
@@ -102,19 +98,19 @@ get_analysis_data <- function(analysis_name = NULL,
       janitor::clean_names()
 
     return(results_dt)
-  } else if (analysis_status_body$analyses$status %in% c("Cancelled")) {
+  } else if (analysis_status$analyses$status %in% c("Cancelled")) {
     # error if analysis was cancelled
     cli::cli_abort("Analysis {analysis_name} was cancelled.")
-  } else if (analysis_status_body$analyses$status %in% c(
+  } else if (analysis_status$analyses$status %in% c(
     "In_Coverage_Review",
     "In Coverage Review"
   )) {
     # error if in coverage review
     cli::cli_abort("Analysis {analysis_name} in coverage review")
-  } else if (analysis_status_body$analyses$status == "Processing") {
+  } else if (analysis_status$analyses$status == "Processing") {
     # error if still processing
     cli::cli_abort("Analysis {analysis_name} is processing")
-  } else if (analysis_status_body$analyses$status == "Deleted") {
+  } else if (analysis_status$analyses$status == "Deleted") {
     # error if deleted
     cli::cli_abort("Analysis {analysis_name} was deleted.")
   }

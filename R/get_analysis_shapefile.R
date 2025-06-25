@@ -43,11 +43,11 @@ get_analysis_shapefile <- function(analysis_name = NULL,
   analysis_status <- check_analysis_status(
     analysis_name = analysis_name,
     key = key
-  ) %>%
-    httr2::resp_body_json(
-      check_type = FALSE,
-      simplifyVector = TRUE
-    )
+  )
+    # httr2::resp_body_json(
+    #   check_type = FALSE,
+    #   simplifyVector = TRUE
+    # )
 
 
   if (is.null(analysis_status$analyses$shapefiles[[1]][1]) | analysis_status$analyses$shapefiles[[1]][1] == "NULL") {
