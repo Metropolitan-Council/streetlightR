@@ -163,20 +163,20 @@ upload_zone_set <- function(login_email,
 
   # if status message was not "Created"
   if (httr2::resp_status_desc(resp) != "Created") {
-    return(
-      # return warning with json response
-      cli::cli_warn(c(
-        "Zone upload failed with message:",
-        httr2::resp_body_json(resp, simplifyVector = TRUE)
-      ))
-    )
+    # warning with json response
+
+    cli::cli_warn(c(
+      "Zone upload failed with message:",
+      httr2::resp_body_json(resp, simplifyVector = TRUE)
+    ))
+    return()
   }
 
   # if status message is "Created"
   if (httr2::resp_status_desc(resp) == "Created") {
-    return(
-      # return success message
-      cli::cli_alert_success(c("Zone set '{zone_set_name}' uploaded"))
-    )
+    # return success message
+    cli::cli_alert_success(c("Zone set '{zone_set_name}' uploaded"))
+
+    return()
   }
 }
