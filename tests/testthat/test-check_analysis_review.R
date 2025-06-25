@@ -3,12 +3,8 @@ test_that("review status check", {
     testthat::expect_warning()
 })
 
-
-
-
 test_that("review status check", {
   Sys.sleep(6)
-
   check_analysis_review(analysis_name = "v231218-VMT 2019 month 3 Volume Trip Trav Attr") %>%
     testthat::expect_warning()
 })
