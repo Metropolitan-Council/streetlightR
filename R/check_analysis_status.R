@@ -28,15 +28,15 @@ check_analysis_status <- function(analysis_name = NULL,
     eval(as.list(match.call())),
     validate_parameters
   )
-
+  
   # print warning if using analysis_name_
   if (!is.null(analysis_name_)) {
     cli::cli_warn(c("`analysis_name_` deprecated. Use 'analysis_name' instead."))
     analysis_name <- analysis_name_
   }
-
+  
   # fetch analysis status from endpoint
-  out <- streetlight_insight(
+  resp <- streetlight_insight(
     key = key,
     endpoint = "analyses/status"
   ) %>%
@@ -52,6 +52,19 @@ check_analysis_status <- function(analysis_name = NULL,
     httr2::req_perform()
   # httr2::resp_body_json(simplifyVector = TRUE,
   #                       check_type = FALSE)
-
-  return(out)
+  
+  
+  if (httr2::resp_status(resp) != 200) {
+    return(
+      cli::cli_warn(c(
+        "Status failed with message: ",
+        httr2::resp_body_json(resp)
+      ))
+    )
+  } else {
+    # otherwise, return success
+    cli::cli_alert_success(c("Status check succceeded"))
+    return(httr2::resp_body_json(resp, check_type = FALSE, simplifyVector = TRUE))
+  }
+  
 }

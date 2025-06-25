@@ -4,7 +4,7 @@ testthat::test_that("Pt. Douglas Analysis status correct", {
     status <- check_analysis_status(
       analysis_name_ = "Pt Douglas Regional Trail Ped Summer 19-21"
     ) %>%
-      httr2::resp_body_json(simplifyVector = TRUE) %>%
+      # httr2::resp_body_json(simplifyVector = TRUE) %>%
       testthat::expect_warning()
   })
 
@@ -28,7 +28,6 @@ testthat::test_that("TCS Analysis status correct", {
     status <- check_analysis_status(
       analysis_name_ = "TCS Corridors 8 and 9 Calibration"
     ) %>%
-      httr2::resp_body_json(simplifyVector = TRUE) %>%
       testthat::expect_warning()
   })
 
@@ -51,7 +50,6 @@ testthat::test_that("TCS Analysis status correct", {
     status <- check_analysis_status(
       analysis_name_ = "2020 494 Hwy 100 to Cedar Ave/Hwy 77 OD"
     ) %>%
-      httr2::resp_body_json(simplifyVector = TRUE) %>%
       testthat::expect_warning()
   })
   avail <- status$analyses$status
