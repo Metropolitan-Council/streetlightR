@@ -50,7 +50,7 @@ check_analysis_review <- function(analysis_name = NULL,
     httr2::req_perform()
 
 
-  # if error message returnd, return WARNING
+  # if error message returned, return WARNING
   if (httr2::resp_status(resp) != 200) {
     return(
       cli::cli_warn(c(
