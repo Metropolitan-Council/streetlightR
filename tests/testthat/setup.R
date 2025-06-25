@@ -11,3 +11,5 @@ test_login <- httr2::secret_decrypt(
   "Q8yxP3atCs0CbbM_C3VBArmMQpNlcAPAlbRfNR_nBxVT0mcOyi7dLKxB",
   key = "STREETLIGHTR_KEY"
 )
+
+test_analysis_name <- paste0("Test Analysis repeated 3x ", Sys.Date())
