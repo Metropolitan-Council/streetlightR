@@ -209,7 +209,7 @@ create_streetlight_analysis <- function(
     list(
       "oz_sets" = list(list(name = origin_zone_set)),
       "dz_sets" = list(list(name = destination_zone_set)),
-      "mf_sets" = list(list(name = middle_zone_set))
+      "mfz_sets" = list(list(name = middle_zone_set))
     )
   } else if (analysis_type == "OD_Analysis") {
     # if OD, including origin and destination
