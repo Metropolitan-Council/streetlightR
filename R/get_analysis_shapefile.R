@@ -99,12 +99,22 @@ get_analysis_shapefile <- function(analysis_name = NULL,
       exdir = paste0(tmpdir, "/", shapefile)
     )
 
+    # create a clean analysis name to reference
+    clean_analysis_name <- gsub("[^a-zA-Z0-9]", "_", analysis_name) %>% 
+      gsub("_+", "_", .)
+    
     these_files <- list.files(paste0(tmpdir, "/", shapefile))
 
     shp_file_name <- sub(these_files[grepl(".shp", these_files)],
       pattern = ".shp", replacement = ""
     )
 
+    # if more than one shp_file_name
+    # find the one that matches our analysis name
+    if(length(shp_file_name) > 1){
+      shp_file_name <- shp_file_name[grepl(clean_analysis_name, shp_file_name)]
+    }
+    
     shp <- sf::read_sf(paste0(tmpdir, "/", shapefile, "/", shp_file_name, ".shp")) %>%
       dplyr::mutate(
         file_name = shp_file_name,
