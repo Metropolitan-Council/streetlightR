@@ -101,6 +101,7 @@ get_analysis_shapefile <- function(analysis_name = NULL,
 
     # create a clean analysis name to reference
     clean_analysis_name <- gsub("[^a-zA-Z0-9]", "_", analysis_name) %>% 
+      # replace double _ with single _
       gsub("_+", "_", .)
     
     these_files <- list.files(paste0(tmpdir, "/", shapefile))
