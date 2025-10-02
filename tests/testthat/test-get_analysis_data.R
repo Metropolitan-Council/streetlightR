@@ -7,7 +7,7 @@ testthat::test_that("VMT download is returned", {
     testthat::expect_error()
 })
 
-Sys.sleep(4)
+Sys.sleep(6)
 
 testthat::test_that("Correct VMT download is returned", {
   an_dat <- get_analysis_data(
