@@ -21,7 +21,7 @@ check_analysis_status(
 \item{analysis_name_}{Deprecated, use \code{analysis_name} parameter.}
 }
 \value{
-If successful, a list with two itesms
+If successful, a list with two items
 - \code{analyses}
 - \code{status}
 
@@ -30,4 +30,8 @@ If successful, a list with two itesms
 }
 \description{
 Check the status of a analysis in the StreetLight API.
+}
+\note{
+If \code{analysis_uuid} is provided, it will be used instead of \code{analysis_name}
+to query status.
 }

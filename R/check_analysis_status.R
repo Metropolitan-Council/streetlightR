@@ -4,9 +4,12 @@
 #' @param analysis_name_ Deprecated, use `analysis_name` parameter.
 #' @param analysis_uuid character, unique analysis identifier
 #' @inheritParams check_streetlight_api
+#' 
+#' @note
+#'  If `analysis_uuid` is provided, it will be used instead of `analysis_name`
+#'  to query status. 
 #'
-#'
-#' @return If successful, a list with two itesms
+#' @return If successful, a list with two items
 #'     - `analyses`
 #'     - `status`
 #'
