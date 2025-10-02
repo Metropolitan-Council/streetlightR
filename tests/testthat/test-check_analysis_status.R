@@ -63,3 +63,23 @@ testthat::test_that("TCS Analysis status correct", {
   testthat::expect_identical(metrics1, expected = "od_all")
   testthat::expect_identical(metrics2, expected = "zone_od_all")
 })
+
+
+testthat::test_that("Using UUID works", {
+  try_again(times = 4, {
+    Sys.sleep(3)
+    status <- check_analysis_status(
+      analysis_uuid = "d831f2be-d0b7-4fc6-b10a-d07333106640"
+    )
+  })
+  avail <- status$analyses$status
+  name <- status$analyses$name
+  metrics1 <- status$analyses$metrics[[1]][1]
+  metrics2 <- status$analyses$metrics[[1]][2]
+
+
+  testthat::expect_identical(avail, expected = "Data Available")
+  testthat::expect_identical(name, expected = "test_I94_od_bg_summ_Blockgroup10_Set_1_06.01.2024")
+  testthat::expect_identical(metrics1, expected = "mf_all")
+  testthat::expect_identical(metrics2, expected = "zone_mf_all")
+})

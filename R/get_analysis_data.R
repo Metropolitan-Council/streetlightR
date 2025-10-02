@@ -43,16 +43,16 @@ get_analysis_data <- function(analysis_name = NULL,
     analysis_name = analysis_name,
     key = key
   )
-  
+
   # fetch analysis UUID
-  # this makes sure we don't try to pull a cancelled or deleted analysis 
+  # this makes sure we don't try to pull a cancelled or deleted analysis
   # if there is more than one analysis with the same name
-  if(nrow(analysis_status$analyses) != 1){
-    analysis_uuid <-   analysis_status$analyses %>% 
-      dplyr::filter(!status %in% c("Deleted", "Cancelled")) %>% 
+  if (nrow(analysis_status$analyses) != 1) {
+    analysis_uuid <- analysis_status$analyses %>%
+      dplyr::filter(!status %in% c("Deleted", "Cancelled")) %>%
       magrittr::extract2("uuid")
   } else {
-    analysis_uuid <-   analysis_status$analyses %>% 
+    analysis_uuid <- analysis_status$analyses %>%
       magrittr::extract2("uuid")
   }
   # analysis_status_body <- analysis_status

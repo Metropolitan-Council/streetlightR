@@ -2,6 +2,7 @@
 #'
 #' @param analysis_name character, analysis name
 #' @param analysis_name_ Deprecated, use `analysis_name` parameter.
+#' @param analysis_uuid character, unique analysis identifier
 #' @inheritParams check_streetlight_api
 #'
 #'
@@ -18,6 +19,7 @@
 #' @importFrom purrr map2
 #'
 check_analysis_status <- function(analysis_name = NULL,
+                                  analysis_uuid = NULL,
                                   key = NULL,
                                   analysis_name_ = NULL) {
   # check for API key access
@@ -28,13 +30,23 @@ check_analysis_status <- function(analysis_name = NULL,
     eval(as.list(match.call())),
     validate_parameters
   )
-  
+
   # print warning if using analysis_name_
   if (!is.null(analysis_name_)) {
     cli::cli_warn(c("`analysis_name_` deprecated. Use 'analysis_name' instead."))
     analysis_name <- analysis_name_
   }
-  
+
+  if (!is.null(analysis_uuid)) {
+    req_body <- list(
+      analyses = list(list(uuid = analysis_uuid))
+    )
+  } else {
+    req_body <- list(
+      analyses = list(list(name = analysis_name))
+    )
+  }
+
   # fetch analysis status from endpoint
   resp <- streetlight_insight(
     key = key,
@@ -44,16 +56,10 @@ check_analysis_status <- function(analysis_name = NULL,
       "content-type" = "application/json"
     ) %>%
     httr2::req_error(is_error = function(resp) FALSE) %>%
-    httr2::req_body_json(
-      list(
-        analyses = list(list(name = analysis_name))
-      )
-    ) %>%
+    httr2::req_body_json(req_body) %>%
     httr2::req_perform()
-  # httr2::resp_body_json(simplifyVector = TRUE,
-  #                       check_type = FALSE)
-  
-  
+
+
   if (httr2::resp_status(resp) != 200) {
     return(
       cli::cli_warn(c(
@@ -66,5 +72,4 @@ check_analysis_status <- function(analysis_name = NULL,
     cli::cli_alert_success(c("Status check succceeded"))
     return(httr2::resp_body_json(resp, check_type = FALSE, simplifyVector = TRUE))
   }
-  
 }
