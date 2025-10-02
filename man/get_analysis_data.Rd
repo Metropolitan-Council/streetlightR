@@ -6,6 +6,7 @@
 \usage{
 get_analysis_data(
   analysis_name = NULL,
+  analysis_uuid = NULL,
   key = NULL,
   metric,
   analysis_name_ = NULL
@@ -13,6 +14,8 @@ get_analysis_data(
 }
 \arguments{
 \item{analysis_name}{character, analysis name}
+
+\item{analysis_uuid}{character, unique analysis identifier}
 
 \item{key}{character, StreetLight API key. Default is \code{NULL}.}
 
