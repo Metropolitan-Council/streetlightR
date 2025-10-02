@@ -44,10 +44,10 @@ get_analysis_shapefile <- function(analysis_name = NULL,
     analysis_name = analysis_name,
     key = key
   )
-    # httr2::resp_body_json(
-    #   check_type = FALSE,
-    #   simplifyVector = TRUE
-    # )
+  # httr2::resp_body_json(
+  #   check_type = FALSE,
+  #   simplifyVector = TRUE
+  # )
 
 
   if (is.null(analysis_status$analyses$shapefiles[[1]][1]) | analysis_status$analyses$shapefiles[[1]][1] == "NULL") {
@@ -100,10 +100,10 @@ get_analysis_shapefile <- function(analysis_name = NULL,
     )
 
     # create a clean analysis name to reference
-    clean_analysis_name <- gsub("[^a-zA-Z0-9]", "_", analysis_name) %>% 
+    clean_analysis_name <- gsub("[^a-zA-Z0-9]", "_", analysis_name) %>%
       # replace double _ with single _
       gsub("_+", "_", .)
-    
+
     these_files <- list.files(paste0(tmpdir, "/", shapefile))
 
     shp_file_name <- sub(these_files[grepl(".shp", these_files)],
@@ -112,10 +112,10 @@ get_analysis_shapefile <- function(analysis_name = NULL,
 
     # if more than one shp_file_name
     # find the one that matches our analysis name
-    if(length(shp_file_name) > 1){
+    if (length(shp_file_name) > 1) {
       shp_file_name <- shp_file_name[grepl(clean_analysis_name, shp_file_name)]
     }
-    
+
     shp <- sf::read_sf(paste0(tmpdir, "/", shapefile, "/", shp_file_name, ".shp")) %>%
       dplyr::mutate(
         file_name = shp_file_name,

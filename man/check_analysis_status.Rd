@@ -4,10 +4,17 @@
 \alias{check_analysis_status}
 \title{Check the status of a analysis in the StreetLight API.}
 \usage{
-check_analysis_status(analysis_name = NULL, key = NULL, analysis_name_ = NULL)
+check_analysis_status(
+  analysis_name = NULL,
+  analysis_uuid = NULL,
+  key = NULL,
+  analysis_name_ = NULL
+)
 }
 \arguments{
 \item{analysis_name}{character, analysis name}
+
+\item{analysis_uuid}{character, unique analysis identifier}
 
 \item{key}{character, StreetLight API key. Default is \code{NULL}.}
 

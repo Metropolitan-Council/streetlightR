@@ -192,14 +192,14 @@ create_streetlight_analysis <- function(
     unit_of_measurement = "miles") {
   # check for API key access
   key <- check_api_key_access(key)
-  
+
   # validate parameters
   purrr::map2(
     names(as.list(match.call())),
     eval(as.list(match.call())),
     validate_parameters
   )
-  
+
   # create zone list based on analysis type
   zone_list <- if (analysis_type == "Zone_Activity_Analysis") {
     # if ZAA, only include origin_zone_set
@@ -248,19 +248,19 @@ create_streetlight_analysis <- function(
       "oz_sets" = list(list(name = origin_zone_set)),
       "dz_sets" = list(list(name = destination_zone_set))
     )
-  } else if(analysis_type == "Network_Performance"){
+  } else if (analysis_type == "Network_Performance") {
     list(
       "metric_type" = metric_type,
       "osm_ids" = list()
     )
-  } else if(analysis_type == "Network_OD"){
+  } else if (analysis_type == "Network_OD") {
     list(
       "osm_ids" = list(),
       "oz_sets" = list(list(name = origin_zone_set)),
       "dz_sets" = list(list(name = destination_zone_set))
     )
   }
-  
+
   trip_attr_list <- if (trip_attributes == TRUE) {
     purrr::map2(
       c(
@@ -290,7 +290,7 @@ create_streetlight_analysis <- function(
   } else {
     ""
   }
-  
+
   # create analysis list from use inputs
   analysis_list <-
     append(
@@ -325,26 +325,26 @@ create_streetlight_analysis <- function(
       ),
       zone_list
     )
-  
+
   if (!is.na(calibration_zone_set)) {
     zone_list <- append(
       zone_list,
       list("cz_sets" = list(list(name = calibration_zone_set)))
     )
   }
-  
+
   if (
-    travel_mode_type %in% c("Truck") | 
-    (!analysis_type %in% c(
-      "Zone_Activity_Analysis",
-      "OD_Analysis",
-      "OD_MF_Analysis",
-      "OD_Preset_Geography"
-    ))) {
+    travel_mode_type %in% c("Truck") |
+      (!analysis_type %in% c(
+        "Zone_Activity_Analysis",
+        "OD_Analysis",
+        "OD_MF_Analysis",
+        "OD_Preset_Geography"
+      ))) {
     cli::cli_warn("Traveler Attributes are unavailable for given configuration")
     analysis_list$traveler_attributes <- NULL
   }
-  
+
   # send analysis list to endpoint
   resp <- streetlight_insight(
     key = key,
@@ -354,14 +354,14 @@ create_streetlight_analysis <- function(
       "content-type" = "application/json"
     ) %>%
     httr2::req_body_json(analysis_list,
-                         auto_unbox = TRUE
+      auto_unbox = TRUE
     ) %>%
     httr2::req_error(is_error = function(resp) FALSE) %>%
     httr2::req_perform()
-  
-  
-  
-  
+
+
+
+
   # return message based on response
   if (!httr2::resp_status_desc(resp) %in% c(
     "success",
@@ -372,11 +372,12 @@ create_streetlight_analysis <- function(
     return(cli::cli_warn(c(
       "Create analysis failed with message:",
       ifelse(httr2::resp_content_type(resp) == "application/json",
-             httr2::resp_body_json(resp, simplifyVector = TRUE),
-             httr2::resp_body_html(resp))
+        httr2::resp_body_json(resp, simplifyVector = TRUE),
+        httr2::resp_body_html(resp)
+      )
     )))
   }
-  
+
   # return response json body
   return(httr2::resp_body_json(resp))
 }

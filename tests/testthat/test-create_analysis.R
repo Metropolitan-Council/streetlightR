@@ -86,7 +86,7 @@ testthat::test_that("Analysis created", {
     day_types = "All Days|17,Average Weekday|15,Average Weekend Day|67",
     day_parts = "All Day|0023, Morning|0709, Midday|1113, Evening|1618",
     tags = list("streetlightR")
-  ) %>% 
-    suppressWarnings() %>% 
+  ) %>%
+    suppressWarnings() %>%
     testthat::expect_no_error()
 })

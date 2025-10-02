@@ -14,24 +14,28 @@ delete_analysis <- function(key = NULL,
                             analysis_name) {
   # check for API key access
   key <- check_api_key_access(key)
-  
+
   # validate parameters
   purrr::map2(
     names(as.list(match.call())),
     eval(as.list(match.call())),
     validate_parameters
   )
-  
-  analysis_status <- check_analysis_status(analysis_name = analysis_name,
-                                           key = key) %>% 
+
+  analysis_status <- check_analysis_status(
+    analysis_name = analysis_name,
+    key = key
+  ) %>%
     suppressMessages()
-  
-  
-  if(analysis_status$analyses$status %in% c("Processing")){
-    cli::cli_abort(c("Analysis cannot be deleted",
-                     "Try cancelling instead."))
+
+
+  if (analysis_status$analyses$status %in% c("Processing")) {
+    cli::cli_abort(c(
+      "Analysis cannot be deleted",
+      "Try cancelling instead."
+    ))
   }
-  
+
   # send analysis name in endpoint URL
   resp <- streetlight_insight(
     key = key,
@@ -52,8 +56,8 @@ delete_analysis <- function(key = NULL,
     ) %>%
     httr2::req_error(is_error = function(resp) FALSE) %>%
     httr2::req_perform()
-  
-  
+
+
   if (!httr2::resp_status_desc(resp) %in% c(
     "OK"
   )) {
@@ -90,23 +94,25 @@ cancel_analysis <- function(key = NULL,
                             analysis_name) {
   # check for API key access
   key <- check_api_key_access(key)
-  
+
   # validate parameters
   purrr::map2(
     names(as.list(match.call())),
     eval(as.list(match.call())),
     validate_parameters
   )
-  
-  analysis_status <- check_analysis_status(analysis_name = analysis_name,
-                                           key = key) %>% 
+
+  analysis_status <- check_analysis_status(
+    analysis_name = analysis_name,
+    key = key
+  ) %>%
     suppressMessages()
-  
-  if(analysis_status$analyses$status == "Available"){
+
+  if (analysis_status$analyses$status == "Available") {
     return(cli::cli_warn("Only pending or review analyses can be cancelled. "))
   }
-  
-  
+
+
   # send analysis name in endpoint URL
   resp <- streetlight_insight(
     key = key,
@@ -127,8 +133,8 @@ cancel_analysis <- function(key = NULL,
     ) %>%
     httr2::req_error(is_error = function(resp) FALSE) %>%
     httr2::req_perform()
-  
-  
+
+
   if (!httr2::resp_status_desc(resp) %in% c(
     "OK"
   )) {
@@ -136,8 +142,10 @@ cancel_analysis <- function(key = NULL,
       cli::cli_warn(c(
         "Delete analysis by name failed with message: ",
         ifelse(httr2::resp_content_type(resp) == "application/json",
-               httr2::resp_body_json(resp),
-               httr2::resp_body_html(resp))))
+          httr2::resp_body_json(resp),
+          httr2::resp_body_html(resp)
+        )
+      ))
     )
   } else {
     cli::cli_alert_success(
