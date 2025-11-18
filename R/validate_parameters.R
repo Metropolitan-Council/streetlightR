@@ -38,7 +38,10 @@ validate_parameters <- function(param,
     "speed_percentile_bins",
     "zone_intersection_type",
     "metric",
-    "country"
+    "country",
+    "tract_id",
+    "zip_id",
+    "blockgroup_id"
   )) {
     if (!is.character(value) & !is.call(value)) {
       cli::cli_abort(paste0(
@@ -46,11 +49,12 @@ validate_parameters <- function(param,
       ))
     }
   }
-
+  
   # check integer  -----
   if (param %in% c(
     "aadt_year",
-    "aadt_calibration_year"
+    "aadt_calibration_year",
+    "buffer"
   )) {
     if (!is.numeric(value) & !is.call(value)) {
       cli::cli_abort(paste0(
@@ -58,7 +62,7 @@ validate_parameters <- function(param,
       ))
     }
   }
-
+  
   # check logical----
   if (param %in% c(
     "traveler_attributes",
@@ -81,8 +85,8 @@ validate_parameters <- function(param,
       ))
     }
   }
-
-
+  
+  
   # Specific parameter values -----
   ## analysis_type -----
   if (param == "analysis_type") {
@@ -96,8 +100,8 @@ validate_parameters <- function(param,
       ))
     }
   }
-
-
+  
+  
   ## output_type-----
   if (param == "output_type") {
     if (!value %in% valid_parameters$output_type) {
@@ -110,7 +114,7 @@ validate_parameters <- function(param,
       ))
     }
   }
-
+  
   ## travel_mode_type -----
   if (param == "travel_mode_type") {
     if (!value %in% valid_parameters$travel_mode_type) {
@@ -123,7 +127,7 @@ validate_parameters <- function(param,
       ))
     }
   }
-
+  
   ## unit of measurement -----
   if (param == "unit_of_measurement") {
     if (!value %in% valid_parameters$unit_of_measurement) {
@@ -136,7 +140,21 @@ validate_parameters <- function(param,
       ))
     }
   }
-
+  
+  ## unit -----
+  if (param == "unit") {
+    if (!value %in% valid_parameters$unit) {
+      cli::cli_abort(paste0(
+        "Parameter {param} must be one of: ",
+        paste0(
+          collapse = ", ",
+          valid_parameters$unit
+        )
+      ))
+    }
+  }
+  
+  
   ## geography type ------
   if (param == "geography_type") {
     if (!value %in% valid_parameters$geography_type) {
@@ -149,7 +167,7 @@ validate_parameters <- function(param,
       ))
     }
   }
-
+  
   ## zone intersection -----
   if (param == "zone_intersection_type") {
     if (!value %in% valid_parameters$zone_intersection_type) {
@@ -162,7 +180,7 @@ validate_parameters <- function(param,
       ))
     }
   }
-
+  
   ## country -----
   if (param == "country") {
     if (!value %in% valid_parameters$country) {
@@ -175,34 +193,58 @@ validate_parameters <- function(param,
       ))
     }
   }
-
-
+  
+  
   ## key -----
   if (param == "key") {
     if (!(!is.character(value) | !is.null(value))) {
       cli::cli_abort("Parameter {param} must be a character or NULL")
     }
   }
-
-
+  
+  
   ## endpoint -----
   if (param == "endpoint") {
     if (!(!is.character(value) | !is.call(value))) {
       cli::cli_abort("Parameter {param} must be a character or NULL")
     }
   }
-
+  
   ## analysis_name ----
   if (param == "analysis_name") {
     if (!(!is.character(value) | !is.call(value) | is.call(value))) {
       cli::cli_abort("Parameter {param} must be a character or NULL")
     }
   }
-
+  
   ## uuid -----
   if (param == "uuid") {
     if (!(!is.character(value) | !is.call(value) | is.call(value))) {
       cli::cli_abort("Parameter {param} must be a character or NULL")
     }
   }
+  
+  if(param == "tract_id"){
+    if(nchar(value) != 11){
+      cli::cli_abort("Parameter {param} must be 11 numbers")
+      
+    }
+  }
+  
+  if(param == "blockgroup_id"){
+    if(nchar(value) != 12){
+      cli::cli_abort("Parameter {param} must be 12 numbers")
+      
+    }
+  }
+  
+  if(param == "zip_id"){
+    if(nchar(value) != 5){
+      cli::cli_abort("Parameter {param} must be 5 numbers")
+      
+    }
+  }
+  
+  
+  
 }

@@ -39,6 +39,9 @@ valid_parameters <- list(
     "miles",
     "km"
   ),
+  unit = c(
+    "mi",
+    "km"),
   segment_types = c(
     "Motorway",
     "Trunk",
@@ -71,7 +74,8 @@ valid_parameters <- list(
     "tags/remove_analyses_tag",
     "tags/tag_analyses",
     "zone_sets",
-    "zone_sets/search"
+    "zone_sets/search",
+    "osm_ids/search"
   ),
   country = c(
     "US",
