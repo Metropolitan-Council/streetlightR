@@ -251,11 +251,10 @@ create_streetlight_analysis <- function(
   } else if (analysis_type == "Network_Performance") {
     list(
       "metric_type" = metric_type,
-      "osm_ids" = list()
+      "oz_sets" = list(list(name = origin_zone_set))
     )
   } else if (analysis_type == "Network_OD") {
     list(
-      "osm_ids" = list(),
       "oz_sets" = list(list(name = origin_zone_set)),
       "dz_sets" = list(list(name = destination_zone_set))
     )
