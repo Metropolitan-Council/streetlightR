@@ -11,11 +11,19 @@
 #'   One of `"mi"` or `"km"`. Default is `"mi"`
 #' 
 #' @inheritParams check_streetlight_api
-#' @inheritParams create_streetlight_analysis
-#' @returns
-#' @export
+#' @inheritParams create_streetlight_analysis 
+#' @return If successful, a list with the API response and data frame of intersecting OSM segment IDs.
+#'    Columns include `"osm_id"`, `"road_classification"`, and `"osm_segment_count"`.
+#' @export 
 #'
-#' @examples
+#' @examples 
+#' \dontrun{
+#'
+#' library(streetlightR)
+#' 
+#' zip_response <- search_osm_ids(zip_id = "55104")
+#'
+#' }
 search_osm_ids <- function(key = NULL,
                            polygon = NULL,
                            tract_id = NULL,

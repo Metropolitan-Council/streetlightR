@@ -2,13 +2,27 @@
 % Please edit documentation in R/upload_zone_set.R
 \name{upload_zone_set}
 \alias{upload_zone_set}
-\title{Upload a polygon or line zone set}
+\alias{create_zone_set}
+\title{Upload or create a polygon or line zone set}
 \usage{
 upload_zone_set(
   login_email,
   key = NULL,
   geom_type = "polygon",
-  zones,
+  zones = NULL,
+  osm_ids = NULL,
+  zone_set_name,
+  with_calibration = FALSE,
+  zones_ = NULL,
+  zone_set_name_ = NULL
+)
+
+create_zone_set(
+  login_email,
+  key = NULL,
+  geom_type = "polygon",
+  zones = NULL,
+  osm_ids = NULL,
   zone_set_name,
   with_calibration = FALSE,
   zones_ = NULL,
@@ -26,6 +40,8 @@ upload_zone_set(
 where the features are either lines or polygons and columns include
 "name" and "geometry".}
 
+\item{osm_ids}{vector, vector of character OSM IDs}
+
 \item{zone_set_name}{character, zone set name}
 
 \item{with_calibration}{logical, set to true if the zone set includes calibration zones.
@@ -40,7 +56,7 @@ If successful, a list with the zone name, status, and
 universally unique ID (uuid).
 }
 \description{
-Upload a zone set. Read more about zone set definitions at the
+Upload a zone set or create a zone set from OSM IDs. Read more about zone set definitions at the
 \href{https://developer.streetlightdata.com/docs/creating-zones}{StreetLight Developer Hub}.
 }
 \examples{
