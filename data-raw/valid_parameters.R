@@ -41,7 +41,8 @@ valid_parameters <- list(
   ),
   unit = c(
     "mi",
-    "km"),
+    "km"
+  ),
   segment_types = c(
     "Motorway",
     "Trunk",
@@ -69,6 +70,7 @@ valid_parameters <- list(
     "analyses/download/name",
     "analyses/status",
     "analyses/tags",
+    "analyses/cancel/",
     "debug/echo",
     "tags",
     "tags/remove_analyses_tag",
