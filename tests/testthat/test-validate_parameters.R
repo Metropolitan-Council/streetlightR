@@ -16,4 +16,8 @@ test_that("parameters validate correctly", {
     )
   ) %>%
     testthat::expect_no_error()
+
+
+  testthat::expect_error(search_osm_ids(zip_id = "5501"))
+  testthat::expect_error(search_osm_ids(tract_id = "235.02"))
 })
