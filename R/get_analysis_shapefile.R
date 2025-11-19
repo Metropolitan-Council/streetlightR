@@ -83,7 +83,7 @@ get_analysis_shapefile <- function(analysis_name = NULL,
     shapefile_path <- file.path(tmpdir, clean_analysis_name, paste0(shapefile, ".zip"))
     analysis_path_name <- file.path(tmpdir, clean_analysis_name)
 
-    fs::dir_create(analysis_path_name)
+    dir.create(analysis_path_name)
 
     resp <- streetlight_insight(
       key = key,

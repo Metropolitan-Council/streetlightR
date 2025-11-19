@@ -1,10 +1,10 @@
 #' @title Search OSM IDs
 #'
 #' @description
-#' Using a polygon, census tract, census blockgroup, zip code, or point, 
+#' Using a polygon, census tract, census blockgroup, zip code, or point,
 #'   search StreetLight's OSM segment database.
 #'
-#' @param polygon sf object, POLYGON or MULTIPOLYGON 
+#' @param polygon sf object, POLYGON or MULTIPOLYGON
 #' @param tract_id character, 11 digit census tract identifier
 #' @param zip_id character, 5-digit ZIP code
 #' @param blockgroup_id character, 12 digit block group identifier

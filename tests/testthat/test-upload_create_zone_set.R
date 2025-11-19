@@ -43,6 +43,6 @@ testthat::test_that("OSM set created", {
     login_email = test_login,
     osm_ids = list(polygon_response$data$osm_id) %>% unlist(),
     zone_set_name = paste0("streetlightR-test-osm_upl5_", Sys.Date())
-  ) %>% 
+  ) %>%
     testthat::expect_no_error()
 })
