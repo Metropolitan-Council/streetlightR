@@ -69,17 +69,27 @@ get_analysis_shapefile <- function(analysis_name = NULL,
 
   tmpdir <- tempdir()
 
+  # create a clean analysis name to reference
+  clean_analysis_name <- gsub("[^a-zA-Z0-9]", "_", analysis_name) %>%
+    # replace double _ with single _
+    gsub("_+", "_", .)
+
   # if data available, fetch from endpoint
   if (analysis_status$analyses$status %in% c(
     "Available",
     "Data_Available",
     "Data Available"
   )) {
+    shapefile_path <- file.path(tmpdir, clean_analysis_name, paste0(shapefile, ".zip"))
+    analysis_path_name <- file.path(tmpdir, clean_analysis_name)
+
+    fs::dir_create(analysis_path_name)
+
     resp <- streetlight_insight(
       key = key,
       endpoint = paste0(
-        "analyses/download/name/",
-        utils::URLencode(analysis_name),
+        "analyses/download/uuid/",
+        utils::URLencode(analysis_status$analyses$uuid),
         "/",
         shapefile
       )
@@ -88,23 +98,20 @@ get_analysis_shapefile <- function(analysis_name = NULL,
         "x-stl-key" = key
       ) %>%
       httr2::req_error(is_error = function(resp) FALSE) %>%
-      httr2::req_perform(path = paste0(tmpdir, "/", shapefile, ".zip"))
+      httr2::req_perform(path = shapefile_path)
 
     # error if no analysis found
     if (httr2::resp_status(resp) == 404) {
       cli::cli_abort("No analysis downloads were found.")
     }
 
-    utils::unzip(paste0(tmpdir, "/", shapefile, ".zip"),
-      exdir = paste0(tmpdir, "/", shapefile)
+
+    utils::unzip(
+      zipfile = shapefile_path,
+      exdir = analysis_path_name
     )
 
-    # create a clean analysis name to reference
-    clean_analysis_name <- gsub("[^a-zA-Z0-9]", "_", analysis_name) %>%
-      # replace double _ with single _
-      gsub("_+", "_", .)
-
-    these_files <- list.files(paste0(tmpdir, "/", shapefile))
+    these_files <- list.files(paste0(analysis_path_name), full.names = TRUE)
 
     shp_file_name <- sub(these_files[grepl(".shp", these_files)],
       pattern = ".shp", replacement = ""
@@ -116,7 +123,7 @@ get_analysis_shapefile <- function(analysis_name = NULL,
       shp_file_name <- shp_file_name[grepl(clean_analysis_name, shp_file_name)]
     }
 
-    shp <- sf::read_sf(paste0(tmpdir, "/", shapefile, "/", shp_file_name, ".shp")) %>%
+    shp <- sf::read_sf(file.path(paste0(shp_file_name, ".shp"))) %>%
       dplyr::mutate(
         file_name = shp_file_name,
         shapefile = shapefile

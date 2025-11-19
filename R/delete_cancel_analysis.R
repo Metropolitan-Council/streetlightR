@@ -41,7 +41,7 @@ delete_analysis <- function(key = NULL,
     key = key,
     endpoint = paste0(
       "analyses/",
-      utils::URLencode(analysis_name)
+      utils::URLencode(analysis_status$analyses$uuid)
     )
   ) %>%
     httr2::req_method("DELETE") %>%
@@ -118,7 +118,7 @@ cancel_analysis <- function(key = NULL,
     key = key,
     endpoint = paste0(
       "analyses/cancel/",
-      utils::URLencode(analysis_name)
+      utils::URLencode(analysis_status$analyses$uuid)
     )
   ) %>%
     httr2::req_method("POST") %>%
@@ -140,7 +140,7 @@ cancel_analysis <- function(key = NULL,
   )) {
     return(
       cli::cli_warn(c(
-        "Delete analysis by name failed with message: ",
+        "Cancel analysis by UUID failed with message: ",
         ifelse(httr2::resp_content_type(resp) == "application/json",
           httr2::resp_body_json(resp),
           httr2::resp_body_html(resp)
@@ -150,7 +150,7 @@ cancel_analysis <- function(key = NULL,
   } else {
     cli::cli_alert_success(
       c(
-        "Delete analysis by name succeeded with message: ",
+        "Cancel analysis by UUID succeeded with message: ",
         httr2::resp_body_json(resp)
       )
     )
