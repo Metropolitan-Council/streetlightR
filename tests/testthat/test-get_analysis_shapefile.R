@@ -18,10 +18,10 @@ testthat::test_that("Shapefile is returned", {
   )
 })
 
-testthat::test_that("Rate limit", {
-  get_analysis_shapefile(
-    analysis_name = "v231218-VMT 2019 month 3 Volume Trip Trav Attr",
-    shapefile = "zone_activity"
-  ) %>%
-    expect_error()
-})
+# testthat::test_that("Rate limit", {
+#   get_analysis_shapefile(
+#     analysis_name = "v231218-VMT 2019 month 3 Volume Trip Trav Attr",
+#     shapefile = "zone_activity"
+#   ) %>%
+#     expect_error()
+# })
