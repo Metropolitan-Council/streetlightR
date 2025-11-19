@@ -40,7 +40,7 @@ create_zone_set(
 where the features are either lines or polygons and columns include
 "name" and "geometry".}
 
-\item{osm_ids}{vector, vector of character OSM IDs}
+\item{osm_ids}{list, list of character OSM IDs.}
 
 \item{zone_set_name}{character, zone set name}
 
@@ -96,6 +96,18 @@ upload_zone_set(
   geom_type = "line",
   zones = example_line,
   zone_set_name = paste0("example_polyline_", Sys.time())
+)
+
+# create zone set from OSM id's
+
+# first find OSM ids that intersect with our polygon
+polygon_osm <- search_osm_ids(polygon = example_polygon)
+
+# pass the OSM ID column as a list to create the zone set
+create_zone_set(
+  login_email = "you@mail.com",
+  osm_ids = list(polygon_osm$data$osm_id) \%>\% unlist(),
+  zone_set_name = paste0("example_osm_ids_", Sys.time())
 )
 }
 }

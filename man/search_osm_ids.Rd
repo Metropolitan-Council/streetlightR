@@ -18,7 +18,7 @@ search_osm_ids(
 \arguments{
 \item{key}{character, StreetLight API key. Default is \code{NULL}.}
 
-\item{polygon}{GeoJSON feature collection \strong{or} sf object of type}
+\item{polygon}{sf object, POLYGON or MULTIPOLYGON}
 
 \item{tract_id}{character, 11 digit census tract identifier}
 
@@ -26,7 +26,9 @@ search_osm_ids(
 
 \item{blockgroup_id}{character, 12 digit block group identifier}
 
-\item{radius}{}
+\item{point}{sf POINT object or list coordinate pair in Longitude, Latitude order.}
+
+\item{radius}{numeric, buffer radius around point}
 
 \item{unit, }{buffer distance unit of measurement.
 One of \code{"mi"} or \code{"km"}. Default is \code{"mi"}}
@@ -36,7 +38,8 @@ If successful, a list with the API response and data frame of intersecting OSM s
 Columns include \code{"osm_id"}, \code{"road_classification"}, and \code{"osm_segment_count"}.
 }
 \description{
-Using a polygon, census tract, census blockgroup, zip code, or point, search StreetLight's OSM database.
+Using a polygon, census tract, census blockgroup, zip code, or point,
+search StreetLight's OSM segment database.
 }
 \examples{
 \dontrun{
@@ -44,6 +47,5 @@ Using a polygon, census tract, census blockgroup, zip code, or point, search Str
 library(streetlightR)
 
 zip_response <- search_osm_ids(zip_id = "55104")
-
 }
 }
